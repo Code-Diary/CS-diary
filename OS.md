@@ -11,7 +11,7 @@
 
 
 
-#### System Architecture
+### System Architecture
 
 ___
 
@@ -21,7 +21,7 @@ ___
 
 
 
-#### Process and Thread
+### Process and Thread
 
 ___
 
@@ -31,7 +31,8 @@ ___
 
 
 
-#### Scheduling
+
+### Scheduling
 
 ___
 
