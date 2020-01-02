@@ -42,7 +42,7 @@ ___
 
 ### Preemptive vs Non-preemptive ( 선점 vs 비선점 )
 
-___
+
 
 - Preemptive(선점) :  선점 스케줄링은 운영체제가 강제로 프로세스의  사용권을 통제하는 방식. 
 
@@ -56,7 +56,7 @@ ___
 
 ### Scheduling Criteria
 
-------
+
 
 - CPU utilization(CPU 사용률) : CPU가 작업을 처리하는 시간의 비율
 - Throughput(처리율) : 단위 시간 당 끝마친 프로세스의 수
@@ -68,7 +68,7 @@ ___
 
 ### Scheduling Algorithms
 
-___
+
 
 1. ####  FCFS(First-Come First-Served)
 
