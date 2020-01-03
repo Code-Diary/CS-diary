@@ -146,7 +146,287 @@ ___
 
 ___
 
+#### 프로세스(Process)
 
+​	연속적으로 실행중인 프로그램을 의미한다. 각 프로세스는 메모리에 적재 가능하며 CPU의 	할당을 받을 수 있다. 
+
+
+
+​	**프로세스가 포함하는 것**
+
+   	1. Code 영역 : 프로그램 코드 등
+   	2. Stack 영역 : 지역변수, 매개변수, 리턴 값 등 임시 데이터로 사용.
+   	3. data 영역 : 전역변수, 정적변수, 배열, 구조체 등
+   	4. heap 영역 : 동적변수 등
+   	5. PC(program counter) , register
+
+<img src="C:\Users\Pink_HYOKI\AppData\Roaming\Typora\typora-user-images\image-20200102181203029.png" alt="image-20200102181203029" style="zoom:67%;" />
+
+​	
+
+​	**프로세스가 가지는 상태**
+
+1. new : 프로세스 생성
+2. running : 명령 실행
+3. waiting : 특정 이벤트 발생했을 때 대기 상태에 들어감
+4. ready : CPU를 할당 받기 위해 대기
+5. terminate : 실행 종료
+
+![image-20200103140533552](C:\Users\Pink_HYOKI\AppData\Roaming\Typora\typora-user-images\image-20200103140533552.png)
+
+
+
+**PCB(Process Control Block)**
+
+=> 특정한 프로세스를 관리할 필요가 있는 정보를 포함하는, 운영체제 커널의 자료구조
+
+프로세스마다 하나씩 가지고 있음.
+
+1. Process state : ready, running 등등
+2. Process number : 프로세스 id
+3. Program counter : 다음 실행할 명령어 주소
+4. CPU registers
+5. CPU scheduling information :  우선 순위, 최종 실행시각, CPU 점유시간 등 
+6. Memory-management information  : 해당 프로세스의 주소 공간 등 
+7. Accounting information  : 페이지 테이블, 스케줄링 큐 포인터, 소유자, 부모 등
+8. I/O status information   : 프로세스에 할당된 입출력장치 목록, 열린 파일 목록 등
+
+
+
+​	context switch가 발생할 때에 PCB를 저장하고 다른 프로세스의 PCB를 load하여 실행.
+
+
+
+**프로세스 스케줄러**
+
+1. job queue : 시스템의 모든 프로세스의 집합, secondary storage에 위치
+
+2. ready queue : 실행 대기 상태에 있는 프로세스의 집합, 메모리에 위치
+
+3. device queue : I/O device를 위한 프로세스 집합, 디바이스 컨트롤러에 위치
+
+   
+
+**장기스케줄러(Long-term scheduler or job scheduler)**
+
+​	메모리는 한정되어 있는데 많은 프로세스들이 한꺼번에 메모리에 올라올 경우, 대용량 메모	리(일반적으로 디스크)에 임시로 저장된다. 이 pool 에 저장되어 있는 프로세스 중 어떤 프로	세스에 메모리를 할당하여 ready queue 로 보낼지 결정하는 역할을 한다.
+
+* 메모리와 디스크 사이의 스케줄링을 담당.
+
+* 프로세스에 memory(및 각종 리소스)를 할당(admit)
+
+* degree of Multiprogramming 제어  
+  메모리에 여러 프로그램이 올라가는 것) 몇 개의 프로그램이 올라갈 것인지를 제어
+
+* 프로세스의 상태  
+  new -> ready(in memory)
+
+  
+
+_cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올라가도 성능이 좋지 않은 것이다. 참고로 time sharing system 에서는 장기 스케줄러가 없다. 그냥 곧바로 메모리에 올라가 ready 상태가 된다._
+
+
+
+**단기스케줄러(Short-term scheduler or CPU scheduler)**
+
+* CPU 와 메모리 사이의 스케줄링을 담당.
+* Ready Queue 에 존재하는 프로세스 중 어떤 프로세스를 running 시킬지 결정.
+* 프로세스에 CPU 를 할당(scheduler dispatch)
+* 프로세스의 상태  
+  ready -> running -> waiting -> ready
+
+
+
+ **중기스케줄러(Medium-term scheduler or Swapper)**
+
+- 여유 공간 마련을 위해 프로세스를 통째로 메모리에서 디스크로 쫓아냄 (swapping)
+- 프로세스에게서 memory 를 deallocate
+- degree of Multiprogramming 제어
+- 현 시스템에서 메모리에 너무 많은 프로그램이 동시에 올라가는 것을 조절하는 스케줄러.
+- 프로세스의 상태
+  ready -> suspended
+
+
+
+**Context Switch(문맥 교환)**
+
+​	CPU를 사용하고 있는 프로세스를 교환하기 위한 작업
+
+​	바뀌기 전에 PCB에 저장을 한 후 바뀌게 된다. 이 작업은 overhead가 큰 작업이다.	
+
+
+
+**Parent - child process**
+
+=> 기본적으로 pid에 의해서 관리가 되며 부모자식간의 형태는 트리형태이다.
+
+​	
+
+​	자원공유
+
+* Parent and children **share all resources**
+
+* Children **share subset of parent’s resources**
+* Parent and child **share no resources**
+
+
+
+​	실행
+
+* 부모와 자식은 동시에 실행
+
+* 부모는 자식이 종료될 때까지 대기
+
+
+
+​	fork를 이용하여 자식을 생성하며 자식은 부모와 같은 context를 가진다.
+
+​	(program counter, register, memory info 등등)
+
+​	
+
+​	변수 pid 선언 fork();를 호출하면 커널모드가 된다. 프로세스는 fork가 리턴할 때 까지 기다린	다. 그리고 시스템콜은 커널에서 시행이 된다. 수행하고 나면 메모리에 새로운 PCB가 생기고 	부모의 PCB를 똑같이 복제하여 쓴다. 그리고 그 후에 둘 다 ready큐에 위치한다. 그리고 반환	이 된다. 이때 부모에게는 자식의 pid값을 자식에게는 0을 리턴 해준다. exec함수가 호출되는 	순간 이때 부모와 자식이 address space가 완전히 달라진다. Program count의 값이 초기화	된다. 자식이 새로운 address space를 가지게 된다. 부모는 자식이 돌아올 때까지 wait상태로 	대기한다.
+
+
+
+​	**IPC(interprocess communication)**
+
+​	=> 프로세스 사이에 communication을 하는 과정, 이를 통해서 프로세스간의 협업 가능
+
+
+
+​	**message passing**
+
+1. Blocking(synchronous)
+   => 발신 : 메세지를 보낸 후 응답이 올 때까지 대기
+   => 수신 : available한 메세지를 받을 때까지 대기
+
+2. Non-Blocking(asynchronous)
+
+   => 발신 : 메세지를 보내고 다른 작업 진행
+   => 수신 : 정상적으로 수신하거나 안받음
+
+
+
+​	**Buffering**
+
+1. zero capacity : 발신자가 무조건 대기 (sync)
+2. bounded capacity : n개의 메세지를 queue에 쌓아둠. 만약 queue가 꽉차면 발신자 대기
+3. unbounded capacity : 무제한으로 메세지를 쌓아둠. 발신자는 대기 X
+
+
+
+#### 쓰레드(Thread)
+
+​	스레드(thread)란 프로세스(process) 내에서 실제로 작업을 수행하는 주체를 의미합니다. 모	든 프로세스에는 한 개 이상의 스레드가 존재하여 작업을 수행합니다.
+
+​	
+
+​	**쓰레드 구성요소**
+
+1. program counter
+
+  2. register set
+
+  3. stack space
+
+     
+
+​	**스택을 스레드마다 독립적으로 할당하는 이유**
+
+​	스택은 함수 호출 시 전달되는 인자, 되돌아갈 주소값 및 함수 내에서 선언하는 변수 등을 저	장하기 위해 사용되는 메모리 공간이므로 스택 메모리 공간이 독립적이라는 것은 독립적인 	함수 호출이 가능하다는 것이고 이는 독립적인 실행 흐름이 추가되는 것이다. 따라서 스레드	의 정의에 따라 독립적인 실행 흐름을 추가하기 위한 최소 조건으로 독립된 스택을 할당한다.
+
+​	**PC Register 를 스레드마다 독립적으로 할당하는 이유**
+
+​	PC 값은 스레드가 명령어의 어디까지 수행하였는지를 나타나게 된다. 스레드는 CPU 를 할당	받았다가 스케줄러에 의해 다시 선점당한다. 그렇기 때문에 명령어가 연속적으로 수행되지 	못하고 어느 부분까지 수행했는지 기억할 필요가 있다. 따라서 PC 레지스터를 독립적으로 할	당한다.
+
+
+
+​	**공유요소**
+
+ 1. code
+
+ 2. data
+
+ 3. files
+
+    ![image-20200103145125008](C:\Users\Pink_HYOKI\AppData\Roaming\Typora\typora-user-images\image-20200103145125008.png)
+
+
+
+​	장점
+
+ 	1.  사용자에 대한 응답성 증가
+      => 응용 프로그램의 일부분이 봉쇄 또는 긴 작업 수행 시에도 프로그램 실행을 계속 허용하여 사용자에 대한 응답성이 증가
+
+2. 프로세스의 자원과 메모리 공유 가능
+   => 스레드는 그들이 속한 프로세스의 자원과 메모리를 공유하므로, 응용 프로그램 하나가 같은 주소 공간에서 여러 개의 스레드를 실행, 시스템 성능 향상과 편리함 제공
+
+3. 경제성
+   => 한 프로세스의 자원을 공유하므로 프로세스를 생성하는 것보다 오버헤드를 줄일 수 있음
+
+4. 다중 프로세서 구조 활용 가능
+   => 다중 프로세서 구조에서 각 스레드는 다른 프로세서에서 병렬로 실행될 수 있음
+
+
+
+​	**User thread**
+
+​	=> OS는 thread의 존재를 모른다. OS는 프로세스에 모든 걸 할당하고 프로세스에서 thread 	library를 이용하여 일을 한다.(user level에서 이루어진다.) => 빨라진다
+
+​	문제점 : 만약에 하나의 쓰레드라도 I/O를 만들어 내면 CPU는 프로세스가 I/O하는 줄 알고 전	체를 wait로 넣어버린다
+
+
+
+​	**Kernel thread**
+
+​	=> OS가 쓰레드를 지원해준다.
+
+​	장점 : 쓰레드 하나가 I/O를 발생시켜도 그 쓰레드에 대해서만 wait가 들어간다. 할당 문제도 	OS가 해준다.
+
+​	단점 : 만들 때도 커널이 만들어주고 죽일 때도 커널이 죽이기 때문에 느리다.
+
+
+
+​	**쓰레드 이슈**
+
+​	=> fork시에 어떻게 자식을 생성할 것인가?
+
+ 	1. fork이후에 exec를 바로 호출하면 모든 쓰레드를 복제할 필요가 없음.
+     =>어짜피 새로운 프로그램에 의해서 새로운 쓰레드를 결정함.
+ 	2. fork이후에 exec를 호출 안하면 모든 쓰레드를 복제해야함.
+
+
+
+​	**Thread cancellation**
+
+ 	1. Asynchronous
+     => 그냥 바로 쓰레드를 종료시킨다.
+     => 데이터 문제 등 많은 문제가 발생할 가능성이 있으므로 주의해서 사용
+ 	2. Deferred
+     => 순서에 맞게 체크를 통해 깔끔하게 종료를 시키는 것
+
+
+
+​	**Thread handling**
+
+​	=> 시그널이 발생하면 프로세스에 전달 된다. Signal을 받는 놈(쓰레드)을 정할 필요가 있다. 	(os마다 정책적으로 결정한다)
+
+ 
+
+​	**thread pool**
+
+​	=> OS가 미리 쓰레드를 만들어두고 만들어 달라고 하면 바로 준다.
+
+​	=> 필요시에 바로 줄 수 있지만 사용을 하지 않을 때는 불필요한 공간을 잡아먹는 것이다.
+
+ 
+
+​	**Thread specific data(TSD) **
+
+​	=> 전역변수라도 쓰레드들이 각각 다른 값은 assign하게 해준다.
+
+​	=> 공유된 변수라 하더라도 쓰레드마다 처리하는 값은 다를 수 있다.
 
 
 
