@@ -158,7 +158,7 @@ ___
   4. heap 영역 : 동적변수 등
   5. PC(program counter) , register
 
-<img src="C:\Users\Pink_HYOKI\AppData\Roaming\Typora\typora-user-images\image-20200102181203029.png" alt="image-20200102181203029" style="zoom:67%;" />
+<img src="/assets/memory.png">
 
 ​	
 
@@ -170,7 +170,7 @@ ___
 4. ready : CPU를 할당 받기 위해 대기
 5. terminate : 실행 종료
 
-![image-20200103140533552](C:\Users\Pink_HYOKI\AppData\Roaming\Typora\typora-user-images\image-20200103140533552.png)
+<img src="/assets/process state.png">
 
 
 
@@ -346,7 +346,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
  3. files
 
-    ![image-20200103145125008](C:\Users\Pink_HYOKI\AppData\Roaming\Typora\typora-user-images\image-20200103145125008.png)
+  <img src="/assets/thread struct.png">
 
 
 
