@@ -7,6 +7,10 @@
 
 ##### [3.Scheduling(스케줄링) - 20.01.03 LHJ](#Scheduling)
 
+[4. Synchronization(프로세스 동기화) - 20.01.10 KSW](#Synchronization)
+
+[5. Deadlocks(교착상태) - 20.01.10 KSW](#Deadlocks)
+
 ---
 
 
@@ -14,10 +18,10 @@
 ## System Architecture
 
 ### 1. Operating-System Services
-           
+
 *운영체제가 사용자를 위해 제공하는 기능들은 다음과 같다.*
 
-                  
+
 - **사용자 인터페이스(User Interface)** :
 
 
@@ -26,25 +30,19 @@
   CLI는 과거 MS-DOS, 리눅스 터미널처럼 직접 명령어를 입력해 실행하는 방식이고,
 
   GUI는 윈도우나 Mac OS X 처럼 마우스를 통해 화면을 클릭하여 실행하는 방식이다.
-  
-        
+
+
 - **프로그램 실행(Program execution)** 
 
   시스템은 프로그램을 메모리에 올려 실행시킬 수 있어야 한다. 이때 프로그램이 정상이던 비정상이던 실행을 끝낼 수 있어야 한다.
-
-  
 
 - **입출력 연산(I/O operation)**
 
   프로세스는 입/출력을 요구할 수 있다. 일반적인 사용자는 입/출력 장치를 제어할 수 없으므로 운영체제가 수행 수단을 제공해야 한다.
 
-  
-
 - **파일 시스템 조작(File system manipulation)** 
 
   파일을 읽고, 쓸 수 있으며, 이름으로 생성, 검색, 삭제가 가능해야 한다.  또한 접근 권한도 조정이 가능하다.
-
-  
 
 - **통신(Communication)** 
 
@@ -54,25 +52,17 @@
 
   두 가지 방법을 사용한다.
 
-  
-
 - **오류 탐지(Error detection)** 
 
   운영체제는 가능한 모든 오류를 항상 의식하고 있어야 하고, 그에 따른 적당한 조치를 취할 준비가 되어 있어야 한다.
-
-  
 
 - **자원할당(Resource allocation)**
 
   운영체제는 다수의 사용자, 작업들이 동시에 실행될 때 각각에 대해 효율적으로 자원을 할당 할 수 있어야 한다.
 
-  
-
 - **회계Accounting)**
 
   운영체제는 특정 사용자, 작업이 어떤 시스템의 자원을 얼마나 사용하는지 확인할 수 있어야 한다.
-
-  
 
 - **보호(Protection)와 보안(Security)**
 
@@ -109,7 +99,6 @@
 
      ex)
 
-     
 
 2.  #### Layered Approach (계층적 접근)
 
@@ -122,8 +111,6 @@
 3. #### Microkernels (마이크로 커널)
 
    커널에서 핵심적인 요소만 남긴 가벼운 커널이고, 서버들 간 통신/에플리케이션의 서비스 콜 전달과 같은 기능을 한다.
-
-   
 
 4.  #### Modular kernel (모듈화 커널)
 
@@ -203,7 +190,6 @@ ___
 
 3. device queue : I/O device를 위한 프로세스 집합, 디바이스 컨트롤러에 위치
 
-   
 
 **장기스케줄러(Long-term scheduler or job scheduler)**
 
@@ -219,7 +205,6 @@ ___
 * 프로세스의 상태  
   new -> ready(in memory)
 
-  
 
 _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올라가도 성능이 좋지 않은 것이다. 참고로 time sharing system 에서는 장기 스케줄러가 없다. 그냥 곧바로 메모리에 올라가 ready 상태가 된다._
 
@@ -326,7 +311,6 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
   3. stack space
 
-     
 
 ​	**스택을 스레드마다 독립적으로 할당하는 이유**
 
@@ -445,7 +429,6 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
   즉, 프로세스가 종료되거나 IO request가 발생하여 자발적으로 대기 상태로 들어갈 때까지 계속 실행된다.
 
-  
 
 ### Scheduling Criteria
 
@@ -480,24 +463,24 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
      convoy effect : 소요시간이 긴 프로세스가 먼저 도달하여 효율성을 낮추는 현상
 
    - 비선점 스케줄링 방식
-   
 
 2.  ####  SJF (Shortest Job First)
 
 
     - 수행 시간이 짧은 프로세스를 우선 할당하는 방식
-
+    
     - Waiting time(대기시간)을 줄이는 관점에선 SJF가 가장 좋다.
- 
+     
     - Starvation(기아)가 발생한다는 문제점이 있다. (Aging(에이징) 기법으로 해결 가능)
-
+    
       Starvation : Burst time이 큰 프로세스는 계속 순서가 뒤로 밀려나 CPU를 할당받을 수 없는 현상
-
+    
       Aging : 오래 있었던 프로세스일수록 우선순위를 높여주는 방식
-
+    
     - 비선점 스케줄링 방식
 
    
+
 
 3.  ####  SRTF (Shortest Remaining Time First)
 
@@ -562,7 +545,203 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
     - 모든 프로세스는 가장 상위 큐로 들어오고, 다른 Queue로 점진적으로 이동한다.
     
     - 기아 상태 우려 시 Aging 기법을 사용해 우선순위 높은 Queue로 이동한다.
-___
+
+
+
+
+
+
+
+# Synchronization
+
+- Concurrent(병행) 하게 동작 
+
+*A라는 프로세스가 동작할 때 인터럽트가 언제든지 발생 할 수 있고, 이로 인해 부분적으로만 수행을 하고 잠시 멈추게 되는 경우가 존재 할 수 있다. 이는, inconsistency하게 발생하므로 Consistency가 보장될 필요성이 있다.*
+
+
+
+- Consumer-Producer problem
+- - Producer는 버퍼를 계속 채우려하고, Consumer는 비우려고 할 때, 버퍼 카운터를 서로 늘리고 줄인다.
+  - Producer 입장에서는 버퍼를 채웠을 때 카운터는 증가해야 하고, Consumer 입장에서는 버퍼를 비웠을 때 카운터는 감소해야 한다.
+
+
+
+### Race Condition
+
+​	동시에 여러 개의 프로세스가 동일한 자료(공유 자원)에 접근하여 경쟁하는 현상을 말한다.
+
+​	공유 자원의 최종 값은 어떠한 프로세스가 마지막에 동작 하는지에 따라 의존성을 갖는다.
+
+
+
+### Critical Section Problem(임계 구역 문제)	
+
+##### Critical Section(임계 구역)
+
+- 공유 데이터에 접근하는 코드 블럭. 공유 데이터에 동시에 접근 하게 되면 데이터의 무결성이 손상 될 수 있다. 이러한 문제가 바로 __Critical Section Problem__ 이다. 둘 이상의 프로세스(혹은 스레드)가 공유하는 데이터에 동시에 접근 할 수 없고, 특정 시간에 오직 하나의 프로세스만 접근이 가능한 코드 영역이다. 따라서, 이러한 임계 구역으로 진입하려면 진입 허가를 요청해야 한다. 이러한 요청을 구현하는 코드 부분을 진입 구역(Entry section)이라고 부르며, 임계 구역 뒤에는 퇴출 구역(Exit section)이 따라올 수 있다. 코드의 나머지 부분들은 총칭하여 나머지 구역(Remainder section)이라고 부른다.
+
+
+
+<img src="/assets/Critical section.png">
+
+
+
+##### Critical Section Problem 해결 조건
+
+1. Mutual Exclusion : 
+
+   프로세스 A가 임계 구역에서 돌고 있으면, 다른 프로세스들은 임계 구역에서 수행될 수 없다.
+
+2. Progress: 
+
+   임계 구역에서 수행 되고 있는 프로세스가 존재하지 않고, 임계 구역에 진입하기 위해 대기 중인 프로세스가 존재하는 경우 대기 중인 프로세스 중 하나의 프로세스는 선택 되어 곧바로 임계 구역에 진입되어야 한다.
+
+3. Bounded Waiting: 
+
+   임계 영역을 요청한 프로세스는 무제한 대기 되어서는 안되며, 제한된 대기 시간을 가져야 한다.(프로세스가 기아 상태에 빠지는 것을 방지 하여야 한다.)
+
+
+
+### Critical Section Problem 해결 방법
+
+#### Algorithm 1
+
+<pre>
+do {
+	while (turn != 0);	/* My  turn? : P0's turn  */
+	critical section
+	turn = 1;		/* Now P1’s turn  */
+	remainder section
+} while (1);</pre>
+
+프로세스 0가 Critical section에서 작업을 끝내고 난 후 연달아 프로세스0가 Critical section 진입을 요청할 경우 turn 값이 1이기 때문에 Critical section에 진입할 수 없게 된다.
+
+즉, 프로세스 1이 Critical section에서 작업을 한 번 해줘야 프로세스 0가 번갈아 가면서 진입 할 수 있다. 
+
+- Mutual Exclusion은 충족 하지만, Progress는 충족 하지 못한다.
+
+
+
+#### Algorithm 2
+
+<pre>
+do {
+	flag[i] = true;		/* Pretend  I am in */
+    while (flag[j]);	/* Is he also in? then wait*/
+    critical section
+	flag [i] = false;	/* I am out now*/
+	remainder section
+} while (1);
+</pre>
+
+프로세스 i가 Critical section에 진입하기 위해 flag값을 true로 변경한 후에 인터럽트가 발생하여 프로세스 j에게 CPU를 뺏겼다고 가정해보자. 프로세스 j 또한 Critical section에 진입 하기 위해 대기 중이였다면, flag값을 true로 변경할 것이고  프로세스 i의 flag값이 false로 변경 되기만을 기다릴 것이다.
+
+문제는 프로세스 i가 다시 CPU를 차지하더라도, j의 flag값이 false로 변경 되기만을 기다릴 것이고, 두 프로세스 모두 끊임없이 대기하는 상황이 발생할 것이다.
+
++ 즉, 해당 알고리즘도 Mutual Exclusion은 충족하지만, Progress는 충족하지 못한다.
+
+
+
+#### Peterson's solution (Algorithm 3)
+
+<pre>
+do {
+	flag [i]= true;  	  /* My intention is to enter …. */
+	turn = j;	     	  /* Set to his turn */
+	while (flag [j] and turn == j) ;  /* wait only if …*/
+	critical section
+	flag [i] = false;
+	remainder section
+} while (1);
+</pre>
+
+Algorithm1과 Algorithm2를 결합한 Algorithm
+
+2개의 프로세스에 대해 Critical-section Problem을 해결할 수 있다. 하지만, CPU Burst time이 다할 동안 while문을 계속 루프하며 대기하기 때문에(busy waiting or spin lock) 비효율적인 문제점을 가지고 있다. while조건을 충족하면 계속 루프를 돌기 보다는, 다른 프로세스에게 빨리 CPU를 넘기는 것이 효율적이다.
+
+- Mutual Exclusion, Progress 둘 다 충족
+
+
+
+#### Synchronization Hardware
+
+동기화 문제는 항상 어떠한 데이터를 변경하는 와중에 CPU를 뺏겨서 발생한다. __데이터를 읽어서 변경을 하고 저장하는 과정__ 을 CPU를 뺏기지 않고, 한번에(atomic) 수행할 수 있다면 동기화 문제는 발생하지 않는다. Atomic 구문으로 이루어진 구간은 처음부터 끝까지, preemption이 발생할 수 없다.
+
+이 atomic한 과정을 __Hardware__ 를 통해 수행할 수 있다.
+
+
+
+ Atomic hardware instruction을 구현하는 방법
+
+1. Test_and_Set()
+
+   <pre>
+   boolean test_and_set(boolean *target) {
+   	boolean rv = *target;
+   	*target = true;
+   	return rv;
+     }
+     // lock initialization: "false"
+   do {
+   	while(test_and_set(&lock)); 
+   	// critical section
+   	lock = false;
+   	// remainder section
+   } while(true);
+   </pre>
+
+   1. test_and_set(&lock)은 현재의 lock 값(false)를 리턴한다. (단, lock값은 true로 변경 되어 있음)
+
+   2. 작업이 끝나면 lock을 false로 변경해주어, 다른 프로세스가 while문을 빠져나올 수 있도록 한다.
+
+      - Mutual Exclusion, Progress 만족
+
+
+2. Compare_and_Swap()
+
+   <pre>
+   void compare_and_swap(int *value, int expected, int new_value) {
+   	int temp = *value;
+   	if(*value == expected)
+   		*value = new_value;
+   	return temp
+   }
+   // lock initialization: "0"
+   do {
+   	while(compare_and_swap(&lock, 0, 1) != 0); 
+   	// critical section
+   	lock = 0;
+   	// remainder section
+   } while(true);
+   </pre>
+
+   1. compare_and_swap(&lock, 0, 1)은 lock의 원래 값을 리턴한다. (단 lock은 0일 때만 1로 변경) 처음에 0인 lock의 값이 1로 바뀌어지고 임계 구역에 들어가면 이후 진입하려는 프로세스들은 1만 리턴하기 때문에 while문을 빠져나오지 못한다.
+   2. 임계 구역에 진입한 프로세스가 작업을 수행하고 lock을 0으로 바꾸면서 대기중인 프로세스가 while문을 빠져나오며 임계구역에 진입이 가능해진다.
+      - Mutual Exclusion, Progress 만족
+
+
+
+__하지만  위의 두 방식 모두 Bounded Waiting을 만족하지 못함__
+
+3. Bounded_Waiting
+
+
+
+#### Mutex Locks
+
+
+
+#### Semaphore
+
+
+
+
+
+# Deadlocks
+
+
+
+
 
 
 
