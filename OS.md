@@ -576,7 +576,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 ​	공유 자원의 최종 값은 어떠한 프로세스가 마지막에 동작 하는지에 따라 의존성을 갖는다.
 
-
+<br>
 
 ### Critical Section Problem(임계 구역 문제)	
 
@@ -584,11 +584,11 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 - 공유 데이터에 접근하는 코드 블럭. 공유 데이터에 동시에 접근 하게 되면 데이터의 무결성이 손상 될 수 있다. 이러한 문제가 바로 __Critical Section Problem__ 이다. 둘 이상의 프로세스(혹은 스레드)가 공유하는 데이터에 동시에 접근 할 수 없고, 특정 시간에 오직 하나의 프로세스만 접근이 가능한 코드 영역이다. 따라서, 이러한 임계 구역으로 진입하려면 진입 허가를 요청해야 한다. 이러한 요청을 구현하는 코드 부분을 진입 구역(Entry section)이라고 부르며, 임계 구역 뒤에는 퇴출 구역(Exit section)이 따라올 수 있다. 코드의 나머지 부분들은 총칭하여 나머지 구역(Remainder section)이라고 부른다.
 
-
+<br>
 
 <img src="/assets/Critical section.png">
 
-
+<br>
 
 ##### Critical Section Problem 해결 조건
 
@@ -604,7 +604,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
    임계 영역을 요청한 프로세스는 무제한 대기 되어서는 안되며, 제한된 대기 시간을 가져야 한다.(프로세스가 기아 상태에 빠지는 것을 방지 하여야 한다.)
 
-
+<br>
 
 ### Critical Section Problem 해결 방법
 
@@ -624,7 +624,7 @@ do {
 
 =>  Mutual Exclusion은 충족 하지만, Progress는 충족 하지 못한다.
 
-
+<br>
 
 #### Algorithm 2
 
@@ -644,7 +644,7 @@ do {
 
 =>  즉, 해당 알고리즘도 Mutual Exclusion은 충족하지만, Progress는 충족하지 못한다.
 
-
+<br>
 
 #### Peterson's solution (Algorithm 3)
 
@@ -663,9 +663,9 @@ Algorithm1과 Algorithm2를 결합한 Algorithm
 
 2개의 프로세스에 대해 Critical-section Problem을 해결할 수 있다. 하지만, CPU Burst time이 다할 동안 while문을 계속 루프하며 대기하기 때문에(busy waiting or spin lock) 비효율적인 문제점을 가지고 있다. while조건을 충족하면 계속 루프를 돌기 보다는, 다른 프로세스에게 빨리 CPU를 넘기는 것이 효율적이다.
 
-=>  Mutual Exclusion, Progress 둘 다 충족
+=> Mutual Exclusion, Progress 둘 다 충족
 
-
+<br>
 
 #### Synchronization Hardware
 
@@ -673,7 +673,7 @@ Algorithm1과 Algorithm2를 결합한 Algorithm
 
 이 atomic한 과정을 __Hardware__ 를 통해 수행할 수 있다.
 
-
+<br>
 
  Atomic hardware instruction을 구현하는 방법
 
@@ -700,6 +700,8 @@ Algorithm1과 Algorithm2를 결합한 Algorithm
 
       =>  Mutual Exclusion, Progress 만족
 
+<br>
+
 
 2. Compare_and_Swap()
 
@@ -724,7 +726,7 @@ Algorithm1과 Algorithm2를 결합한 Algorithm
 
       =>  Mutual Exclusion, Progress 만족
 
-
+<br>
 
 __하지만  위의 두 방식 모두 Bounded Waiting을 만족하지 못함__
 
