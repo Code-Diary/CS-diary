@@ -484,6 +484,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 
 
+
 3.  ####  SRTF (Shortest Remaining Time First)
 
     - 프로세스의 남은 수행 시간이 짧은 순서에 따라 할당하는 방식
@@ -586,7 +587,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 <br>
 
-<img src="/assets/Critical section.png">
+<img src="/assets/Critical section.PNG">
 
 <br>
 
@@ -695,10 +696,9 @@ Algorithm1과 Algorithm2를 결합한 Algorithm
    </pre>
 
    1. test_and_set(&lock)은 현재의 lock 값(false)를 리턴한다. (단, lock값은 true로 변경 되어 있음)
-
    2. 작업이 끝나면 lock을 false로 변경해주어, 다른 프로세스가 while문을 빠져나올 수 있도록 한다.
 
-      =>  Mutual Exclusion, Progress 만족
+   =>  Mutual Exclusion, Progress 만족
 
 <br>
 
@@ -724,33 +724,220 @@ Algorithm1과 Algorithm2를 결합한 Algorithm
    1. compare_and_swap(&lock, 0, 1)은 lock의 원래 값을 리턴한다. (단 lock은 0일 때만 1로 변경) 처음에 0인 lock의 값이 1로 바뀌어지고 임계 구역에 들어가면 이후 진입하려는 프로세스들은 1만 리턴하기 때문에 while문을 빠져나오지 못한다.
    2. 임계 구역에 진입한 프로세스가 작업을 수행하고 lock을 0으로 바꾸면서 대기중인 프로세스가 while문을 빠져나오며 임계구역에 진입이 가능해진다.
 
-      =>  Mutual Exclusion, Progress 만족
+   =>  Mutual Exclusion, Progress 만족
 
 <br>
 
 __하지만  위의 두 방식 모두 Bounded Waiting을 만족하지 못함__
 
-3. Bounded_Waiting
+(한 프로세스가 Lock 값을 바꾸자마자 다시 진입이 가능 하기 때문)
 
+<br>
 
+3. Bounded_Waiting 보장
+
+   <pre>
+   // waiting[], lock initialization "false"
+   do {
+   	waiting[i] = true;
+   	key = true;
+   	while(waiting[i] && key) {
+   		key = test_and_set(&lock);
+   	}
+   	waiting[i] = false;
+   	// critical section
+   	j = (i+1) % n;
+   	while((j != i) && !waiting[j]) {
+   		j = (j+1) % n;
+   	}
+   	if(j == i) lock = false;
+   	else waiting[j] = false;
+   	// remainder section
+   } while(true);
+   </pre>
+
+   1. 처음 false 값을 가지고 있는 waiting[i]와 key는 true로 바뀌고 while문이 수행된다.
+   2. test_and_set 명령어를 통해 초기값 false인 lock 값이 false를 반환하고 true로 lock 값을 바꾼다.
+   3. 처음에 key는 false 값을 가지게 되고 임계구역에 진입한다. (임계구역에 들어간 프로세스만 waiting 값을 false로 바꾼다. 나머지는 while문에서 true 값이 반복된다.
+      => **Mutual exclusion 만족**
+   4. 작업이 끝나면 waiting 배열을 순회하면서 임계구역에 들어갈 프로세스를 찾는다. waiting 값이 true이면(임계구역을 기다리는 프로세스) while문을 빠져나온다.
+      => **Bounded waiting 만족 (최대 n-1회만 양보하면 임계구역에 진입 가능)**
+   5. 찾는다면, 그 프로세스의 waiting 값을 false로 바꾸어 임계구역에 들어갈 수 있도록 한다.
+      => **Progress 만족**
+   6. waiting 배열 값이 전부 false로  통과하게 되면 j==i 조건문이 수행되어 lock을 false로 변경하고(처음 lock의 초기값과 같아짐) 종료하게 된다.
+
+<br>
+
+#### Busy-wait VS Block-wakeup
+
+**Busy waiting :** 프로세스가 임계구역에 있는 동안 기다리는 다른 프로세스들은 acquire( ) 함수의 반복문을 계속 실행해야 한다.
+
+lock이 사용될 수 있기를 기다리면서 프로세스가 계속 회전을 하고 있어 **spinlock**이라고도 한다. 이러면 다른 프로세스가 실행되지 못하기에 CPU 사이클 낭비를 초래하며, **위의 명령어 모두 이런 단점을 지니고 있다.**
+
+하지만 lock을 기다리는 동안은 **context switching을 필요로 하지 않기에**(프로세스가 상태가 변경되었다가 다시 돌아오는게 아닌 계속 실행 상태이기에) multiprocessing에서 spinlock이 사용된다.
+→ 조금만 기다리면 바로 쓸 수 있다는 점을 이용해서 **lock-unlock의 타임이 짧을 때 유용**하다.
+
+<br>
+
+Busy waiting 해결 : 프로세스를 대기 큐(wait queue)에 넣고 대기 상태로(waiting) 전환하여 다른 프로세스가 실행되도록 한다. → wait( )
+
+임계구역을 나온 프로세스의 signal( ) 함수 호출에 따라 대기 상태인 프로세스가 준비 큐(ready queue)로 들어가 프로세스를 재시작하여 임계구역에 진입하게 된다.
+
+__block( )과 wakeup( )을 사용해 이를 해결한다.(링크드 리스트 사용)__
+
+<pre>
+typedef struct {
+	int value;
+	struct process *list;
+}semaphore;
+
+void wait(semaphore *S) {
+​	S->value--;
+​	if(S->value < 0) {
+​		// insert process into S->list.
+​		block();
+​	}
+}
+
+void signal(semaphore *S) {
+​	S->value++;
+​	if(S->value <= 0) {
+​		// delete process from S->list.
+​		wakeup(P);
+​	}
+}
+</pre>
+
++ block( ) 함수는 자기를 호출한 프로세스를 중지시킨다.
++ wakeup(P)은 봉쇄된 프로세스 P를 재시작한다.
++ pooling방식이 아닌 인터럽트 기반 방식으로 구현되며 빈번한 context switching이 발생한다.
++ queue를 만들기 위해 링크드 리스트를 사용
+
+<br>
+
+**→ 임계구역이 짧으면 busy waiting, 길면 block & wake-up 방식을 사용한다.**  
+
+<br>
 
 #### Mutex Locks
 
+Mutual exclusion의 축약형태로 임계구역에 들어가기 전에 lock을 획득하고 빠져 나올 때 lock을 반환한다.
 
+- Mutex_lock(): entry section
+- Mutex_unlock(): exit section
+
+boolean 변수 available을 통해 Lock의 가용 여부를 표시한다.
+
+<pre>
+Mutex_lock() {
+	while(!available) wait(); //대기열(큐) 진입
+	available = false;
+}
+Mutex_unlock() {
+	available = true;
+	signal(); //대기열(큐) 호출
+}
+</pre>
+
+1. available의 초기값이 true로 처음 Mutex_lock( ) 함수를 호출하면 available을 false로 변경하고 함수를 빠져나온다.
+2. 빠져나온 프로세스는 임계구역에 진입하고 나머지 프로세스들은 Mutex_lock( ) 함수에서 lock이 사용될 수 있기를 기다린다. (while문에서 빠져나오질 못한다.)
+3. 작업을 모두 수행하였으면 Mutex_unlock( ) 함수를 호출하여 available을 true로 바꾸어 lock을 반환한다. 이제 다른 프로세스가 임계구역에 진입할 수 있게 된다.
+
+- 두 opeartion은 atomic하게 일어난다.(OS에서 설계가 그렇게 됨)
+- 프로세스 작업 순서를 정해줄 수 있게 된다.
+
+<pre>
+S1; // Process 1
+signal(S);
+wait(S);
+S2; // Process 2
+</pre>
+
+S가 0으로 초기화 되어있다면 P1이 S1 작업 이후, S가 1로 증가될 때 비로소 P2가 S2 작업을 수행할 수 있게 된다.
+
+<br>
 
 #### Semaphore
 
+- S라는 정수형 변수, wait( )와 signal( ) 함수로 접근
+- S는 동시에 변경할 수 없다. (atomic)
+- Mutex와 다른점은 counting이 가능하다는 것이다. 가용할 수 있는 프로세스들을 동시에 실행시키는게 가능하다.
+
+<pre>
+wait(S) {
+    S--;
+    if(S < 0) block();
+}
+signal(S) {
+​	S++;
+​	if(s <= 0) wakeup();
+}
+</pre>
+
+- Counting semaphore: 몇 개가 접근하고 있는지 셀 수 있다.(0~N)
+  - 자원을 사용하려는 프로세스는 wait( )를 호출하여 S를 감소시킨다.
+  - 자원을 방출할 때는 signal( )를 호출하여 S를 증가시킨다.
+
+<br>
+
+### Mutex-lock VS Binary-semahpore
+
+Mutex lock은 잠금 메커니즘으로서 하나의 작업에 대해서 접근을 획득한 프로세스만 해당 잠금을 해지 할 수 있으나, 세마포어는 신호 전달 메카니즘으로서 어떠한 프로세스라도 해당 value에 대한 접근이 가능하고 변경 할 수 있다.
+
+<img src="/assets/mutexnsemaphore.png">
+
+<br>
+
+### Deadlock and Starvation
 
 
 
+<br>
+
+### Priority Inversion
+
+
+
+<br>
+
+### Bounded-Buffer Problem
+
+
+
+<br>
+
+### Readers-Writers Problem
+
+
+
+<br>
+
+### Dining-Philosophers
+
+
+
+<br>
+
+### Monitors
+
+
+
+<br>
 
 # Deadlocks
 
+### Deadlock 발생조건
 
++ 다음 4가지가 동시에 만족되었을 때 일어날 수 있다.(항상 발생은 아님)
 
+  1. **Mutual exclusion**: 오직 하나의 프로세스만 하나의 자원을 사용할 수 있다. 적어도 하나의 자원은 공유가 불가능한 자원이다.
 
+  2. **no preemeption**: 중간에 끊을 수 없는 상황, 이미 할당된 자원이 갑자기 반납되어서는 안된다. 프로세스가 스스로 반납.
+  3. **Hold and wait**: 적어도 하나의 자원을 보유한 프로세스가 다른 프로세스의 자원을 추가로 얻기를 기다릴 때
+  4. **circular wait**: 프로세스들이 자원을 소유하고 요청하는 형태가 원형을 이룰 때를 말한다.
+     각 프로세스에는 하나의 자원이 할당되어있고, P1은 P2자원을 기다림, P2는 P3자원을 기다림, P3는 P1자원을 기다릴 때 원형을 이룬다.
 
-
+<br>
 
 
 
