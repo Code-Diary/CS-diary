@@ -485,6 +485,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 
 
+
 3.  ####  SRTF (Shortest Remaining Time First)
 
     - 프로세스의 남은 수행 시간이 짧은 순서에 따라 할당하는 방식
@@ -890,37 +891,114 @@ Mutex lock은 잠금 메커니즘으로서 하나의 작업에 대해서 접근�
 
 ### Deadlock and Starvation
 
+**Deadlock** 이란 프로세스가 서로의 Signal을 기다리게 되면서 모두 무한정 대기하게 되는 현상
 
+<img src="/assets/deadlock.png">
+
+<br>
+
+
+
+**Starvation**은 앞에서 언급했던 Blocking & Wake-Up 방식에서 Ready Queue에 대기하고 있는 프로세스 중 하나를 선택하는 스케줄링 과정에서 여러 이유 중 하나로 선택되지 못하여 실행되지 못하는 프로세스가 생기는 현상
 
 <br>
 
 ### Priority Inversion
 
+우선순위 역전 현상이란 간단히 말하자면 우선순위가 낮은 프로세스 때문에 우선순위가 높은 프로세스가 실행되지 않는 현상을 말한다.
 
+<img src="/assets/priorityinversion.jpg">
 
-<br>
-
-### Bounded-Buffer Problem
-
-
+ProcessA가 ProcessC가 획득한 Sem-A를 요청한 상태에서 Context Switching이 일어나 Process C보다 우선순위가 높은 프로세스가 실행된다면 (여기선 Process B) Process C는 우선순위에 밀려 계속 실행되지 않고 이로 인해 자원 반납이 되지 않아 Process A가 실행되지 않게 된다. 이러한 현상을 Priority Inversion, 우선순위 역전 현상이라고 한다.
 
 <br>
 
-### Readers-Writers Problem
+이러한 Priority Inversion의 해결 방안으로는,
 
+특정 프로세스가 우선순위가 높은 프로세스에서 요구하는 자원을 가지고 있을 때 그 특정 프로세스의 우선순위를 
 
+자원을 요구하는 프로세스의 우선순위로 높여주는 방법이 있으며, 이러한 방법을 ***Priority Inheritance Protocol* (우선순위 계승)**이라고 한다.
+
+<img src="/assets/PriorityInheritanceProtocol.jpg">
 
 <br>
 
-### Dining-Philosophers
+### 동기화 주요 이슈들
 
+#### Bounded-Buffer Problem
 
+상호작용하는 두 프로세스는 buffer를 통한 데이터 주고받는데, Producer 프로세스는 데이터를 하나 만들면
+
+buffer에 추가하고 Consumer 프로세스는 buffer에 데이터가 있으면 하나씩 가져와 처리를 한다.
+
+이때, buffer 안의 데이터 개수의 동기화 문제가 발생할 수 있는데 이때 Semaphore을 사용하여 해결할 수 있다.
+
+<br>
+
+1. Mutex : buffer의 접근을 관리하는 것으로 1로 초기화. 
+
+2. Full : buffer의 들어가 있는 데이터의 수를 관리하는 것으로 0으로 초기화.
+
+3. Empty : buffer의 빈 공간의 개수를 의미하는 것으로 buffer 전체 크기인 N으로 초기화.
+
+<img src="/assets/boundedbufferproblem.png">
+
+Producer는 buffer에 빈 공간이 있는지 확인 후 buffer의 접근을 시도하고, Consumer는 buffer에 가져올 데이터가 있는지 확인 후 buffer의 접근을 시도
+
+이때 wait(mutex)를 통해 하나의 프로세스만 buffer에 접근을 할 수 있게 되고 데이터를 집어넣거나 가져온 후에는 signal(mutex)를 통해 buffer 접근 권한을 내려놓는다.
+
+<br>
+
+#### Readers-Writers Problem
+
+공유 데이터 공간에 대해 데이터를 입력하는 것은 하나의 Writer 프로세스만이 접근이 가능하고 데이터를 읽을 때는 여러 개의 Readers 프로세스가 접근이 가능할 때 데이터를 저장하고 읽어올 때 충돌로 인한 데이터의 불일치를 방지할 때 역시 Semaphore를 이용하여 문제를 해결할 수 있다.
+
+<br>
+
+1. readcount : 현재 몇 개의 Reader 프로세스가 데이터 읽기를 시도하는지를 관리.
+
+2. mutex : readcount의 값을 변경할 때 값의 일치성을 관리.
+
+3. wrt :  데이터 접근에 대해 Reader와 Writer를 동시에 접근할 수 없게 관리.
+
+<img src="/assets/readerwriterproblem.jpg">
+
+Writer는 wait(wrt)를 통해 데이터에 쓰기를 수행하기 위해서는 Reader가 현재 읽기를 수행하고 있는지 확인을 해야 하고 그렇지 않다면 데이터 쓰기를 수행
+
+Reader가 데이터 읽기를 하기 위해서는 먼저 읽기를 하려는 Reader의 readcount를 증가시켜야 하는데 이때 readcount의 불일치를 방지하기 위해 wait(mutex)와 signal(mutex)를 위아래에 작성해준다.
+
+그리고 하나의 Reader라도 읽기를 수행하고 있다면 wait(wrt)을 통해 Writer 프로세스의 접근을 막는다.
+
+역시 읽기 수행이 끝나고 readcount를 감소시킬 때도 wait(mutex)와 signal(mute)를 통해 데이터의 일치성을 보장해주고 더 이상 데이터 읽기를 수행하는 Reader 프로세스가 존재하지 않는다면 signal(wrt)를 통해 Writer 프로세스의 데이터 접근을 허용한다.
+
+<br>
+
+#### Dining-Philosophers
+
+5명의 철학자가 원형 테이블에 앉아 있고 테이블 중앙에는 밥이, 테이블에는 5개의 젓가락이 놓여 있다.(쌍이 아닌) 배고픈 철학자가 동시에 젓가락을 2개 집으면, 식사를 마칠 때까지 젓가락을 놓지 않고 식사를 한다.
+→ deadlock과 starvation을 발생시키지 않고 여러 스레드에게 자원을 할당해야 할 필요를 표현한 것이다.
+
+- 5명 모두가 동시에 배고파서 왼쪽 젓가락 잡고 각자 자신의 오른쪽 젓가락 잡게되면 없기에 deadlock & starvation
+- 5개의 semaphore(젓가락)가 상호 의존성을 지니면 deadlock이 생길 수 있다.
+
+Deadlock handling
+
+ - 각각의 철학자를  P_{1},P_{2},P_{3},P_{4},P{5}라고 하고, 각 철학자의 왼쪽 포크를 f_{1},f_{2},f_{3},f_{4},f_{5}라고 하자. P_{5}를 제외한 네 명은 먼저  f_{n}를 집은 후 f{n+1}를 집는 방식을 취한다. 그리고 P_{5}는 이와 반대로, f_{1}를 먼저 집은 후 f_{5}를 집는다. 이것은 원래 방식의 대칭성을 제거하고, 따라서 교착 상태를 막을 수 있다.
+ - 동시에 2개를 잡을 수 있는 경우에만 젓가락을 잡아라 → critical section
 
 <br>
 
 ### Monitors
 
+Semaphore는 충돌이나 동기화의 문제들을 해결해주지만
 
+직접 프로그래머가 작성해주어야 하고 이로 인해 사소한 실수에도 심각한 문제를 일으킬 수 있게 된다. (Deadlock, Starvation, Priority Inversion 등등) 그래서 프로그래밍 언어의 설계 단계에서부터 이러한 것들을 언어 자체가 해결할 수 있게 해주는 기능이 Monitor이다. 
+
+Monitor는 동시 접근에 대한 문제는 해결해주지만 동기화에 대한 문제를 완전히 해결하지는 못하는데, 이를 해결하기 위해 도입한 것이 Condition 변수입니다. Condition 변수를 통해 프로세스들은 순서를 보장받게 됩니다.
+
+<br>
+
+Monitor와 Semaphore의 가장 뚜렷한 차이점은 직접 작성하냐 기능을 제공받느냐, 값에 따라 여러 프로세스가 접근할 수 있는지 아니면 오로지 하나의 프로세스만이 접근할 수 있는지 등이 존재한다.
 
 <br>
 
