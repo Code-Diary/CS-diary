@@ -10,6 +10,7 @@
 ##### [4. Synchronization(프로세스 동기화) - 20.01.10 KSW](#Synchronization)
 
 ##### [5. Deadlocks(교착상태) - 20.01.10 KSW](#Deadlocks)
+##### [6. Memory management(메모리 관리) - 20.01.10 UKK](#MemoryManagement)
 
 ---
 
@@ -25,14 +26,14 @@
 - **사용자 인터페이스(User Interface)** :
 
 
-  UI는 크게  CLI(Command-Line Interface), GUI(Graphical User Interface)로 나뉜다. 
+  UI는 크게  CLI(Command-Line Interface), GUI(Graphical User Interface)로 나뉜다.
 
   CLI는 과거 MS-DOS, 리눅스 터미널처럼 직접 명령어를 입력해 실행하는 방식이고,
 
   GUI는 윈도우나 Mac OS X 처럼 마우스를 통해 화면을 클릭하여 실행하는 방식이다.
 
 
-- **프로그램 실행(Program execution)** 
+- **프로그램 실행(Program execution)**
 
   시스템은 프로그램을 메모리에 올려 실행시킬 수 있어야 한다. 이때 프로그램이 정상이던 비정상이던 실행을 끝낼 수 있어야 한다.
 
@@ -40,19 +41,19 @@
 
   프로세스는 입/출력을 요구할 수 있다. 일반적인 사용자는 입/출력 장치를 제어할 수 없으므로 운영체제가 수행 수단을 제공해야 한다.
 
-- **파일 시스템 조작(File system manipulation)** 
+- **파일 시스템 조작(File system manipulation)**
 
   파일을 읽고, 쓸 수 있으며, 이름으로 생성, 검색, 삭제가 가능해야 한다.  또한 접근 권한도 조정이 가능하다.
 
-- **통신(Communication)** 
+- **통신(Communication)**
 
-  여러 개의 프로세스가 메모리의 한 부분을 공유하도록 하는 <u>공유 메모리(Shared memory)</u>, 
+  여러 개의 프로세스가 메모리의 한 부분을 공유하도록 하는 <u>공유 메모리(Shared memory)</u>,
 
-  패킷(packet)을 사용해 시스템 간 프로세스 사이를 이동하는 <u>메세지 전달(Message passing)</u> 
+  패킷(packet)을 사용해 시스템 간 프로세스 사이를 이동하는 <u>메세지 전달(Message passing)</u>
 
   두 가지 방법을 사용한다.
 
-- **오류 탐지(Error detection)** 
+- **오류 탐지(Error detection)**
 
   운영체제는 가능한 모든 오류를 항상 의식하고 있어야 하고, 그에 따른 적당한 조치를 취할 준비가 되어 있어야 한다.
 
@@ -83,7 +84,7 @@
 - **장치 관리 :** read, write, request, release
 - **정보 유지 :** time, date
 - **통신 :** send/receive messages, transfer status
-- **보호** 
+- **보호**
 
 
 
@@ -106,7 +107,7 @@
 
     ex)
 
-   
+
 
 3. #### Microkernels (마이크로 커널)
 
@@ -114,9 +115,9 @@
 
 4.  #### Modular kernel (모듈화 커널)
 
-    커널을 확장하기 위한 기술로, 객체지향 프로그래밍 기법을 사용한다. 이 커널은 부팅 중 혹은 실행 중에 부가적인 서비스들을 링크한다. 
+    커널을 확장하기 위한 기술로, 객체지향 프로그래밍 기법을 사용한다. 이 커널은 부팅 중 혹은 실행 중에 부가적인 서비스들을 링크한다.
 
-   
+
 
 5. #### Hybrid Systems(혼성 구조)
 
@@ -133,7 +134,7 @@ ___
 
 #### 프로세스(Process)
 
-​	연속적으로 실행중인 프로그램을 의미한다. 각 프로세스는 메모리에 적재 가능하며 CPU의 	할당을 받을 수 있다. 
+​	연속적으로 실행중인 프로그램을 의미한다. 각 프로세스는 메모리에 적재 가능하며 CPU의 	할당을 받을 수 있다.
 
 
 
@@ -147,7 +148,7 @@ ___
 
 <img src="/assets/memory.png">
 
-​	
+​
 
 ​	**프로세스가 가지는 상태**
 
@@ -171,8 +172,8 @@ ___
 2. Process number : 프로세스 id
 3. Program counter : 다음 실행할 명령어 주소
 4. CPU registers
-5. CPU scheduling information :  우선 순위, 최종 실행시각, CPU 점유시간 등 
-6. Memory-management information  : 해당 프로세스의 주소 공간 등 
+5. CPU scheduling information :  우선 순위, 최종 실행시각, CPU 점유시간 등
+6. Memory-management information  : 해당 프로세스의 주소 공간 등
 7. Accounting information  : 페이지 테이블, 스케줄링 큐 포인터, 소유자, 부모 등
 8. I/O status information   : 프로세스에 할당된 입출력장치 목록, 열린 파일 목록 등
 
@@ -235,7 +236,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 ​	CPU를 사용하고 있는 프로세스를 교환하기 위한 작업
 
-​	바뀌기 전에 PCB에 저장을 한 후 바뀌게 된다. 이 작업은 overhead가 큰 작업이다.	
+​	바뀌기 전에 PCB에 저장을 한 후 바뀌게 된다. 이 작업은 overhead가 큰 작업이다.
 
 
 
@@ -243,7 +244,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 => 기본적으로 pid에 의해서 관리가 되며 부모자식간의 형태는 트리형태이다.
 
-​	
+​
 
 ​	자원공유
 
@@ -266,7 +267,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 ​	(program counter, register, memory info 등등)
 
-​	
+​
 
 ​	변수 pid 선언 fork();를 호출하면 커널모드가 된다. 프로세스는 fork가 리턴할 때 까지 기다린	다. 그리고 시스템콜은 커널에서 시행이 된다. 수행하고 나면 메모리에 새로운 PCB가 생기고 	부모의 PCB를 똑같이 복제하여 쓴다. 그리고 그 후에 둘 다 ready큐에 위치한다. 그리고 반환	이 된다. 이때 부모에게는 자식의 pid값을 자식에게는 0을 리턴 해준다. exec함수가 호출되는 	순간 이때 부모와 자식이 address space가 완전히 달라진다. Program count의 값이 초기화	된다. 자식이 새로운 address space를 가지게 된다. 부모는 자식이 돌아올 때까지 wait상태로 	대기한다.
 
@@ -301,7 +302,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 ​	스레드(thread)란 프로세스(process) 내에서 실제로 작업을 수행하는 주체를 의미합니다. 모든 프로세스에는 한 개 이상의 스레드가 존재하여 작업을 수행합니다.
 
-​	
+​
 
 ​	**쓰레드 구성요소**
 
@@ -384,7 +385,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
    - 그냥 바로 쓰레드를 종료시킨다.
    - 데이터 문제 등 많은 문제가 발생할 가능성이 있으므로 주의해서 사용
 2. Deferred
-   -  순서에 맞게 체크를 통해 깔끔하게 종료를 시키는 것 
+   -  순서에 맞게 체크를 통해 깔끔하게 종료를 시키는 것
 
 
 
@@ -392,7 +393,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 ​	=> 시그널이 발생하면 프로세스에 전달 된다. Signal을 받는 놈(쓰레드)을 정할 필요가 있다. 	(os마다 정책적으로 결정한다)
 
- 
+
 
 ​	**thread pool**
 
@@ -400,7 +401,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 ​	=> 필요시에 바로 줄 수 있지만 사용을 하지 않을 때는 불필요한 공간을 잡아먹는 것이다.
 
- 
+
 
 ​	**Thread specific data(TSD)**
 
@@ -421,7 +422,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 
 
-- Preemptive(선점) :  선점 스케줄링은 운영체제가 강제로 프로세스의  사용권을 통제하는 방식. 
+- Preemptive(선점) :  선점 스케줄링은 운영체제가 강제로 프로세스의  사용권을 통제하는 방식.
 
   즉, CPU에 프로세스가 할당되어 있어도 운영체제가 개입해 강제로 다른 프로세스에게 CPU 할당이 가능하다.
 
@@ -468,18 +469,18 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 
     - 수행 시간이 짧은 프로세스를 우선 할당하는 방식
-    
+
     - Waiting time(대기시간)을 줄이는 관점에선 SJF가 가장 좋다.
-     
+
     - Starvation(기아)가 발생한다는 문제점이 있다. (Aging(에이징) 기법으로 해결 가능)
-    
+
       Starvation : Burst time이 큰 프로세스는 계속 순서가 뒤로 밀려나 CPU를 할당받을 수 없는 현상
-    
+
       Aging : 오래 있었던 프로세스일수록 우선순위를 높여주는 방식
-    
+
     - 비선점 스케줄링 방식
 
-   
+
 
 
 
@@ -489,14 +490,14 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 3.  ####  SRTF (Shortest Remaining Time First)
 
     - 프로세스의 남은 수행 시간이 짧은 순서에 따라 할당하는 방식
-    
+
     - SJF의 preemptive(선점) 버전
-    
+
     - 각 프로세스의 burst time 추적, 선점을 위한 문맥 교환 등으로 인한 오버헤드가 크다는 문제점이 있다.  
-    
+
     - 선점 스케줄링 방식
 
-   
+
 
 4.  ####  Priority Scheduling
 
@@ -510,7 +511,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
       비선점 스케줄링 방식 : 더 높은 우선순위의 프로세스가 도착하면 Ready Queue 의 Head 에 넣는다.
 
-     
+
 
 5.  ####  RR (Round Robin)
 
@@ -526,7 +527,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
     - 선점 스케줄링 방식
 
-     
+
 
 6.  ####  Multilevel Queue
 
@@ -538,16 +539,16 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
     - 각각의 Queue에 절대적 우선순위가 존재하며, Queue 간 이동이 불가능하다.
 
-     
+
 
 7.  ####  Multilevel Feedback Queue
 
     - Multilevel Queue에서 Queue 간 이동이 불가능한 점을 개선한 방식
-    
+
     - 각 큐마다 다른 Time Quantum을 부여하며 시간안에 완료되지 못한 프로세스는 다음 단계 큐로 넘어간다.
-    
+
     - 모든 프로세스는 가장 상위 큐로 들어오고, 다른 Queue로 점진적으로 이동한다.
-    
+
     - 기아 상태 우려 시 Aging 기법을 사용해 우선순위 높은 Queue로 이동한다.
 
 
@@ -580,7 +581,7 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 <br>
 
-### Critical Section Problem(임계 구역 문제)	
+### Critical Section Problem(임계 구역 문제)
 
 ##### Critical Section(임계 구역)
 
@@ -594,15 +595,15 @@ _cf) 메모리에 프로그램이 너무 많이 올라가도, 너무 적게 올�
 
 ##### Critical Section Problem 해결 조건
 
-1. Mutual Exclusion : 
+1. Mutual Exclusion :
 
    프로세스 A가 임계 구역에서 돌고 있으면, 다른 프로세스들은 임계 구역에서 수행될 수 없다.
 
-2. Progress: 
+2. Progress:
 
    임계 구역에서 수행 되고 있는 프로세스가 존재하지 않고, 임계 구역에 진입하기 위해 대기 중인 프로세스가 존재하는 경우 대기 중인 프로세스 중 하나의 프로세스는 선택 되어 곧바로 임계 구역에 진입되어야 한다.
 
-3. Bounded Waiting: 
+3. Bounded Waiting:
 
    임계 영역을 요청한 프로세스는 무제한 대기 되어서는 안되며, 제한된 대기 시간을 가져야 한다.(프로세스가 기아 상태에 빠지는 것을 방지 하여야 한다.)
 
@@ -622,7 +623,7 @@ do {
 
 프로세스 0가 Critical section에서 작업을 끝내고 난 후 연달아 프로세스0가 Critical section 진입을 요청할 경우 turn 값이 1이기 때문에 Critical section에 진입할 수 없게 된다.
 
-즉, 프로세스 1이 Critical section에서 작업을 한 번 해줘야 프로세스 0가 번갈아 가면서 진입 할 수 있다. 
+즉, 프로세스 1이 Critical section에서 작업을 한 번 해줘야 프로세스 0가 번갈아 가면서 진입 할 수 있다.
 
 =>  Mutual Exclusion은 충족 하지만, Progress는 충족 하지 못한다.
 
@@ -689,7 +690,7 @@ Algorithm1과 Algorithm2를 결합한 Algorithm
      }
      // lock initialization: "false"
    do {
-   	while(test_and_set(&lock)); 
+   	while(test_and_set(&lock));
    	// critical section
    	lock = false;
    	// remainder section
@@ -715,7 +716,7 @@ Algorithm1과 Algorithm2를 결합한 Algorithm
    }
    // lock initialization: "0"
    do {
-   	while(compare_and_swap(&lock, 0, 1) != 0); 
+   	while(compare_and_swap(&lock, 0, 1) != 0);
    	// critical section
    	lock = 0;
    	// remainder section
@@ -915,7 +916,7 @@ ProcessA가 ProcessC가 획득한 Sem-A를 요청한 상태에서 Context Switch
 
 이러한 Priority Inversion의 해결 방안으로는,
 
-특정 프로세스가 우선순위가 높은 프로세스에서 요구하는 자원을 가지고 있을 때 그 특정 프로세스의 우선순위를 
+특정 프로세스가 우선순위가 높은 프로세스에서 요구하는 자원을 가지고 있을 때 그 특정 프로세스의 우선순위를
 
 자원을 요구하는 프로세스의 우선순위로 높여주는 방법이 있으며, 이러한 방법을 ***Priority Inheritance Protocol* (우선순위 계승)**이라고 한다.
 
@@ -935,7 +936,7 @@ buffer에 추가하고 Consumer 프로세스는 buffer에 데이터가 있으면
 
 <br>
 
-1. Mutex : buffer의 접근을 관리하는 것으로 1로 초기화. 
+1. Mutex : buffer의 접근을 관리하는 것으로 1로 초기화.
 
 2. Full : buffer의 들어가 있는 데이터의 수를 관리하는 것으로 0으로 초기화.
 
@@ -992,7 +993,7 @@ Deadlock handling
 
 Semaphore는 충돌이나 동기화의 문제들을 해결해주지만
 
-직접 프로그래머가 작성해주어야 하고 이로 인해 사소한 실수에도 심각한 문제를 일으킬 수 있게 된다. (Deadlock, Starvation, Priority Inversion 등등) 그래서 프로그래밍 언어의 설계 단계에서부터 이러한 것들을 언어 자체가 해결할 수 있게 해주는 기능이 Monitor이다. 
+직접 프로그래머가 작성해주어야 하고 이로 인해 사소한 실수에도 심각한 문제를 일으킬 수 있게 된다. (Deadlock, Starvation, Priority Inversion 등등) 그래서 프로그래밍 언어의 설계 단계에서부터 이러한 것들을 언어 자체가 해결할 수 있게 해주는 기능이 Monitor이다.
 
 Monitor는 동시 접근에 대한 문제는 해결해주지만 동기화에 대한 문제를 완전히 해결하지는 못하는데, 이를 해결하기 위해 도입한 것이 Condition 변수입니다. Condition 변수를 통해 프로세스들은 순서를 보장받게 됩니다.
 
@@ -1015,7 +1016,74 @@ Monitor와 Semaphore의 가장 뚜렷한 차이점은 직접 작성하냐 기능
   4. **circular wait**: 프로세스들이 자원을 소유하고 요청하는 형태가 원형을 이룰 때를 말한다.
      각 프로세스에는 하나의 자원이 할당되어있고, P1은 P2자원을 기다림, P2는 P3자원을 기다림, P3는 P1자원을 기다릴 때 원형을 이룬다.
 
+
+
+
+#MemoryManagement
 <br>
+###가상 메모리부터 물리 메모리까지
+프로세스 내에서 유저 메모리영역은 OS에서 각 프로세스 간 메모리 공간을 보호하기 위해 가상메모리 기법을 이용하여 각 프로세스마다 독립적으로 메모리 공간을 사용할 수 있도록 분리하고 있다.
 
+32비트 환경에서 가상 메모리 주소가 물리 메모리주소로 어떠한 과정을 거쳐서 변환이 되는지 알아보자.
 
+```
+#include <stdio.h>
+#include <stdlib.h>
 
+int data=100; //초기화한 전역 변수
+int bss; //초기화하지 않은 전역 변수
+
+int main () {
+  int stack; //지역 변수
+  int *heap = (int*)malloc(sizeof(int)); //동적할당 변수
+  data = 1;
+  bss = 2;
+  stack = 3;
+  *heap = 4;
+  return 0;
+}
+```
+위 코드를 컴파일한 후 디스어셈블리하면 아래의 코드가 나온다.
+<image src="/assets/disassembled code.PNG" width="80%">
+각 변수에 1, 2, 3, 4 넣는 어셈블리 코드를 확인하면
+```nasm
+mov dword ptr ds:[403010],1
+```
+1을 넣는 것은 data 변수(초기화된 전역변수, data 영역)
+```nasm
+lea rax,qword ptr ds:[407A20]
+mov dword ptr ds:[rax],2
+```
+2를 넣는 것은 bss 변수 (초기화되지 않은 전역변수, bss 영역)
+```nasm
+mov dword ptr ss:[rbp-C],3
+```
+3을 넣는 것은 지역 변수 (stack 영역)
+```nasm
+call <JMP.&malloc>
+mov qword ptr ss:[rbp-8],rax
+… 생략…
+mov rax,qword ptr ss:[rbp-8]
+mov dword ptr ds:[rax],4
+```
+4를 넣는 것은 동적할당된 변수 (heap 영역)
+
+잘 보면, 하드코딩된 상수 가상 메모리주소나, 레지스터에 저장된 가상메모리 주소값을 그대로 참조하는 것이 아닌
+ds:[rax], ss:[rbp-8]처럼 세그먼트 레지스터 표기와 함께 있다.
+
+이는 가상메모리 주소를 세그멘테이션(segmentation)을 거쳐 선형 주소(linear address)로 바꾸는 것을 나타낸다.
+
+<br>
+####세그먼트 레지스터
+아래는 64bit intel 환경에서 디버깅창에서 볼 수 있는 레지스터 화면이다.
+<image src="/assets/x64 registers.PNG" width="70%">
+
+사진에서 맨 아래에 있는 6개의 \*s로 끝나는 레지스터들이 세그먼트 레지스터다.
+
+저 중 cs, ds, ss가 각각 code, data, stack 세그먼트에 대한 정보를 저장하고 있는 세그먼트 레지스터다.
+
+<image src="/assets/segment register.png" width="50%">
+
+세그먼트 레지스터는 위 사진처럼 x86기준 16bit 정보를 저장하고있다. 저장하고 있는 정보는 kernel 이 가지고 있는 GDT(global descriptor table)이나 LDT(local descriptor table)에 저장된 해당 세그먼트 descriptor가 저장된 index 번호와 RPL(request privilege level) 정보를 저장하고 있다.
+이 세그먼트 레지스터는 세그먼트 디스크립터가 저장된 인덱스 번호를 저장하고 있어 segment descriptor selector라고도 불린다.
+RPL은 현재 코드에서 요청하는 특권 모드를 나타내며, 인터럽트 발생
