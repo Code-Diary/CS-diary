@@ -1084,6 +1084,34 @@ ds:[rax], ss:[rbp-8]처럼 세그먼트 레지스터 표기와 함께 있다.
 
 <image src="/assets/segment register.png" width="50%">
 
-세그먼트 레지스터는 위 사진처럼 x86기준 16bit 정보를 저장하고있다. 저장하고 있는 정보는 kernel 이 가지고 있는 GDT(global descriptor table)이나 LDT(local descriptor table)에 저장된 해당 세그먼트 descriptor가 저장된 index 번호와 RPL(request privilege level) 정보를 저장하고 있다.
-이 세그먼트 레지스터는 세그먼트 디스크립터가 저장된 인덱스 번호를 저장하고 있어 segment descriptor selector라고도 불린다.
-RPL은 현재 코드에서 요청하는 특권 모드를 나타내며, 인터럽트 발생
+세그먼트 레지스터는 위 사진처럼 x86기준 16bit 정보를 저장하고있다. 저장하고 있는 정보는 kernel 이 가지고 있는 **GDT**(**global descriptor table**)이나 LDT(local descriptor table)에 저장된 해당 세그먼트 descriptor가 저장된 index 번호와 RPL(request privilege level) 정보를 저장하고 있다.
+
+세그먼트 레지스터는 세그먼트 디스크립터가 저장된 인덱스 번호를 저장하고 있어 **segment descriptor selector**라고도 불린다.
+
+RPL은 현재 코드에서 요청하는 특권 모드를 나타내며, 인터럽트 발생시 cs 레지스터 내용은 발생하는 인터럽트 종류에 따라 OS 부팅 시 등록된 trap gate(page fault 등) 혹은 interrupt gate (division by zero 등) 에 등록된 code segement selector 내용으로 바뀌고, ss 레지스터 내용은 OS 부팅 시 초기화한 tss(task state segment) 구조체를 가리키는 tr 레지스터를 통해 ss 멤버 변수를 참조하여 RPL 0의 stack segment selector 내용으로 바꾸게 된다.
+
+####세그먼트 디스크립터
+
+<image src="/assets/segment descriptor.png">
+앞서 설명한 세그먼트 레지스터에 저장된 세그먼트 셀렉터가 GDT 혹은 LDT에 저장된 세그먼트 디스크립터를 가리킨다고 했는데, 위의 그림처럼 복잡하게 생겼다.
+
+세그먼트 디스크립터가 가지고 있는 정보를 요약하자면,
+1. 세그멘테이션의 기본 목적인 어떤 선형주소부터 어떤 선형주소까지 하나의 세그먼트인지 정보를 나타내게 된다(**base**, **limit**).
+2. 해당 세그먼트에 접근할 수 있는 특권 레벨을 뜻 하는 **DPL**(**descriptor privilege level**)
+
+16 비트 시절엔 세그멘테이션 기법을 통한 메모리 관리를 수행했지만, 32비트로 넘어오면서 세그멘테이션을 사용할 이유가 없어져 호환성 유지를 목적으로 기능을 남기고 있다. 각 프로세스마다 코드, 데이터, 스택 세그먼트의 범위를 구분해야하고, 유저 모드와 커널 모드 또한 구분해야하는 것이 16비트 시절 얘기라면, 지금 현재는 유저 모드 code, 유저 모드 data(stack 겸용), 커널 모드 code, 커널 모드 stack 4가지만 OS 부팅시 GDT에 초기화를 하고 모든 프로세스에서 같은 세그먼트 디스크립터를 사용하게 된다. 또한 base address와 limit를 지정하는 것이 의미 없어져 메모리의 모든 구간(0x00~0xffffffff)에 대해 참조 가능하도록 descriptor에 설정한다. 그래서 가상주소 -> 선형주소 과정에서 수치상 바뀌는 것은 전혀 없다.
+
+32비트 기준 세그멘테이션 기법에서 유효한 기능은 **code segment의 DPL에 따른 현재 코드의 특권 모드 구분**이라 할 수 있다. 현재 실행 중인 코드가 커널 모드인지 유저 모드인지 구분하는 것은 코드 세그먼트 셀렉터가 가리키고 있는 GDT 상의 인덱스(이 gdt를 가리키는 레지스터를 gdtr이라고 한다)의 descriptor의 DPL이 0(kernel mode)인지 3(user mode)인지로 구분하게 되고, 이후 메모리 rw 권한 보호에 대해선 페이징 과정에서 이뤄지게 된다. 현재 코드의 특권 모드를 나타내는 이 DPL 값을 CPL(current privilege level) 이라고 한다.
+
+물론, call gate니 뭐니 다른 기능도 있긴 하지만, 알아보지 않아서 pass
+
+####페이징을 통한 선형주소 -> 물리주소
+
+많은 운영체제들이 페이징 기법을 통해 메모리 관리를 하며, 이는 사실 페이징을 통한 주소 변환은 하드웨어의 일이기 때문에 인텔에서 제공하고 있는 아래의 페이징 옵션 중 운영체제가 어느 것을 고르는지에 따라 선형주소 -> 물리주소 변환 과정이 달라지게 된다.
+1.  32bit (2-level paging)
+2.  PAE(Physical addresss extension, 3-level paging)
+3.  4-level
+
+여기선 1번 옵션인 32bit paging 옵션 기준으로 설명하겠다. 나머진 어차피 확장이라..
+아래 사진에서 32bit paging을 아주 잘 설명하고 있다.
+<img src="/assets/paging.png">
