@@ -1139,3 +1139,30 @@ CR3레지스터에 **PDT**(**page directory table**)을 저장하고 있고, PDT
 - US(user-supervisor) : 유저 프레임인지 커널 프레임인지 구분. 유저 모드에서 커널 프레임 접근 시 page fault 발생
 - RW(read, write) : 읽기, 쓰기 권한. 권한 침범 시 page fault 발생
 - P(present) : 현재 유효한 물리 페이지 번호를 할당 받았는지 여부를 나타냄. swapping 구현 시 이용됨
+
+<h2>캐싱</h2>
+메모리 참조는 CPU에서 여러차례 사이클을 기다려야하는 오버헤드가 큰 작업이다. 또한 페이징과 같은 주소 변환 과정에서 메모리 참조는 많이 일어나게 된다. 느린 메모리 참조를 계속 하는 것이 아닌, 좀 더 읽기와 쓰기가 빠른 캐쉬에다가 저장하고 사용하여 메모리 참조 오버헤드를 줄일 수 있다. 이러한 과정을 캐싱이라고 한다.
+캐싱을 하드웨어적으로 구현하는 방법은 크게 아래 3가지이다.
+1.  direct mapping
+2.  fully associative mapping
+3.  set associative mapping
+
+###Direct mapping
+- 동일한 라인번호면 동시 저장 불가
+- 하드웨어적 구현 쉬움
+- 비효율적
+<image src="/assets/direct mapping.png">
+
+###Fully associative mapping
+- 메모리 주소 상관없이 동시 캐싱 가능
+- 리스트 내에서 탐색해야함
+- 위 과정은 하드웨어적 병렬처리로 구현
+- 구현 복잡
+- 캐시 히트율 높음
+- TLB(translation lookaside buffer) 등에서 사용됨
+<image src="/assets/fully associative mapping.png">
+
+###Set associative mapping
+- 위 2개의 절충안
+- 가장 많이 차용됨
+<image src="/assets/set associative mapping.png">
