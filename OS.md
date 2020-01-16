@@ -1019,14 +1019,14 @@ Monitor와 Semaphore의 가장 뚜렷한 차이점은 직접 작성하냐 기능
 
 
 
-#MemoryManagement
+# MemoryManagement
 <br>
-###가상 메모리부터 물리 메모리까지
+### 가상 메모리부터 물리 메모리까지
 프로세스 내에서 유저 메모리영역은 OS에서 각 프로세스 간 메모리 공간을 보호하기 위해 가상메모리 기법을 이용하여 각 프로세스마다 독립적으로 메모리 공간을 사용할 수 있도록 분리하고 있다.
 
 32비트 환경에서 가상 메모리 주소가 물리 메모리주소로 어떠한 과정을 거쳐서 변환이 되는지 알아보자.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -1043,6 +1043,7 @@ int main () {
   return 0;
 }
 ```
+
 위 코드를 컴파일한 후 디스어셈블리하면 아래의 코드가 나온다.
 <image src="/assets/disassembled code.PNG" width="80%">
 각 변수에 1, 2, 3, 4 넣는 어셈블리 코드를 확인하면
@@ -1071,16 +1072,16 @@ mov dword ptr ds:[rax],4
 잘 보면, 하드코딩된 상수 가상 메모리주소나, 레지스터에 저장된 가상메모리 주소값을 그대로 참조하는 것이 아닌
 ds:[rax], ss:[rbp-8]처럼 세그먼트 레지스터 표기와 함께 있다.
 
-이는 가상메모리 주소를 세그멘테이션(segmentation)을 거쳐 선형 주소(linear address)로 바꾸는 것을 나타낸다.
+이는 가상메모리 주소를 **세그멘테이션**(**segmentation**)을 거쳐 **선형 주소**(**linear address**)로 바꾸는 것을 나타낸다.
 
 <br>
-####세그먼트 레지스터
+#### 세그먼트 레지스터
 아래는 64bit intel 환경에서 디버깅창에서 볼 수 있는 레지스터 화면이다.
 <image src="/assets/x64 registers.PNG" width="70%">
 
 사진에서 맨 아래에 있는 6개의 \*s로 끝나는 레지스터들이 세그먼트 레지스터다.
 
-저 중 cs, ds, ss가 각각 code, data, stack 세그먼트에 대한 정보를 저장하고 있는 세그먼트 레지스터다.
+저 중 cs, ds, ss가 각각 code, data, stack 세그먼트에 대한 정보를 저장하고 있는 **세그먼트 레지스터**다.
 
 <image src="/assets/segment register.png" width="50%">
 
@@ -1090,9 +1091,10 @@ ds:[rax], ss:[rbp-8]처럼 세그먼트 레지스터 표기와 함께 있다.
 
 RPL은 현재 코드에서 요청하는 특권 모드를 나타내며, 인터럽트 발생시 cs 레지스터 내용은 발생하는 인터럽트 종류에 따라 OS 부팅 시 등록된 trap gate(page fault 등) 혹은 interrupt gate (division by zero 등) 에 등록된 code segement selector 내용으로 바뀌고, ss 레지스터 내용은 OS 부팅 시 초기화한 tss(task state segment) 구조체를 가리키는 tr 레지스터를 통해 ss 멤버 변수를 참조하여 RPL 0의 stack segment selector 내용으로 바꾸게 된다.
 
-####세그먼트 디스크립터
+#### 세그먼트 디스크립터
 
 <image src="/assets/segment descriptor.png">
+
 앞서 설명한 세그먼트 레지스터에 저장된 세그먼트 셀렉터가 GDT 혹은 LDT에 저장된 세그먼트 디스크립터를 가리킨다고 했는데, 위의 그림처럼 복잡하게 생겼다.
 
 세그먼트 디스크립터가 가지고 있는 정보를 요약하자면,
@@ -1101,13 +1103,13 @@ RPL은 현재 코드에서 요청하는 특권 모드를 나타내며, 인터럽
 
 16 비트 시절엔 세그멘테이션 기법을 통한 메모리 관리를 수행했지만, 32비트로 넘어오면서 세그멘테이션을 사용할 이유가 없어져 호환성 유지를 목적으로 기능을 남기고 있다. 각 프로세스마다 코드, 데이터, 스택 세그먼트의 범위를 구분해야하고, 유저 모드와 커널 모드 또한 구분해야하는 것이 16비트 시절 얘기라면, 지금 현재는 유저 모드 code, 유저 모드 data(stack 겸용), 커널 모드 code, 커널 모드 stack 4가지만 OS 부팅시 GDT에 초기화를 하고 모든 프로세스에서 같은 세그먼트 디스크립터를 사용하게 된다. 또한 base address와 limit를 지정하는 것이 의미 없어져 메모리의 모든 구간(0x00~0xffffffff)에 대해 참조 가능하도록 descriptor에 설정한다. 그래서 가상주소 -> 선형주소 과정에서 수치상 바뀌는 것은 전혀 없다.
 
-32비트 기준 세그멘테이션 기법에서 유효한 기능은 **code segment의 DPL에 따른 현재 코드의 특권 모드 구분**이라 할 수 있다. 현재 실행 중인 코드가 커널 모드인지 유저 모드인지 구분하는 것은 코드 세그먼트 셀렉터가 가리키고 있는 GDT 상의 인덱스(이 gdt를 가리키는 레지스터를 gdtr이라고 한다)의 descriptor의 DPL이 0(kernel mode)인지 3(user mode)인지로 구분하게 되고, 이후 메모리 rw 권한 보호에 대해선 페이징 과정에서 이뤄지게 된다. 현재 코드의 특권 모드를 나타내는 이 DPL 값을 CPL(current privilege level) 이라고 한다.
+32비트 기준 세그멘테이션 기법에서 유효한 기능은 **code segment의 DPL에 따른 현재 코드의 특권 모드 구분**이라 할 수 있다. 현재 실행 중인 코드가 커널 모드인지 유저 모드인지 구분하는 것은 코드 세그먼트 셀렉터가 가리키고 있는 GDT 상의 인덱스(이 gdt를 가리키는 레지스터를 gdtr이라고 한다)의 descriptor의 DPL이 0(kernel mode)인지 3(user mode)인지로 구분하게 되고, 이후 메모리 rw 권한 보호에 대해선 페이징 과정에서 이뤄지게 된다. 현재 코드의 특권 모드를 나타내는 이 DPL 값을 **CPL**(**current privilege level**) 이라고 한다.
 
 물론, call gate니 뭐니 다른 기능도 있긴 하지만, 알아보지 않아서 pass
 
-####페이징을 통한 선형주소 -> 물리주소
+#### 페이징을 통한 선형주소 -> 물리주소
 
-많은 운영체제들이 페이징 기법을 통해 메모리 관리를 하며, 이는 사실 페이징을 통한 주소 변환은 하드웨어의 일이기 때문에 인텔에서 제공하고 있는 아래의 페이징 옵션 중 운영체제가 어느 것을 고르는지에 따라 선형주소 -> 물리주소 변환 과정이 달라지게 된다.
+많은 운영체제들이 페이징 기법을 통해 메모리 관리를 하며, 이는 사실 페이징을 통한 주소 변환은 하드웨어의 일이기 때문에 PC의 경우 인텔에서 제공하고 있는 아래의 페이징 옵션 중 운영체제가 어느 것을 고르는지에 따라 선형주소 -> 물리주소 변환 과정이 달라지게 된다.
 1.  32bit (2-level paging)
 2.  PAE(Physical addresss extension, 3-level paging)
 3.  4-level
@@ -1115,3 +1117,22 @@ RPL은 현재 코드에서 요청하는 특권 모드를 나타내며, 인터럽
 여기선 1번 옵션인 32bit paging 옵션 기준으로 설명하겠다. 나머진 어차피 확장이라..
 아래 사진에서 32bit paging을 아주 잘 설명하고 있다.
 <img src="/assets/paging.png">
+
+CR3레지스터에 **PDT**(**page directory table**)을 저장하고 있고, PDT의 크기는 한 페이지의 크기인 4KB이다. 하나의 **PDE**(**page directory entry**)의 크기는 32bit 이므로 총 1024개의 PDE를 PDT에서 가질 수 있다.
+하나의 PDE에서는 1024개의 **PTE**(**page table entry**)를 가지는 **PET**(**page entry table**) 를 가리키며, 각각의 PTE에 4KB크기의 물리 페이지 프레임을 나타내는 PFN(page frame number)를 저장한다. 32비트의 선형 주소 중 앞의 10bit는 PDT내에서 PDE의 index를 결정하는데에, 중간의 10bit는 해당 PDE가 가리키고 있는 page table 내에서 PTE의 index를 결정하고 해당 PTE에서 4KB 크기의 물리 페이지 번호가 결정된다. 나머지 12비트는 4KB 크기의 물리 페이지 내에서의 1바이트 단위의 memory access를 위한 offset으로 사용된다. 이렇게 하여 선형 주소가 물리 주소로 바뀌게 되는 것이다.
+
+가상 메모리 주소 체계는 각 프로세스마다 서로 다른 paging table을 가짐으로써 프로세스간 서로 다른 독립적인 가상주소 공간을 갖게 한다. 각 프로세스마다 구분되는 PDT의 주소는 각 스레드를 구분하는 커널 스택에 PCB(process control block)형태로 저장되게 된다.
+
+아래 사진에서는 PTE(혹은 PDE)의 구성을 나타낸다.
+
+<image src="assets/PTE.PNG">
+
+아래는 각 주요 멤버들에 대한 설명이다.
+- PFN : 20bit 크기로 PTE의 경우 사용될 실제 물리 페이지를 나타내며, PDT의 경우 그 다음 PET(page entry table)이 저장된 물리 페이지 넘버를 가리키게 된다.
+- AVIL : 여분 비트다.
+- PS : 이 비트가 활성화 되면 PDE에서 바로 4MB 크기의 page frame을 가리킬 수 있게 된다. 메모리 주소 변환 과정에서 메모리 참조 횟수가 줄어들어 오버헤드가 적어진다.
+- D(dirty) : 변경 여부 flag 저장.
+- A(access) : 접근 여부 flag 저장.
+- US(user-supervisor) : 유저 프레임인지 커널 프레임인지 구분. 유저 모드에서 커널 프레임 접근 시 page fault 발생
+- RW(read, write) : 읽기, 쓰기 권한. 권한 침범 시 page fault 발생
+- P(present) : 현재 유효한 물리 페이지 번호를 할당 받았는지 여부를 나타냄. swapping 구현 시 이용됨
