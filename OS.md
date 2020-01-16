@@ -10,7 +10,7 @@
 ##### [4. Synchronization(프로세스 동기화) - 20.01.10 KSW](#Synchronization)
 
 ##### [5. Deadlocks(교착상태) - 20.01.10 KSW](#Deadlocks)
-##### [6. Memory management(메모리 관리) - 20.01.10 UKK](#MemoryManagement)
+##### [6. Memory management(메모리 관리) - 20.01.10 UKK](#Memory-Management)
 
 ---
 
@@ -1019,9 +1019,10 @@ Monitor와 Semaphore의 가장 뚜렷한 차이점은 직접 작성하냐 기능
 
 
 
-# MemoryManagement
-<br>
-### 가상 메모리부터 물리 메모리까지
+# Memory-Management
+
+<h3>가상 메모리부터 물리 메모리까지</h3>
+
 프로세스 내에서 유저 메모리영역은 OS에서 각 프로세스 간 메모리 공간을 보호하기 위해 가상메모리 기법을 이용하여 각 프로세스마다 독립적으로 메모리 공간을 사용할 수 있도록 분리하고 있다.
 
 32비트 환경에서 가상 메모리 주소가 물리 메모리주소로 어떠한 과정을 거쳐서 변환이 되는지 알아보자.
@@ -1075,7 +1076,7 @@ ds:[rax], ss:[rbp-8]처럼 세그먼트 레지스터 표기와 함께 있다.
 이는 가상메모리 주소를 **세그멘테이션**(**segmentation**)을 거쳐 **선형 주소**(**linear address**)로 바꾸는 것을 나타낸다.
 
 <br>
-#### 세그먼트 레지스터
+<h4>세그먼트 레지스터</h4>
 아래는 64bit intel 환경에서 디버깅창에서 볼 수 있는 레지스터 화면이다.
 <image src="/assets/x64 registers.PNG" width="70%">
 
@@ -1091,7 +1092,7 @@ ds:[rax], ss:[rbp-8]처럼 세그먼트 레지스터 표기와 함께 있다.
 
 RPL은 현재 코드에서 요청하는 특권 모드를 나타내며, 인터럽트 발생시 cs 레지스터 내용은 발생하는 인터럽트 종류에 따라 OS 부팅 시 등록된 trap gate(page fault 등) 혹은 interrupt gate (division by zero 등) 에 등록된 code segement selector 내용으로 바뀌고, ss 레지스터 내용은 OS 부팅 시 초기화한 tss(task state segment) 구조체를 가리키는 tr 레지스터를 통해 ss 멤버 변수를 참조하여 RPL 0의 stack segment selector 내용으로 바꾸게 된다.
 
-#### 세그먼트 디스크립터
+<h4>세그먼트 디스크립터</h4>
 
 <image src="/assets/segment descriptor.png">
 
@@ -1106,8 +1107,9 @@ RPL은 현재 코드에서 요청하는 특권 모드를 나타내며, 인터럽
 32비트 기준 세그멘테이션 기법에서 유효한 기능은 **code segment의 DPL에 따른 현재 코드의 특권 모드 구분**이라 할 수 있다. 현재 실행 중인 코드가 커널 모드인지 유저 모드인지 구분하는 것은 코드 세그먼트 셀렉터가 가리키고 있는 GDT 상의 인덱스(이 gdt를 가리키는 레지스터를 gdtr이라고 한다)의 descriptor의 DPL이 0(kernel mode)인지 3(user mode)인지로 구분하게 되고, 이후 메모리 rw 권한 보호에 대해선 페이징 과정에서 이뤄지게 된다. 현재 코드의 특권 모드를 나타내는 이 DPL 값을 **CPL**(**current privilege level**) 이라고 한다.
 
 물론, call gate니 뭐니 다른 기능도 있긴 하지만, 알아보지 않아서 pass
+<br>
 
-#### 페이징을 통한 선형주소 -> 물리주소
+<h4>페이징을 통한 선형주소 -> 물리주소</h4>
 
 많은 운영체제들이 페이징 기법을 통해 메모리 관리를 하며, 이는 사실 페이징을 통한 주소 변환은 하드웨어의 일이기 때문에 PC의 경우 인텔에서 제공하고 있는 아래의 페이징 옵션 중 운영체제가 어느 것을 고르는지에 따라 선형주소 -> 물리주소 변환 과정이 달라지게 된다.
 1.  32bit (2-level paging)
