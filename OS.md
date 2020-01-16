@@ -1128,7 +1128,7 @@ CR3레지스터에 **PDT**(**page directory table**)을 저장하고 있고, PDT
 
 아래 사진에서는 PTE(혹은 PDE)의 구성을 나타낸다.
 
-<image src="assets/PTE.PNG">
+<image src="/assets/PTE.PNG">
 
 아래는 각 주요 멤버들에 대한 설명이다.
 - PFN : 20bit 크기로 PTE의 경우 사용될 실제 물리 페이지를 나타내며, PDT의 경우 그 다음 PET(page entry table)이 저장된 물리 페이지 넘버를 가리키게 된다.
