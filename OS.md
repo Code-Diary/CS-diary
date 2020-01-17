@@ -1007,223 +1007,223 @@ Monitor와 Semaphore의 가장 뚜렷한 차이점은 직접 작성하냐 기능
 
 # Deadlocks
 
-+ 4. ### Deaklock
-   
-     Deaklock 이란 프로세스 P1이 자원 A를 갖고 있으면서 B를 필요로 하고 프로세스 P2는 자원 B를 갖고 있으면서 자원 A를 필요로 하는 상황에서 두 프로세스 모두 더 이상 진행이 되지 않는 상황
-   
-     <br>
-     
-     ### Deadlock 발생조건
-     
-     + 다음 4가지가 동시에 만족되었을 때 일어날 수 있다.(항상 발생은 아님)
-     
-       1. **Mutual exclusion**: 오직 하나의 프로세스만 하나의 자원을 사용할 수 있다. 적어도 하나의 자원은 공유가 불가능한 자원이다.
-     
-       2. **no preemeption**: 중간에 끊을 수 없는 상황, 이미 할당된 자원이 갑자기 반납되어서는 안된다. 프로세스가 스스로 반납.
-       3. **Hold and wait**: 적어도 하나의 자원을 보유한 프로세스가 다른 프로세스의 자원을 추가로 얻기를 기다릴 때
-       4. **circular wait**: 프로세스들이 자원을 소유하고 요청하는 형태가 원형을 이룰 때를 말한다.
-          각 프로세스에는 하나의 자원이 할당되어있고, P1은 P2자원을 기다림, P2는 P3자원을 기다림, P3는 P1자원을 기다릴 때 원형을 이룬다.
-     
-     <br>
-     
-     ### Deadlock과 Cycle
-     
-     Deadlock은 프로세스들 간의 자원 요구와 소유를 간단하게 표현한 **그래프를 통해 보다 쉽게 검사**할 수 있다.
-     밑의 그림에서 P -> R 은 해당 자원을 필요로 하는 것을, R -> P는 프로세스가 해당 자원을 소유하고 있는 것을 의미
-     
-     <img src="/assets/deadlock2.png">
-     
-     <br>
-     
-     P1은 R2를 소유하면서 R1을 요청
-     
-     P2는 R1을 소유하면서 R3 를 요청
-     
-     P3라는 R3를 소유하면서 R2를 요청
-     
-     즉, P1은 R1을 할당받고 작업을 완료해야 R2와 R1을 반납
-     
-     P2는 R3를 할당받고 작업을 완료해야 R3와 R1을 반납
-     
-     P3는 R2를 할당받고 작업을 완료해야 R2와 R3를 반납
-     
-     => **Deadlock이 발생**
-     
-     여기서 **반드시 인지하셔야 할 조건은 No preemption 조건**
-     
-     현 상황에서는 어떠한 프로세스도 작업을 완료할 수 없고 어떠한 자원도 반납할 수 없기 때문에
-     Deadlock이 발생하게 된다.
-     
-     <br>
-     
-     보다 빠르고 쉽게 판단하려면 자원 요청이 사이클이 존재하시는지 확인을 하면 된다.
-     위의 그림은 자원 요청의 화살표가 사이클을 이루고 있는데요. 이러한 **사이클이 있다면 Deadlock을** 의심해봐야 한다.(무조건 사이클이 존재한다고 Deadlock 발생은 아님)
-     
-     <br>
-     
-     **Cycle이 존재하지만 Deadlock이 발생하지 않는 경우**
-     
-     <img src="/assets/nodeadlock.png">
-     
-     <br>
-     
-     ### Method of handling Deadlock
-     
-     Deadlock을 다루는 방법에는 크게 세 가지가 있다.
-     
-     **첫째, Deadlock 현상 자체를 미연에 방지하는 방법**
-     
-        말 그대로 애초에 Deadlock이 발생하지 않도록 하는 방법이다.
-     
-        -Deadlock prevention, Deadlock Avoidance
-     
-     **둘째, Deadlock 상태를 허용하면서 그것을 복구하는 방법**
-     
-        현재 상태를 주기적으로 체크하면서 Deadlock 상태인지를 확인하며 Deadlock에 빠지면 복구를 하는 방법이다.
-     
-        -Deadlock Detection Algorithm
-     
-     **셋째, Deadlock 문제 자체를 무시해버리는 방법**
-     
-        사실상 대부분의 운영체제가 이 방법을 사용한다. 위의 두 가지 방법은 그에 따른 비용이 높기 때문에
-     
-        문제가 있는 프로세스를 Kill 하거나 시스템 자체를 리부팅하여 Deadlock 문제를 해결을 한다.
-     
-       -Kill Process, Rebooting
-     
-     <br>
-     
-     #### 1. Deadlock Prevention
-     
-     Deadlock Prevention은 이전 글에서 다루었던 Deadlock이 일어나기 위한 조건 4 가지 중 아무것이나 하나를 충족시키지 않게 함으로써 Deadlock을 방지하는 방법이다. 4 가지의 조건이 모두 만족해야 Deadlock이 발생하기 때문에 하나만 충족시키지 않아도 Deadlock은 발생하지 않게 된다.
-     
-     **(1) Mutual Exclusion 부정**
-     
-     ​     사실 이 조건을 충족시키지 않는 방법은 존재하지 않는다.
-     
-     ​     애초에 자원에 동시 접근이 불가능하기 때문에 동시에 접근을 하게 하는것은 불가능
-     
-     **(2) Hold and Wait 부정**
-     
-     ​     프로세스가 자원을 요청할 때는 항상 어느 자원도 소유하고 있지 않게 해야 한다.
-     
-     ​     프로세스가 실행되기 전에 필요한 자원들을 모두 요청하고 할당받아야 한다. 
-     
-     → 할당된 모든 자원이 바로 사용되지 않기에 자원의 이용도가 낮을 수 있다.
-     
-     →  우선순위가 낮은 프로세스들은 자원을 할당받지 못하는 시간이 길어지는 Starvation 문제가 생길 가능성도 생긴다.
-     
-     **(3) No Preemption 부정**
-     
-     ​	1번 resource를 잡고있는 process가 2번 resource를 요청했을 때 바로 받을 수 없다면 1번과 (다른 프로세스에	게 할당된) 2번 모두 release 하도록 한다. release함으로써 preemption이 되어버린다.
-     
-     ​	또한, 프로세스는 요청 중인 새로운 자원을(2번) 할당받고 또한 대기 중에 선점되었던(끊겼던) 모든 자원(1번)을 	회복할 때에만 다시 시작할 수 있다.
-     
-     **(4) Circular Wait 부정**
-     
-     ​	resource에 ordering(순서)을 부여하여 순서에 맞게 resource를 요청할 수 있고 할당받을 수 있게 한다. 동시에 	요청 불가능하기에 원형을 이룰 수 없다.
-     
-     #### 2.Deadlock Avoidance
-     
-     Deadlock Avoidance는 운영체제에게 자원 요청이 들어오면 자원을 할당해주었다고 가정한 상태에서 잠재적으로 Deadlock이 일어나는지 유무를 판단하여 Deadlock이 일어난다면 자원이 충분함에도 불구하고 할당해주지 않는 방법이다.
-     
-     판단을 했을 때 Deadlock이 일어나지 않는 상태를 Safe State라 하고 현재 이용 가능한 자원, 현재 각각의 프로세스에게 할당되어 있는 자원 그리고 각각의 프로세스들이 사용하고 반납할 자원들의 정보를 바탕으로 잠재적 Deadlock의 유무를 판단한다.
-     
-     프로세스 간 자원 할당 순서 중 Safe State Sequence가 하나라도 존재한다면 Safe State라고 판단을 한다.
-     
-     <br>
-     
-     Safe State Sequence란 일종의 자원을 필요로 하는 프로세스들에게 자원을 할당해주는 순서인데 바로 이전 프로세스가 수행을 마치고 반납한 자원과 현재 할당 가능한 자원을 이용해 현재 프로세스에게 할당이 가능한 프로세스의 자원 할당 순서를 Safe State Sequence라고 힌다.  당장 할당이 불가능해도 이전의 프로세스들이 반납을 함으로써 할당이 가능하다면 그 순서 또한 Safe State Sequence라고 한다. 
-     
-     <br>
-     
-     
-     
-     예를 들어, 두 개의 프로세스 P1, P2는 Printer라는 자원을 필요로 하고 있다. 그럼 운영체제는 Printer 자원을 *P1 - P2* 순서로 할당해 줄 수도 있고 *P2-P1* 순서로 할당해 줄 수 있다. 
-     
-     물론 Printer 자원이 충분히 많다면 동시에 할당해줌으로써 병렬적 처리를 하게 된다. 하지만 만일 Printer 자원이 부족하다면 하나의 프로세스가 작업을 끝내고 자원을 반납해야 다음 프로세스가 사용할 수 있다.
-     
-     현재 상태에서 Printer의 자원 인스턴스가 8개이고 P1은 Printer 자원을 5개 소유하고 있으며 작업을 끝내려면 Printer 자원 6개가 더 필요하며, P2는 2개를 소유하고 있으며 9개를 요청한 상태라고 가정해보자.
-     
-     만일 **P2-P1**의 순서대로 Printer 자원을 요청한다면 P2는 9개의 자원을 요청했지만 현재 지원 가능한 자원은 8개이므로 지속해서 대기해야 하고 다른 프로세스가 반납을 해야 자원을 할당받고 작업을 수행할 수 있기 때문에 Deadlock의 가능성이 있다.
-     
-     그럼 반대로 **P1-P2**의 순서대로 Printer 자원을 지원한다면 P1은 6개만을 요청하였기 때문에 현재 자원으로 할당이 가능하다.
-     
-     그리고 할당받은 자원으로 작업을 수행하고 끝낸다면 원래 소유하고 있던 Printer 자원 5개와 할당받은 자원 6개를 반납하여 Printer의 현재 할당 가능한 자원 인스턴스의 수는  2 + 5  + 6 = 13이 되게 된다.
-     
-     그러면 현재 할당 가능한 Printer의 자원은 13이므로 P2가 요청하는 9개를 할당해주고 P2까지 Printer 자원을 필요로 하는 모든 작업들을 Deadlock 없이 완료할 수 있게 된다.
-     
-     여기서 P1-P2, 이 순서를 Safe State Sequence라고 합니다. 자원을 주었다고 가정한 상태에서 계산을 했다는 것이 요점이다.
-     
-     > *Safe State Sequence가 1개라도 존재한다면 Safe State입니다.*
-     >
-     > *만일 Safe State라면 Deadlock은 반드시 일어나지 않고*
-     >
-     > *Safe State가 아니라 해도 Deadlock이 일어날 수도 있고 일어나지 않을 수도 있습니다.*
-     
-     <br>
-     
-     
-     
-     ### Deadlock Avoidance Alogrithm - Banker's Algorithm
-     
-     Banker's Algorithm는 Resource Request Algorithm의 큰 흐름
-     
-     Resource Request Algorithm 이란 어느 프로세스로부터 운영체제에게 자원 할당의 요청이 들어온다면 운영체제는 해당 프로세스가 요청한 자원에 대해 할당이 가능한지를 판단하고 할당이 가능하다면 할당을 해주었다 가정한 이후에 프로세스들 간의 Deadlock의 발생할지를 검사하여 만약 Deadlock이 발생한다고 판단되어지면 자원을 할당하지 않고, Deadlock이 발생하지 않는다면 자원을 할당해주는 알고리즘이다.
-     
-     <img src="/assets/resourcerequest.png">
-     
-     1. n : 프로세스의 개수, m : 자원 타입의  개수
-     
-     2. Available : m 길이의 Vector로 현재 자원들의 할당 가능한 인스턴스들을 나타낸다.
-     
-     3. Max : n X m 형태의 Matrix로 Max[i, j] = k라면 이는 P(i) 프로세스는 작업을 완료하기 위해 R(j) 자원을 최대 k 개 필요함을 의미.
-     
-     4. Allocation : n X m 형태의 Matrix로 Allocation[i, j] = k라면 현재 P(i) 프로세스는 R(j) 자원을 k 개 할당받았다는 것을 의미.
-     
-     5. Need : n X m 형태의 Matrix로 Need[i, j] = k라면 현재 P(i) 프로세스는 작업을 완료하기까지 R(j) 자원을 k 개 더 필요함을 의미.
-     
-     **즉 Max[i, j] - Allocation[i, j] = Need[i, j]**
-     
-     먼저 하나의 프로세스 P가 자원을 요청을 하면 요청한 자원의 양이 현재 P가 필요로 하는 자원의 양과 비교
-     
-     만약 필요한 양보다 많은 양을 요청을 하게 된다면 에러 처리를 하고, 요청한 자원의 양이 현재 할당 가능한 자원의 양보다 크다면, 즉 당장 요청한 자원에 대해 할당해줄 자원이 부족하다면 다른 프로세스들이 반납할 때까지 기다린다.
-     
-     두 조건을 모두 만족하면 할당해주었다 가정하고 다음과 같은 값의 상태(가정)로 Safe State를 검사한다.
-     
-     *Available = Available - Request*
-     
-     *Allocation = Allocation + Request*
-     
-     *Need = Need - Request*
-     
-     그리고 위의 상태에서 Safe State 인지를 판단하기 위해 Safe State Sequence를 찾는 Safety Algorithm을 사용
-     
-     그리하여 Safe State라 판단이 된다면 실제로 자원을 할당하고 위의 상태로 바꿔준다.
-     
-     <br>
-     
-     #### Safety Algorithm
-     
-     Safety Algorithm은 직접적으로 Safe State 인지를 검사하는 알고리즘으로 Safe State Sequence를 찾는 알고리즘
-     
-     <img src="/assets/safetyalgorithm.png">
-     
-     <img src="/assets/safetyalgorithmex.png">
-     
-     Safety Algorithm으로 위의 예시의 상황에서 Safe State Sequence 중 하나로 < P1, P3, P4, P0, P2 > 순서가 뽑힐 수 있다. 자원들의 시작 전 총 Available은 (10 , 5, 7)이나 현 상태에서는  (3, 3, 2)가 됩니다.
-     
-     그러므로 Work는 (3, 3, 2)가 되고 Finish들은 모두 false로 초기화됩니다. 결과론적인 방법이긴 하나 먼저 P1에게 자원들을 할당해주면 현재 Finish[1] 은 false이며 P1의 Allocation은 (2, 0, 0)이고 Max는 (3, 2, 2)이므로 Need는 (1, 2, 2)가 된다. 그러므로 Need <= Work이므로 3단계로 넘어가서 Work는 Work(3, 3, 2)에 현재 P1의 Allocation (2, 0, 0)을 더한 (5, 3, 2)가 된다.
-     
-     그리고 Finish[1]을 작업을 완료했다는 의미로 True로 바꿔주고 다시 2단계로 돌아가 자원을 할당해줄 프로세스를 선택하고 이 과정은 Finish의 모든 값이 True가 될 때까지 반복해준다.
-     
-     왜 이렇게 하는 것일까?
-     
-     P1이 현재 필요로 하는 자원의 양이 현재 할당 가능한 자원보다 작다는 것은 할당해줄 수 있다는 뜻이고 그것을 할당해주고 작업을 완료하면 현재 할당되어 있는 자원들까지 회수되기 때문에 작업이 완료되었다 가정하고 Available에 Allocation을 더해줌으로써 P1이 끝난 후에 Available 현황을 알 수 있게 된다. 그리고 Available의 현황을 이용하여 다음 프로세스를 고르는 작업을 반복하고 회수한 자원들로 증가된 Available로 자원을 할당하여 모든 프로세스의 작업을 끝내게 되면 Finish는 모두 True가 되고 그렇게 뽑힌 순서가 바로 Safe State Sequence가 된다.
-     
-     <br>
-     
-     ### Deadlock Dectection
++ ### Deaklock
+  
+  Deaklock 이란 프로세스 P1이 자원 A를 갖고 있으면서 B를 필요로 하고 프로세스 P2는 자원 B를 갖고 있으면서 자원 A를 필요로 하는 상황에서 두 프로세스 모두 더 이상 진행이 되지 않는 상황
+  
+  <br>
+  
+  ### Deadlock 발생조건
+  
+  + 다음 4가지가 동시에 만족되었을 때 일어날 수 있다.(항상 발생은 아님)
+  
+    1. **Mutual exclusion**: 오직 하나의 프로세스만 하나의 자원을 사용할 수 있다. 적어도 하나의 자원은 공유가 불가능한 자원이다.
+  
+    2. **no preemeption**: 중간에 끊을 수 없는 상황, 이미 할당된 자원이 갑자기 반납되어서는 안된다. 프로세스가 스스로 반납.
+    3. **Hold and wait**: 적어도 하나의 자원을 보유한 프로세스가 다른 프로세스의 자원을 추가로 얻기를 기다릴 때
+    4. **circular wait**: 프로세스들이 자원을 소유하고 요청하는 형태가 원형을 이룰 때를 말한다.
+       각 프로세스에는 하나의 자원이 할당되어있고, P1은 P2자원을 기다림, P2는 P3자원을 기다림, P3는 P1자원을 기다릴 때 원형을 이룬다.
+  
+  <br>
+  
+  ### Deadlock과 Cycle
+  
+  Deadlock은 프로세스들 간의 자원 요구와 소유를 간단하게 표현한 **그래프를 통해 보다 쉽게 검사**할 수 있다.
+  밑의 그림에서 P -> R 은 해당 자원을 필요로 하는 것을, R -> P는 프로세스가 해당 자원을 소유하고 있는 것을 의미
+  
+  <img src="/assets/deadlock2.png">
+  
+  <br>
+  
+  P1은 R2를 소유하면서 R1을 요청
+  
+  P2는 R1을 소유하면서 R3 를 요청
+  
+  P3라는 R3를 소유하면서 R2를 요청
+  
+  즉, P1은 R1을 할당받고 작업을 완료해야 R2와 R1을 반납
+  
+  P2는 R3를 할당받고 작업을 완료해야 R3와 R1을 반납
+  
+  P3는 R2를 할당받고 작업을 완료해야 R2와 R3를 반납
+  
+  => **Deadlock이 발생**
+  
+  여기서 **반드시 인지하셔야 할 조건은 No preemption 조건**
+  
+  현 상황에서는 어떠한 프로세스도 작업을 완료할 수 없고 어떠한 자원도 반납할 수 없기 때문에
+  Deadlock이 발생하게 된다.
+  
+  <br>
+  
+  보다 빠르고 쉽게 판단하려면 자원 요청이 사이클이 존재하시는지 확인을 하면 된다.
+  위의 그림은 자원 요청의 화살표가 사이클을 이루고 있는데요. 이러한 **사이클이 있다면 Deadlock을** 의심해봐야 한다.(무조건 사이클이 존재한다고 Deadlock 발생은 아님)
+  
+  <br>
+  
+  **Cycle이 존재하지만 Deadlock이 발생하지 않는 경우**
+  
+  <img src="/assets/nodeadlock.PNG">
+  
+  <br>
+  
+  ### Method of handling Deadlock
+  
+  Deadlock을 다루는 방법에는 크게 세 가지가 있다.
+  
+  **첫째, Deadlock 현상 자체를 미연에 방지하는 방법**
+  
+     말 그대로 애초에 Deadlock이 발생하지 않도록 하는 방법이다.
+  
+     -Deadlock prevention, Deadlock Avoidance
+  
+  **둘째, Deadlock 상태를 허용하면서 그것을 복구하는 방법**
+  
+     현재 상태를 주기적으로 체크하면서 Deadlock 상태인지를 확인하며 Deadlock에 빠지면 복구를 하는 방법이다.
+  
+     -Deadlock Detection Algorithm
+  
+  **셋째, Deadlock 문제 자체를 무시해버리는 방법**
+  
+     사실상 대부분의 운영체제가 이 방법을 사용한다. 위의 두 가지 방법은 그에 따른 비용이 높기 때문에
+  
+     문제가 있는 프로세스를 Kill 하거나 시스템 자체를 리부팅하여 Deadlock 문제를 해결을 한다.
+  
+    -Kill Process, Rebooting
+  
+  <br>
+  
+  #### 1. Deadlock Prevention
+  
+  Deadlock Prevention은 이전 글에서 다루었던 Deadlock이 일어나기 위한 조건 4 가지 중 아무것이나 하나를 충족시키지 않게 함으로써 Deadlock을 방지하는 방법이다. 4 가지의 조건이 모두 만족해야 Deadlock이 발생하기 때문에 하나만 충족시키지 않아도 Deadlock은 발생하지 않게 된다.
+  
+  **(1) Mutual Exclusion 부정**
+  
+  ​     사실 이 조건을 충족시키지 않는 방법은 존재하지 않는다.
+  
+  ​     애초에 자원에 동시 접근이 불가능하기 때문에 동시에 접근을 하게 하는것은 불가능
+  
+  **(2) Hold and Wait 부정**
+  
+  ​     프로세스가 자원을 요청할 때는 항상 어느 자원도 소유하고 있지 않게 해야 한다.
+  
+  ​     프로세스가 실행되기 전에 필요한 자원들을 모두 요청하고 할당받아야 한다. 
+  
+  → 할당된 모든 자원이 바로 사용되지 않기에 자원의 이용도가 낮을 수 있다.
+  
+  →  우선순위가 낮은 프로세스들은 자원을 할당받지 못하는 시간이 길어지는 Starvation 문제가 생길 가능성도 생긴다.
+  
+  **(3) No Preemption 부정**
+  
+  ​	1번 resource를 잡고있는 process가 2번 resource를 요청했을 때 바로 받을 수 없다면 1번과 (다른 프로세스에	게 할당된) 2번 모두 release 하도록 한다. release함으로써 preemption이 되어버린다.
+  
+  ​	또한, 프로세스는 요청 중인 새로운 자원을(2번) 할당받고 또한 대기 중에 선점되었던(끊겼던) 모든 자원(1번)을 	회복할 때에만 다시 시작할 수 있다.
+  
+  **(4) Circular Wait 부정**
+  
+  ​	resource에 ordering(순서)을 부여하여 순서에 맞게 resource를 요청할 수 있고 할당받을 수 있게 한다. 동시에 	요청 불가능하기에 원형을 이룰 수 없다.
+  
+  #### 2.Deadlock Avoidance
+  
+  Deadlock Avoidance는 운영체제에게 자원 요청이 들어오면 자원을 할당해주었다고 가정한 상태에서 잠재적으로 Deadlock이 일어나는지 유무를 판단하여 Deadlock이 일어난다면 자원이 충분함에도 불구하고 할당해주지 않는 방법이다.
+  
+  판단을 했을 때 Deadlock이 일어나지 않는 상태를 Safe State라 하고 현재 이용 가능한 자원, 현재 각각의 프로세스에게 할당되어 있는 자원 그리고 각각의 프로세스들이 사용하고 반납할 자원들의 정보를 바탕으로 잠재적 Deadlock의 유무를 판단한다.
+  
+  프로세스 간 자원 할당 순서 중 Safe State Sequence가 하나라도 존재한다면 Safe State라고 판단을 한다.
+  
+  <br>
+  
+  Safe State Sequence란 일종의 자원을 필요로 하는 프로세스들에게 자원을 할당해주는 순서인데 바로 이전 프로세스가 수행을 마치고 반납한 자원과 현재 할당 가능한 자원을 이용해 현재 프로세스에게 할당이 가능한 프로세스의 자원 할당 순서를 Safe State Sequence라고 힌다.  당장 할당이 불가능해도 이전의 프로세스들이 반납을 함으로써 할당이 가능하다면 그 순서 또한 Safe State Sequence라고 한다. 
+  
+  <br>
+  
+  
+  
+  예를 들어, 두 개의 프로세스 P1, P2는 Printer라는 자원을 필요로 하고 있다. 그럼 운영체제는 Printer 자원을 *P1 - P2* 순서로 할당해 줄 수도 있고 *P2-P1* 순서로 할당해 줄 수 있다. 
+  
+  물론 Printer 자원이 충분히 많다면 동시에 할당해줌으로써 병렬적 처리를 하게 된다. 하지만 만일 Printer 자원이 부족하다면 하나의 프로세스가 작업을 끝내고 자원을 반납해야 다음 프로세스가 사용할 수 있다.
+  
+  현재 상태에서 Printer의 자원 인스턴스가 8개이고 P1은 Printer 자원을 5개 소유하고 있으며 작업을 끝내려면 Printer 자원 6개가 더 필요하며, P2는 2개를 소유하고 있으며 9개를 요청한 상태라고 가정해보자.
+  
+  만일 **P2-P1**의 순서대로 Printer 자원을 요청한다면 P2는 9개의 자원을 요청했지만 현재 지원 가능한 자원은 8개이므로 지속해서 대기해야 하고 다른 프로세스가 반납을 해야 자원을 할당받고 작업을 수행할 수 있기 때문에 Deadlock의 가능성이 있다.
+  
+  그럼 반대로 **P1-P2**의 순서대로 Printer 자원을 지원한다면 P1은 6개만을 요청하였기 때문에 현재 자원으로 할당이 가능하다.
+  
+  그리고 할당받은 자원으로 작업을 수행하고 끝낸다면 원래 소유하고 있던 Printer 자원 5개와 할당받은 자원 6개를 반납하여 Printer의 현재 할당 가능한 자원 인스턴스의 수는  2 + 5  + 6 = 13이 되게 된다.
+  
+  그러면 현재 할당 가능한 Printer의 자원은 13이므로 P2가 요청하는 9개를 할당해주고 P2까지 Printer 자원을 필요로 하는 모든 작업들을 Deadlock 없이 완료할 수 있게 된다.
+  
+  여기서 P1-P2, 이 순서를 Safe State Sequence라고 합니다. 자원을 주었다고 가정한 상태에서 계산을 했다는 것이 요점이다.
+  
+  > *Safe State Sequence가 1개라도 존재한다면 Safe State입니다.*
+  >
+  > *만일 Safe State라면 Deadlock은 반드시 일어나지 않고*
+  >
+  > *Safe State가 아니라 해도 Deadlock이 일어날 수도 있고 일어나지 않을 수도 있습니다.*
+  
+  <br>
+  
+  
+  
+  ### Deadlock Avoidance Alogrithm - Banker's Algorithm
+  
+  Banker's Algorithm는 Resource Request Algorithm의 큰 흐름
+  
+  Resource Request Algorithm 이란 어느 프로세스로부터 운영체제에게 자원 할당의 요청이 들어온다면 운영체제는 해당 프로세스가 요청한 자원에 대해 할당이 가능한지를 판단하고 할당이 가능하다면 할당을 해주었다 가정한 이후에 프로세스들 간의 Deadlock의 발생할지를 검사하여 만약 Deadlock이 발생한다고 판단되어지면 자원을 할당하지 않고, Deadlock이 발생하지 않는다면 자원을 할당해주는 알고리즘이다.
+  
+  <img src="/assets/resourcerequest.png">
+  
+  1. n : 프로세스의 개수, m : 자원 타입의  개수
+  
+  2. Available : m 길이의 Vector로 현재 자원들의 할당 가능한 인스턴스들을 나타낸다.
+  
+  3. Max : n X m 형태의 Matrix로 Max[i, j] = k라면 이는 P(i) 프로세스는 작업을 완료하기 위해 R(j) 자원을 최대 k 개 필요함을 의미.
+  
+  4. Allocation : n X m 형태의 Matrix로 Allocation[i, j] = k라면 현재 P(i) 프로세스는 R(j) 자원을 k 개 할당받았다는 것을 의미.
+  
+  5. Need : n X m 형태의 Matrix로 Need[i, j] = k라면 현재 P(i) 프로세스는 작업을 완료하기까지 R(j) 자원을 k 개 더 필요함을 의미.
+  
+  **즉 Max[i, j] - Allocation[i, j] = Need[i, j]**
+  
+  먼저 하나의 프로세스 P가 자원을 요청을 하면 요청한 자원의 양이 현재 P가 필요로 하는 자원의 양과 비교
+  
+  만약 필요한 양보다 많은 양을 요청을 하게 된다면 에러 처리를 하고, 요청한 자원의 양이 현재 할당 가능한 자원의 양보다 크다면, 즉 당장 요청한 자원에 대해 할당해줄 자원이 부족하다면 다른 프로세스들이 반납할 때까지 기다린다.
+  
+  두 조건을 모두 만족하면 할당해주었다 가정하고 다음과 같은 값의 상태(가정)로 Safe State를 검사한다.
+  
+  *Available = Available - Request*
+  
+  *Allocation = Allocation + Request*
+  
+  *Need = Need - Request*
+  
+  그리고 위의 상태에서 Safe State 인지를 판단하기 위해 Safe State Sequence를 찾는 Safety Algorithm을 사용
+  
+  그리하여 Safe State라 판단이 된다면 실제로 자원을 할당하고 위의 상태로 바꿔준다.
+  
+  <br>
+  
+  #### Safety Algorithm
+  
+  Safety Algorithm은 직접적으로 Safe State 인지를 검사하는 알고리즘으로 Safe State Sequence를 찾는 알고리즘
+  
+  <img src="/assets/safetyalgorithm.png">
+  
+  <img src="/assets/safetyalgorithmex.png">
+  
+  Safety Algorithm으로 위의 예시의 상황에서 Safe State Sequence 중 하나로 < P1, P3, P4, P0, P2 > 순서가 뽑힐 수 있다. 자원들의 시작 전 총 Available은 (10 , 5, 7)이나 현 상태에서는  (3, 3, 2)가 됩니다.
+  
+  그러므로 Work는 (3, 3, 2)가 되고 Finish들은 모두 false로 초기화됩니다. 결과론적인 방법이긴 하나 먼저 P1에게 자원들을 할당해주면 현재 Finish[1] 은 false이며 P1의 Allocation은 (2, 0, 0)이고 Max는 (3, 2, 2)이므로 Need는 (1, 2, 2)가 된다. 그러므로 Need <= Work이므로 3단계로 넘어가서 Work는 Work(3, 3, 2)에 현재 P1의 Allocation (2, 0, 0)을 더한 (5, 3, 2)가 된다.
+  
+  그리고 Finish[1]을 작업을 완료했다는 의미로 True로 바꿔주고 다시 2단계로 돌아가 자원을 할당해줄 프로세스를 선택하고 이 과정은 Finish의 모든 값이 True가 될 때까지 반복해준다.
+  
+  왜 이렇게 하는 것일까?
+  
+  P1이 현재 필요로 하는 자원의 양이 현재 할당 가능한 자원보다 작다는 것은 할당해줄 수 있다는 뜻이고 그것을 할당해주고 작업을 완료하면 현재 할당되어 있는 자원들까지 회수되기 때문에 작업이 완료되었다 가정하고 Available에 Allocation을 더해줌으로써 P1이 끝난 후에 Available 현황을 알 수 있게 된다. 그리고 Available의 현황을 이용하여 다음 프로세스를 고르는 작업을 반복하고 회수한 자원들로 증가된 Available로 자원을 할당하여 모든 프로세스의 작업을 끝내게 되면 Finish는 모두 True가 되고 그렇게 뽑힌 순서가 바로 Safe State Sequence가 된다.
+  
+  <br>
+  
+  ### Deadlock Dectection
 
 
 
