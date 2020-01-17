@@ -1063,7 +1063,7 @@ Monitor와 Semaphore의 가장 뚜렷한 차이점은 직접 작성하냐 기능
   
   **Cycle이 존재하지만 Deadlock이 발생하지 않는 경우**
   
-  <img src="/assets/nodeadlock.PNG">
+  <img src="/assets/nodeadlock.png">
   
   <br>
   
