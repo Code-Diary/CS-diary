@@ -14,6 +14,8 @@ OS(운영체제) -operating system
 
 
 ##### [7. File System(파일시스템) - 20.01.17 최연석](#File-System)
+
+##### [8. MassStorage Management(대용량저장소 관리) - 20.01.31 KDH](#MassStorage-Management)
 ---
 
 
@@ -1559,3 +1561,7 @@ UNIX 시스템의 소유자는 파일에 대한 모든 작업을 실행할 수 �
 * 리스팅
 
 파일과 디렉터리에 접근 제어 리스트를 둔다(ACL) 특정 사용자가 어떤 파일에 접근할 경우 리스트를 보고 허용 여부를 결정한다.
+
+---
+
+#MassStorage Management
