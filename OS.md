@@ -1565,3 +1565,98 @@ UNIX 시스템의 소유자는 파일에 대한 모든 작업을 실행할 수 �
 ---
 
 # MassStorage Management
+
+
+
+#### Physical Disk Structure
+
+- head : hard disk를 읽어주는 장치(하나의 플레터 위아래에 달려있음) - synchronous
+- platter : hard disk를 구성할 때 달려있는 원판
+- track & sector : track은 데이터를 저장하는 공간이고 이를 쪼갠 것이 sector이다. 보통 sector는 512byte이다. 각 트랙별로 sector의 갯수는 같음(편의상 이렇게 만듬)
+- spindle motor : platter를 회전시켜주는 장치. 회전 수의 경우 보통 RPM단위로 표시함.
+- cylinder : platter들의 track동심원 크기의 track의 집합. (파일 읽기 효율성을 위해서 보통 파일은 같은 실린더에 배치하는 것이 효과적)
+- Seek, Rotation, Data Transfer
+  - head를 옮겨가면서 찾아가는 과정이 Seek (delay가 가장 크다.)
+  - platter가 도는 것을 rotation
+  - 원하는 위치에서 head가 데이터를 읽는 것을 data transfer
+- Disk bandwidth : 디스크의 성능을 나타내는 수단으로 단위 시간당 전송된 바이트 수 (Seek time을 줄이는 것을 목표로한다.)
+  <img src="/assets/hard_disk_structure.png">
+
+
+
+#### Scheduling
+
+1. FCFS : 무조건 들어와있는 순서대로 읽어간다.
+   <img src="/assets/disk_fcfs.png">
+2. SSTF : seek time이 짧은 것을 먼저 읽는다. (starvation의 위험이 있음.)
+   <img src="/assets/disk_sstf.png">
+3. SCAN
+   - 한방향으로 head를 진행시키고 이후 반대 방향으로 head를 진행시킴
+   - 바깥 쪽은 1회, 가운데는 2회의 기회가 있음. unfair wait time
+     <img src="/assets/disk_scan.png">
+4. C-SCAN : 한방향으로만 계속해서 진행 (뒤에 작업이 없는데 계속 진행 - 손해 발생)
+   <img src="/assets/disk_cscan.png">
+5. C-LOOK : 한방향으로만 진행하면서 맨 마지막 작업 뒤 다시 초기 위치로 복귀
+   <img src="/assets/disk_clook.png">
+
+
+
+#### bad block & swap space
+
+- bad block : 만약 block이 죽으면 다른 블럭(spare sector)으로 대체를 시키고 다음부터 요청이 들어오면 새로운 sector로 안내한다.
+- swap space
+  - 부족한 메인메모리의 부하를 줄여주기 위해서 존재
+  - 가상의 메모리를 가지고 있는 것으로 보이게 하고 실제로 공간은 hard disk에 존재
+  - 프로세스가 필요에 의해서 swap과 main을 왔다갔다 한다.
+    <img src="/assets/swap_space.png">
+
+
+
+#### RAID (redundant array of inexpensive disks)
+
+- 하드디스크 용량이 부족할 경우 용량 증설을 위해서 사용.
+- 하드디스크의 장애로 인한 데이터 손실을 예방하고자 데이터의 안정성을 확보.
+
+
+
+1. RAID0
+
+   - concatenate : 두개 이상의 데이터를 순차적으로 쓰는 방법
+     - 장점 : 용량증설 가능
+     - 단점 : 어떤 디스크라도 장애 발생시 복구 불가, 패리티(오류검출) 불가
+   - stripe : 두개 이상의 디스크를 랜덤하게 쓰는 방법
+     - 장점 : 여러 디스크를 분할 하여 사용. I/O performance 증가.
+     - 단점 : 구성하려면 기존 데이터 모두 삭제 후 구성. 이외 concatenate방식과 동일
+
+2. RAID1 (Mirror)
+
+   - 중복하여 데이터를 보존하게 하여 최소 동일한 용량의 2개의 디스크 필요.
+     - 장점 : 하나의 디스크 및 데이터가 장애가 생겨도 백업 데이터가 있어 문제 X
+     - 단점 : 가용 용량이 절반이 되고 쓰기 속도가 오래 걸림.
+
+3. RAID2
+
+   - RAID0와 같이 stripe방식임.
+   - 에러 체크와 수정을 위해 hamming code를 사용.
+   - 하드웨어적으로 지원하지 않기에 별도의 드라이브에 ECC(error correction code)를 저장, 하지만 ECC를 위한 드라이브가 손상되는 문제 발생 가능.
+
+4. RAID3, RAID4
+
+   - RAID0와 같이 stripe 방식
+   - 별도의 디스크에 패리티 정보를 저장하여 에러 체크 및 수정을 함.
+   - RAID3은 데이터를 바이트 단위로 나누어 디스크에 동등하게 분산 기록. (동기화 필수)
+   - RAID4는 데이터를 블록 단위로 나눠 기록하여 완벽하게 동일하지는 않음.
+
+5. RAID5
+
+   - stripe로 구성된 디스크내에서 패리티 정보를 저장하여 처리함.
+   - 만약 한개의 하드가 고장나도 다른 하드들을 통해 복구 가능
+
+6. RAID6
+
+   - RAID5와 같은 개념
+   - 2차 패리티를 넣어 2개의 하드가 고장나더라도 복구 가능. 더욱 안정
+
+   <img src="/assets/RAID.png">
+
+
