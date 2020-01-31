@@ -2,9 +2,9 @@ DB(데이터베이스) -data base
 
 ##### [1.DBMS(DataBase Management System) - 20.01.31 KDH](#DBMS)
 
-##### [2. 데이터베이스 풀 - 20.01.31 KSW](#Database Pool)
+##### [2. 데이터베이스 풀 - 20.01.31 KSW](#DatabasePool)
 
-##### [3. 정규화(1NF, 2NF, 3NF, BCNF) - 20.01.31 KSW](#Normal Form)
+##### [3. 정규화(1NF, 2NF, 3NF, BCNF) - 20.01.31 KSW](#NormalForm)
 
 ---
 
@@ -169,7 +169,7 @@ DB(데이터베이스) -data base
 
 
 
-## Database Pool
+## DatabasePool
 
 #### Connection Pool
 
@@ -220,7 +220,7 @@ DB와 미리 connection( 연결 )을 해놓은 객체들을 pool( 웅덩이 )에
 
 <br>
 
-## Normal Form
+## NormalForm
 
 #### 정규화
 
