@@ -6,7 +6,7 @@ DB(데이터베이스) -data base
 
 ##### [3. 정규화(1NF, 2NF, 3NF, BCNF) - 20.01.31 KSW](#NormalForm)
 
-##### [4. 트랜잭션(Transaction) - 20.01.31 UKK](#트랜잭션(Transaction))
+##### [4. 트랜잭션(Transaction) - 20.01.31 UKK](#Transaction)
 
 ---
 
@@ -446,7 +446,7 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 
 조인 종속이 후보키를 통해서만 성립이 되도록 하는 과정
 
-## 트랜잭션(Transaction)
+## Transaction
 ### 트랜잭션이란
 * 트랜잭션(Transaction) 이란
     * 데이터베이스의 상태를 변환시키는 하나의 논리적인 작업 단위를 구성하는 연산들의 집합이다.
