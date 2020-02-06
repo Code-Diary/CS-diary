@@ -661,16 +661,12 @@ Hash Index의 경우 데이터 접근 시간복잡도가 O(1)로 매우 빠르�
 
 <br/>
 
-## Statement / PreparedStatement
-
-
+## Statement/PrepareStatement
 <br/>
 
 ### Statement / PreparedStatement 란? 
 
-: SQL구문을 실행시키는 기능을 갖는 객체
-
-
+:  SQL구문을 실행시키는 기능을 갖는 객체
 <br/>
 
 ### 비교 (Statement vs PreparedStatement)
@@ -682,7 +678,6 @@ Hash Index의 경우 데이터 접근 시간복잡도가 O(1)로 매우 빠르�
 2. 매번 컴파일을 수행해야 한다.
 
 3. 객체 재사용이 가능하다.
-
 <br/>
 
 **PreparedStatement**
@@ -713,7 +708,7 @@ PreparedStatement의 경우 처음 1~3단계 수행 후 캐시에 담아 재사�
 
 ex) Statement
 
-
+<img src="./assets/statement.png" width="50%" height="50%">
 
 - 생성 시, 인자가 들어가지 않는다.
 
@@ -725,13 +720,15 @@ ex) Statement
 
 ex) PreparedStatement
 
-
+<img src="./assets/preparedstatement.png" width="50%" height="50%">
 
 - 생성 시, 인자가 들어간다.
 
 - 실행 시, 인자가 들어가지 않는다.
 
 - 첫 실행 시에만 컴파일 수행
+
+- 위치홀더 (?) 사용
 
 
 
