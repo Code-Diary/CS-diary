@@ -8,6 +8,10 @@ DB(데이터베이스) -data base
 
 ##### [4. 트랜잭션(Transaction) - 20.01.31 UKK](#Transaction)
 
+##### [7. INDEX 란? - 20.02.06 LHJ](#INDEX)
+
+##### [8. Statement와PrepareStatement - 20.02.06 LHJ](#Statement/PrepareStatement)
+
 ---
 
 ## DBMS
@@ -532,5 +536,131 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
     * Phantom Read
         * 한 트랜잭션 안에서 일정 범위의 레코드를 두 번 이상 읽을 때, 첫 번째 쿼리에서 없던 레코드가 두 번째 쿼리에서 나타나는 현상
         * 이는 트랜잭션 도중 새로운 레코드가 삽입되는 것을 허용하기 때문에 나타난다.
+        
+        
+## INDEX
+  
+
+
+### INDEX 란?
+
+- INDEX란 테이블에 저장된 데이터를 빠르게 조회할 수 있는, 즉 테이블에 대한 동작의 속도를 높여주는 자료구조를 일컫는다.  
+  
+- DBMS에서 INDEX는 데이터의 저장 성능을 희생하고, 데이터의 읽기 속도를 높이는 기능이다. 왜냐하면 인덱스는 항상 정렬된 상태를 유지하기 때문에 검색은 빠르지만, 추가/삭제/수정의 경우는 속도가 느려질 수 있다.
+
+<br/>
+  
+### INDEX를 사용해야 하는 경우
+
+- 데이터의 양이 방대하고 검색이 변경보다 빈번한 경우  
+
+- 인덱스를 걸고자 하는 필드의 값이 다양한 값을 가지는 경우
+
+<br/>
+
+### INDEX를 위한 자료구조
+
+1. B+-Tree Index
+
+   - 데이터베이스의 인덱스 자료구조 중 가장 일반적이고, 범용적인 목적으로 사용되는 자료구조이다.
+   
+   - 칼럼의 원래 값을 변형시키지 않고, 인덱스 내에서는 항상 정렬된 상태로 유지  
+     
+2. Hash Index
+
+   - 칼럼의 값으로 해시 값을 계산해서 인덱싱 하는 자료구조, 매우 빠른 검색을 지원하다.
+   
+   - 값을 변형해서 인덱싱하므로, 전방(Prefix) 일치와 같이 일부 값만 검색하고자 할 때는 사용할 수 없다.
+   
+   - 주로 메모리 기반 데이터베이스에서 사용
+
+##### 일반적으로 B+-Tree를 사용하는 이유는?
+
+Hash Index의 경우 데이터 접근 시간복잡도가 O(1)로 매우 빠르지만,  Select 조건에는 부등호 연산도 포함이 된다. 즉, Hash Index는 등호(=) 연산에 특화된 자료구조이기 때문에 데이터베이스의 자료구조로 적합하지 않다.
+
+<br/>
+
+### 인덱스의 종류
+
+#### 1. 키에 따른 인덱스 분류 (Primary Index VS Secondary Index)
+
+- 기본 인덱스(Primary Index) 
+
+  - 일반적으로 기본 키(primary key)를 포함하는 인덱스(키의 순서가 레코드의 순서를 결정지음)
+  
+  - 데이터 블록들 안의 행들의 정렬을 강요한다.
+  
+  - 키의 중복이 있으면 안된다.
+  
+  - 하나의 테이블에 오직 하나의 기본 인덱스만 가질 수 있다.
+  
+  <img src="./assets/primaryindex.png" width="70%" height="70%">
+
+- 보조 인덱스(Secondary Index) 
+
+  - 기본 인덱스 이외의 인덱스( 키의 순서가 레코드의 순서를 의미하지는 않음)
+  
+  <img src="./assets/secondary.png" width="70%" height="70%">
+
+#### 2. 파일 조직에 따른 인덱스 (Clustered Index VS Unclustered Index)
+
+- 집중 인덱스(Clustered Index) 
+
+  - 레코드의 물리적 순서가 그 파일에 대한 인덱스 엔트리 순서와 동일하게(유사하게) 유지되도록 구성된 인덱스
+  
+  
+- 비집중 인덱스(Unclustered Index) 
+
+  - 집중 형태가 아닌 인덱스
+  <br/>
+  <img src="./assets/cluster.png" width="70%" height="70%">
+
+#### 3. 데이터 범위에 따른 인덱스 분류 (Dense Index VS Sparse Index)
+
+- 밀집 인덱스(Dense Index) 
+
+  - 데이터 레코드 각각에 대해 하나의 인덱스 엔트리가 만들어진 인덱스
+
+- 희소 인덱스(Sparse Index) 
+
+  - 레코드 그룹 또는 데이터 블록에 대해 하나의 엔트리가 만들어지는 인덱스 
+  <br/>
+  <img src="./assets/sparse.png" width="50%" height="50%">
+
+#### 4. 그 외
+
+- 결합 인덱스(Composite Index)
+
+  - 복수 개(2개 이상)의 칼럼으로 구성된 인덱스
+  
+  - 하나의 칼럼으로는 분포도가 넓어서 인덱스로 만들기에는 부적합하지만 결합을 할 경우 분포도가 양호해 지는경우 생성
+  
+- 다단계 인덱스(Multilevel Index)
+
+  - 인덱스를 위한 인덱스, 인덱스를 좀 더 효율적으로 사용할 수 있다.
+  
+  - single-level을 사용 할 경우,  큰 사이즈의 인덱스를 메모리에 유지할 수 없기 때문에 사용한다.
+  <br/>   
+    
+     
+  <img src="./assets/multi.png" width="30%" height="30%">
+
+
+
+#### 참고 - Cost of Operations
+
+<img src="./assets/cost1.png" width="50%" height="50%">
+<br/>
+<img src="./assets/cost2.png" width="50%" height="50%">
+
+- Heap File : 가장 간단한 파일 구조인 순서가 없는 파일구조
+- Sorted FIle : 페이지 내의 데이터가 정렬되어 있는 파일구조
+- F : Fanout(한 노드의 자식 노드의 수)
+- B : data block의 수
+- D : Average time to read/write disk block
+
+
+
+
 
 =======
