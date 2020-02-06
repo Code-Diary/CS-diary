@@ -10,7 +10,7 @@ DB(데이터베이스) -data base
 
 ##### [7. INDEX 란? - 20.02.06 LHJ](#INDEX)
 
-##### [8. Statement와PrepareStatement - 20.02.06 LHJ](#Statement/PrepareStatement)
+##### [8. Statement와PrepareStatement - 20.02.06 LHJ](#Statement와PrepareStatement)
 
 ---
 
@@ -661,8 +661,10 @@ Hash Index의 경우 데이터 접근 시간복잡도가 O(1)로 매우 빠르�
 
 <br/>
 
-## Statement/PrepareStatement
-<br/>
+## Statement와PrepareStatement
+
+
+
 
 ### Statement / PreparedStatement 란? 
 
