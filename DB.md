@@ -659,7 +659,79 @@ Hash Index의 경우 데이터 접근 시간복잡도가 O(1)로 매우 빠르�
 - B : data block의 수
 - D : Average time to read/write disk block
 
+<br/>
 
+## Statement / PreparedStatement
+
+
+<br/>
+
+### Statement / PreparedStatement 란? 
+
+: SQL구문을 실행시키는 기능을 갖는 객체
+
+
+<br/>
+
+### 비교 (Statement vs PreparedStatement)
+
+**Statement**
+
+1. 단일로 사용될 때 빠른 속도를 지닌다.
+
+2. 매번 컴파일을 수행해야 한다.
+
+3. 객체 재사용이 가능하다.
+
+<br/>
+
+**PreparedStatement**
+
+1. 여러번 수행될 때 빠른 속도를 지닌다.
+
+2. 처음 프리컴파일 된 후, 이후에는 컴파일을 수행하지 않는다.
+
+3. 객체 생성시 지정된 sql 실행 -> 객체 재사용 불가능
+
+<br/>
+
+**이 중 가장 큰 차이점은 캐시(cache) 사용여부이다.**
+
+1단계 쿼리 문장 분석
+
+2단계 컴파일
+
+3단계 실행 
+
+Statement의 경우 매번 1~3 단계 수행
+
+PreparedStatement의 경우 처음 1~3단계 수행 후 캐시에 담아 재사용
+
+즉, 동일 쿼리를 반복 수행할 경우 PreparedStatement의 성능이 우월하다.
+
+<br/>
+
+ex) Statement
+
+
+
+- 생성 시, 인자가 들어가지 않는다.
+
+- 실행 시, 인자가 들어간다.
+
+- 매번 컴파일 수행
+
+<br/>
+
+ex) PreparedStatement
+
+
+
+- 생성 시, 인자가 들어간다.
+
+- 실행 시, 인자가 들어가지 않는다.
+
+- 첫 실행 시에만 컴파일 수행
 
 
 
