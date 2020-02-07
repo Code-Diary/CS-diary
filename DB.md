@@ -18,7 +18,7 @@ DB(데이터베이스) -data base
 
 ##### [9. RDBMS & NOSQL - 20.02.14 KDH](#RDBMS-vs-NOSQL)
 
-##### [10. ORM & JDBC - 20.02.14 KDH](#ORM&JDBC)
+##### [10. ORM & JDBC - 20.02.14 KDH](#ORM-/-JDBC)
 ---
 
 ## DBMS
@@ -1038,7 +1038,7 @@ NOSQL - Not Only SQL (Not relational Database)
    - 데이터를 먼저 커밋로그와 메모리에 저장 후 응답하기에 응답속도 빠름.
    
 -----   
-## ORM&JDBC
+## ORM / JDBC
 
 #### ORM(object relational mapping)
 <img src="./assets/ORM.png" width="70%" height="70%">
