@@ -537,7 +537,192 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
         * 한 트랜잭션 안에서 일정 범위의 레코드를 두 번 이상 읽을 때, 첫 번째 쿼리에서 없던 레코드가 두 번째 쿼리에서 나타나는 현상
         * 이는 트랜잭션 도중 새로운 레코드가 삽입되는 것을 허용하기 때문에 나타난다.
         
+
+# JOIN
+
+> ### JOIN 이란?
+> join(조인) 또는 결합 구문은 한 데이터베이스 내의 여러 테이블의 레코드를 조합하여 하나의 열로 표현한 것이다. 따라서 조인은 테이블로서 저장되거나, 그 자체로 이용할 수 있는 결과 셋을 만들어 낸다. JOIN은 2개의 테이블에서 각각의 공통값을 이용함으로써 필드를 조합하는 수단이 된다.
+>
+
+자신이 검색하고 싶은 컬럼이 다른 테이블에 있을 경우 주로 사용하며 여러개의 테이블을 마치 하나의 테이블인것처럼 활용하는 방법.
+보통 primary key 혹은 foreign key로 두 테이블을 연결. 테이블을 연결하려면 적어도 하나의 컬럼은 서로 공유되고 있어야 한다.
+
+
+<sub>※ Foreign Key(외래 키)란 한 테이블의 필드(attribute) 중 다른 테이블의 행(row)을 식별할 수 있는 키를 말한다.</sub>
+
+### JOIN의 종류
+
+#### 1. INNER JOIN
+- 기준 테이블과 JOIN한 테이블의 중복된 값을 보여준다. A의 테이블과 B의 테이블을 JOIN했다고 하면 결과는 A의 테이블과 B테이블이 모두 가지고 있는 데이터만 검색 된다.
+- 표현 형태
+    
+    1. 명시적 표현(explicit)
+    ```sql
+		SELECT *
+		FROM employee INNER JOIN department
+		ON employee.DepartmentID = department.DepartmentID;
+    ```
+    2. 암시적 표현(implicit)
+    ```sql
+		SELECT *
+		FROM employee, department
+		WHERE employee.DepartmentID = department.DepartmentID
+    ```
+- 종류
+    
+    1. 동등 JOIN (EQUI JOIN)
         
+        JOIN의 대표적 형태. 둘 이상의 테이블에 존재하는 공통 컬럼(속성)의 동등 비교만을 사용하며, 부등호 조인은 동등 조인에 포함하지 않는다.
+        ```sql
+         SELECT * FROM emp INNER JOIN dept ON emp.deptno = dept.deptno
+        ```
+
+    2. 자연 JOIN (NATURAL JOIN)
+
+        조인 대상 테이블의 모든 컬럼을 비교하여, 같은 컬럼명을 가진 컬럼으로 조인을 수행.
+        ```sql
+        SELECT * FROM emp NATURAL JOIN dept
+        ```
+
+    3. 교차 JOIN (CROSS JOIN)
+
+        카티션 곱 (Cartesian Product)이라고도 한다. 한 쪽 테이블의 모든 행들과 다른 테이블의 모든 행을 조인시키는 기능을 한다. 가능한 모든 경우의 수를 출력.
+
+    4. 셀프 JOIN (SELF JOIN)
+
+        같은 두 테이블을 활용하여 데이터를 추출하는 조인 기법.
+        ```sql
+        SELECT e.empno, e.ename, e.job, e.hiredate, e.sal, m.empno, m.ename, m.job
+        FROM emp E
+        INNER JOIN emp M ON E.mgr = M.empno
+        ```
+
+#### 2. OUTER JOIN
+- 조인 대상 테이블에서 특정 테이블의 데이터가 모두 필요한 상황에서 사용.
+- 조건에 맞지 않는 데이터도 표시하고 싶을때 사용.
+
+    1. LEFT OUTER JOIN
+
+        수행시 먼저 표기된 좌측 테이블에 해당하는 데이터를 먼저 읽은 후, 나중 표기된 우측 테이블에서 JOIN대상 데이터를 읽어 온다. 테이블 A, B가 있을때 B의 JOIN 컬럼에서 값이 있으면 데이터를 가져오고 없으면 NULL으로 채운다.
+        ```sql
+        SELECT STADIUM.STADIUM_NAME, STADIUM.STADIUM_ID, STADIUM.SEAT_COUNT, STADIUM.HOMETEAM_ID, TEAM.TEAM_NAME
+        FROM STADIUM LEFT OUTER JOIN TEAM
+        ON STADIUM.HOMETEAM_ID = TEAM.TEAM_ID
+        ORDER BY STADIUM.HOMETEAM_ID;
+        ```
+      
+    2. RIGHT OUTER JOIN
+
+        LEFT JOIN과는 반대로 우측 테이블이 기준이 되어 결과를 생산. 즉 테이블 A,B가 있을 때 컬럼에 같은 값이 있을 때 해당 데이터를 가져오고 A의 JOIN 컬럼에서 같은 값이 없는 경우에는 A 테이블에서 가져오는 컬럼들은 NULL 값으로 채운다.
+
+        ```sql
+        SELECT E.ENAME, D.DEPTNO, D.DNAME, D.LOC
+        FROM EMP E RIGHT OUTER JOIN DEPT D
+        ON E.DEPTNO = D.DEPTNO;
+        ```
+
+
+    3. FULL OUTER JOIN 
+
+         LEFT OUTER JOIN 과 RIGHT OUTER JOIN을 합친 결과가 나온다.
+
+
+# SQL INJECTION
+
+> ### SQL INJECTION이란?
+> SQL Injection 이란 악의적인 사용자가 보안상의 취약점을 이용하여, 임의의 SQL 문을 주입하고 실행되게 하여 데이터베이스가 비정상적인 동작을 하도록 조작하는 행위 입니다. 인젝션 공격은 OWASP Top10 중 첫 번째에 속해 있으며, 공격이 비교적 쉬운 편이고 공격에 성공할 경우 큰 피해를 입힐 수 있는 공격입니다.
+
+#### 종류 및 방법
+1.  Error Based SQL Injection - 논리적 에러를 이용한 SQL Injection
+
+
+    가장 대중적인 공격 기법
+
+    ex) 
+
+    일반적으로 로그인시 많이 사용하는 쿼리문이다. 해당 구문에서 입력값에 대한 검증이 없다는 사실을 확인한다면, 악의적인 사용자가 임의의 SQL 구문을 주입할 수 있다. 주입된 내용은 ‘ OR 1=1 -- 로  WHERE 절에 있는 싱글쿼터를 닫아주기 위한 싱글쿼터와 OR 1=1 라는 구문을 이용해 WHERE 절을 모두 참으로 만들고, -- 를 넣어줌으로 뒤의 구문을 모두 주석 처리 해준다.
+
+    매우 간단한 구문이지만, 결론적으로 Users 테이블에 있는 모든 정보를 조회하게 됨으로 써 가장 먼저 만들어진 계정으로 로그인에 성공하게 된다. 보통은 관리자 계정을 맨 처음 만들기 때문에 관리자 계정에 로그인 할 수 있게 된다. 관리자 계정을 탈취한 악의적인 사용자는 관리자의 권한을 이용해 또 다른 2차피해를 발생 시킬 수 있게 된다.
+
+<br>
+
+2. Union based SQL Injection
+  
+     SQL 에서 Union 키워드는 두 개의 쿼리문에 대한 결과를 통합해서 하나의 테이블로 보여주게 하는 키워드. 이를 악용하여 Injection 을 수행한다.
+
+
+     ex)
+
+    Board 라는 테이블에서 게시글을 검색하는 쿼리문이다. 입력값을 title 과 contents 컬럼의 데이터랑 비교한 뒤 비슷한 글자가 있는 게시글을 출력한다.  여기서 입력값으로 Union 키워드와 함께 컬럼 수를 맞춰서 SELECT 구문을 넣어주게 되면 두 쿼리문이 합쳐서서 하나의 테이블로 보여지게 되기에 사용자의 id와 passwd를 요청하는 쿼리문을 injection 함으로써 인젝션이 성공하게 되면, 사용자의 개인정보가 게시글과 함께 화면에 보여지게 된다.
+
+
+<br>
+
+3. Blind SQL Injection - Boolean based SQL
+
+      데이터베이스로부터 특정한 값이나 데이터를 전달받지 않고, 단순히 참과 거짓의 정보만 알 수 있을 때 사용 가능하다. 로그인 폼에 SQL Injection이 가능하다고 가정 했을 때, 서버가 응답하는 로그인 성공과 로그인 실패 메시지를 이용하여, DB의 테이블 정보 등을 추출해 낼 수 있다.
+
+      ex)
+
+      injection이 가능한 로그인 폼을 통하여 악의적인 사용자는 임의로 가입한 abc123 이라는 아이디와 함께 abc123’ and ASCII(SUBSTR(SELECT name From information_schema.tables WHERE table_type=’base table’ limit 0,1)1,1)) > 100 -- 이라는 구문을 주입한다.
+
+      해당구문은 MySQL 에서 테이블 명을 조회하는 구문으로 limit 키워드를 통해 하나의 테이블만 조회하고, SUBSTR 함수로 첫 글자만, 그리고 마지막으로 ASCII 를 통해서 ascii 값으로 변환해준다. 만약에 조회되는 테이블 명이 Users 라면 ‘U’ 자가 ascii 값으로 조회가 될 것이고, 뒤의 100 이라는 숫자 값과 비교를 하게 된다.  거짓이면 로그인 실패가 될 것이고, 참이 될 때까지 뒤의 100이라는 숫자를 변경해 가면서 비교를 하면 된다.  공격자는 이 프로세스를 자동화 스크립트를 통하여 단기간 내에 테이블 명을 알아 낼 수 있다.
+
+
+<br>
+
+4. Blind SQL Injection - Time based SQL
+
+      서버로부터 특정한 응답 대신에 참 혹은 거짓의 응답을 통해서 데이터베이스의 정보를 유추하는 기법. MySQL 기준으로 SLEEP 과 BENCHMARK를 사용.
+
+
+      ex)
+
+      Time based SQL Injection을 사용하여 현재 사용하고 있는 데이터베이스의 길이를 알아내는 방법이다. 악의적인 사용자가 abc123’ OR (LENGTH(DATABASE())=1 AND SLEEP(2)) – 이라는 구문을 주입한다. 여기서 LENGTH 함수는 문자열의 길이를 반환하고, DATABASE 함수는 데이터베이스의 이름을 반환 한다.
+
+      주입된 구문에서, LENGTH(DATABASE()) = 1 가 참이면 SLEEP(2) 가 동작하고, 거짓이면 동작하지 않는다. 이를 통해서 숫자 1 부분을 조작하여 데이터베이스의 길이를 알아 낼 수 있다. 만약에 SLEEP 이라는 단어가 치환처리 되어있다면, 또 다른 방법으로 BENCHMARK 나 WAIT 함수를 사용 할 수 있다. BENCHMARK 는 BENCHMARK(1000000,AES_ENCRYPT('hello','goodbye')); 이런 식으로 사용이 가능하다.
+
+
+<br>
+
+5. Stored Procedure SQL Injection
+    
+    저장 프로시저(Stored Procedure) 은 일련의 쿼리들을 모아 하나의 함수처럼 사용하기 위한 것이다. 공격에 사용되는 대표적인 저장 프로시저는 MS-SQL 에 있는 xp_cmdshell로 윈도우 명령어를 사용할 수 있게 된다. 단, 공격자가 시스템 권한을 획득 해야 하므로 공격난이도가 높으나 공격에 성공한다면, 서버에 직접적인 피해를 입힐 수 있는 공격이다.
+
+<br>
+      
+
+6. Mass SQL Injection
+
+    보통 MS-SQL을 사용하는 ASP 기반 웹 애플리케이션에서 많이 사용되며, 쿼리문은 HEX 인코딩 방식으로 인코딩 하여 공격한다. 보통 데이터베이스 값을 변조하여/ 데이터베이스에 악성스크립트를 삽입하고, 사용자들이 변조된 사이트에 접속 시 좀비PC로 감염되게 한다. 이렇게 감염된 좀비 PC들은 DDoS 공격에 사용된다.
+
+<br>
+
+#### 대응방안
+
+1. 입력 값에 대한 검증
+
+    SQL Injection 에서 사용되는 기법과 키워드는 굉장히 많다. 이를 해결하기 위해서는 사용자의 입력 값에 대한 화이트리스트 기반으로 검증해야 한다. 블랙리스트 기반으로 검증하게 되면 수많은 차단 리스트를 등록해야 하고, 하나라도 빠지면 공격에 성공하게 되기 때문이다. 
+    
+    <br>
+2. Prepared Statement 구문사용
+
+    Prepared Statement 구문을 사용하게 되면, 사용자의 입력 값이 데이터베이스의 파라미터로 들어가기 전에DBMS가 미리 컴파일 하여 실행하지 않고 대기한다. 그 후 사용자의 입력 값을 문자열로 인식하게 하여 공격쿼리가 들어간다고 하더라도, 사용자의 입력은 이미 의미 없는 단순 문자열 이기 때문에 전체 쿼리문도 공격자의 의도대로 작동하지 않는다.
+
+    <br>
+3. Error Message 노출 금지
+
+    공격자가 SQL Injection을 수행하기 위해서는 데이터베이스의 정보(테이블명, 컬럼명 등)가 필요하다. 데이터베이스 에러 발생 시 따로 처리를 해주지 않았다면, 에러가 발생한 쿼리문과 함께 에러에 관한 내용을 반환한다. 여기서 테이블명 및 컬럼명 그리고 쿼리문이 노출이 될 수 있기 때문에, 데이터 베이스에 대한 오류 발생시 사용자에게 보여줄 수 있는 페이지를 제작 혹은 메시지 박스를 띄우도록 해야한다.
+
+    <br>
+4. 웹 방화벽 사용
+
+    웹 공격 방어에 특화되어있는 웹 방화벽을 사용하는 것도 하나의 방법이다. 웹 방화벽은 소프트웨어 형, 하드웨어 형, 프록시 형 이렇게 세가지 종류로 나눌 수 있는데 소프트웨어 형은 서버 내에 직접 설치하는 방법이고, 하드웨어 형은 네트워크 상에서 서버 앞 단에 직접 하드웨어 장비로 구성하는 것이며 마지막으로 프록시 형은 DNS 서버 주소를 웹 방화벽으로 바꾸고 서버로 가는 트래픽이 웹 방화벽을 먼저 거치도록 하는 방법이다.
+
+
+
+
+
 ## INDEX
   
 
