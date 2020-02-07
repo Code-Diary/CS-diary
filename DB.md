@@ -8,9 +8,9 @@ DB(데이터베이스) -data base
 
 ##### [4. 트랜잭션(Transaction) - 20.01.31 UKK](#Transaction)
 
-##### [5. JOIN - 20.02.06 CYS](#JOIN))
+##### [5. JOIN - 20.02.06 CYS](#JOIN)
 
-##### [6. SQL INJECTION - 20.02.06 CYS](#SQL INJECTION)
+##### [6. SQL INJECTION - 20.02.06 CYS](#SQL-INJECTION)
 
 ##### [7. INDEX 란? - 20.02.06 LHJ](#INDEX)
 
