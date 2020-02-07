@@ -602,6 +602,8 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 - 조건에 맞지 않는 데이터도 표시하고 싶을때 사용.
 
     1. LEFT OUTER JOIN
+    
+	<img src="/assets/sql-left-join.png">
 
         수행시 먼저 표기된 좌측 테이블에 해당하는 데이터를 먼저 읽은 후, 나중 표기된 우측 테이블에서 JOIN대상 데이터를 읽어 온다. 테이블 A, B가 있을때 B의 JOIN 컬럼에서 값이 있으면 데이터를 가져오고 없으면 NULL으로 채운다.
         ```sql
@@ -612,6 +614,8 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
         ```
       
     2. RIGHT OUTER JOIN
+    
+	<img src="/assets/sql-right-join.png">
 
         LEFT JOIN과는 반대로 우측 테이블이 기준이 되어 결과를 생산. 즉 테이블 A,B가 있을 때 컬럼에 같은 값이 있을 때 해당 데이터를 가져오고 A의 JOIN 컬럼에서 같은 값이 없는 경우에는 A 테이블에서 가져오는 컬럼들은 NULL 값으로 채운다.
 
@@ -624,6 +628,9 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 
     3. FULL OUTER JOIN 
 
+	
+	<img src="/assets/sql-full-join.png">
+	
          LEFT OUTER JOIN 과 RIGHT OUTER JOIN을 합친 결과가 나온다.
 
 
@@ -639,6 +646,8 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
     가장 대중적인 공격 기법
 
     ex) 
+    
+	<img src="/assets/error-based-injection.png">
 
     일반적으로 로그인시 많이 사용하는 쿼리문이다. 해당 구문에서 입력값에 대한 검증이 없다는 사실을 확인한다면, 악의적인 사용자가 임의의 SQL 구문을 주입할 수 있다. 주입된 내용은 ‘ OR 1=1 -- 로  WHERE 절에 있는 싱글쿼터를 닫아주기 위한 싱글쿼터와 OR 1=1 라는 구문을 이용해 WHERE 절을 모두 참으로 만들고, -- 를 넣어줌으로 뒤의 구문을 모두 주석 처리 해준다.
 
@@ -652,6 +661,8 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 
 
      ex)
+    
+	<img src="/assets/union-based-injection.png">
 
     Board 라는 테이블에서 게시글을 검색하는 쿼리문이다. 입력값을 title 과 contents 컬럼의 데이터랑 비교한 뒤 비슷한 글자가 있는 게시글을 출력한다.  여기서 입력값으로 Union 키워드와 함께 컬럼 수를 맞춰서 SELECT 구문을 넣어주게 되면 두 쿼리문이 합쳐서서 하나의 테이블로 보여지게 되기에 사용자의 id와 passwd를 요청하는 쿼리문을 injection 함으로써 인젝션이 성공하게 되면, 사용자의 개인정보가 게시글과 함께 화면에 보여지게 된다.
 
@@ -663,6 +674,8 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
       데이터베이스로부터 특정한 값이나 데이터를 전달받지 않고, 단순히 참과 거짓의 정보만 알 수 있을 때 사용 가능하다. 로그인 폼에 SQL Injection이 가능하다고 가정 했을 때, 서버가 응답하는 로그인 성공과 로그인 실패 메시지를 이용하여, DB의 테이블 정보 등을 추출해 낼 수 있다.
 
       ex)
+    
+	<img src="/assets/blind-sql-injection.png">
 
       injection이 가능한 로그인 폼을 통하여 악의적인 사용자는 임의로 가입한 abc123 이라는 아이디와 함께 abc123’ and ASCII(SUBSTR(SELECT name From information_schema.tables WHERE table_type=’base table’ limit 0,1)1,1)) > 100 -- 이라는 구문을 주입한다.
 
@@ -677,6 +690,8 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 
 
       ex)
+    
+	<img src="/assets/time-based-injection.png">
 
       Time based SQL Injection을 사용하여 현재 사용하고 있는 데이터베이스의 길이를 알아내는 방법이다. 악의적인 사용자가 abc123’ OR (LENGTH(DATABASE())=1 AND SLEEP(2)) – 이라는 구문을 주입한다. 여기서 LENGTH 함수는 문자열의 길이를 반환하고, DATABASE 함수는 데이터베이스의 이름을 반환 한다.
 
