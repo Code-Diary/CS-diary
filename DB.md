@@ -18,7 +18,7 @@ DB(데이터베이스) -data base
 
 ##### [9. RDBMS & NOSQL - 20.02.14 KDH](#RDBMS-vs-NOSQL)
 
-##### [10. ORM & JDBC - 20.02.14 KDH](#ORM-and-JDBC)
+##### [10. JDBC & ORM - 20.02.14 KDH](#JDBC-and-ORM)
 ---
 
 ## DBMS
@@ -1038,7 +1038,61 @@ NOSQL - Not Only SQL (Not relational Database)
    - 데이터를 먼저 커밋로그와 메모리에 저장 후 응답하기에 응답속도 빠름.
    
 -----   
-## ORM and JDBC
+## JDBC and ORM
+#### JDBC(java database connectivity)
+
+자바 프로그램 내에서 DB와 관련된 작업을 처리할 수 있도록 도와주는 일을 함.
+
+- JDBC는 관계형 데이터베이스에 사용되는 SQL문을 실행하기 위해 자바로 작성된 클래스와 인터페이스로 구성되어 있다.
+
+- 특정 데이터베이스나 특정 데이터베이스 메커니즘에 구애 받지않는 독립적인 인터페이스를 통해 다양한 데이터베이스에 접근하는 코드를 구현할 수 있도록 제공하는 자바 클래스의 표준 집합이다.
+
+- JDBC 클래스는 자바 패키지 `java.sql`과 `javax.sql`에 포함되어 있다.
+
+  
+
+  <img src="./assets/JDBC1.png" width="70%" height="70%">
+
+
+
+**장점**
+
+- 자바는 DBMS종류에 상관없이 하나의 JDBC를 사용하여 DB작업을 처리할 수 있기 때문에 알아두면 어떤 DBMS든 작업을 처리 할 수 있게 됨 
+
+
+
+**실행순서**
+
+1. JDBC 드라이버를 로딩시킨다.
+
+2. DriverManager.getConnection을 통해 데이터베이스 Connection을 구한다.
+
+3. Query 실행을 하기 위하여 Statement 객체 생성한다.
+
+4. Query를 실행한다.
+
+5. Query 실행 결과 사용
+
+6. Statement 종료
+
+7. 데이터베이스 커넥션 종료
+
+<img src="./assets/JDBC2.png" width="70%" height="70%">
+
+**문제점**
+
+- 쿼리를 실행하기 전과 후에 많은 코드를 작성해야한다. EX) 연결 생성, 명령문, ResultSet 닫기, 연결 등
+- 데이터베이스 로직에서 예외 처리 코드를 수행해야 한다.
+- 트랜잭션을 처리해야 한다.
+- 이러한 모든 코드를 반복하는 것으로, 시간이 낭비된다.
+
+
+
+reference
+
+-  https://hzoou.tistory.com/64?category=781564 
+
+---
 
 #### ORM(object relational mapping)
 <img src="./assets/ORM.png" width="70%" height="70%">
