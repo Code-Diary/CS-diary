@@ -19,6 +19,8 @@ DB(데이터베이스) -data base
 ##### [9. RDBMS & NOSQL - 20.02.14 KDH](#RDBMS-vs-NOSQL)
 
 ##### [10. JDBC & ORM - 20.02.14 KDH](#JDBC-and-ORM)
+
+##### [11. replication(복제) - 20.02.14 UKK](#replication)
 ---
 
 ## DBMS
@@ -1153,4 +1155,51 @@ JDBC 프로그래밍의 복잡함이나 번거로움 없이 간단한 작업만�
 
 <img src="./assets/ORM2.png" width="50%" height="50%">
 
-  
+## replication
+
+#### DBMS 리플리케이션(replication)이란?
+- 메인 DBMS 서버의 데이터를 여러개의 slave DBMS 서버에 백업함
+
+#### 목적
+- 실시간 데이터 백업
+- 엄격한 동기화까진 필요없는 SELECT query 분산 처리 (web page 등)
+
+#### 기법
+- 표준 비동기 복제
+-- Master DB에 write를 수행하면 해당 변경 내용을 binary log로 남김
+-- Binary log를 남기면 데이터 변경 event 발생
+-- Slave DBMS가 해당 이벤트 받고 binary log를 slave의 relay log로 가져옴
+-- Slave relay log를 기반으로 DB 데이터 업데이트
+- 준 동기 복제(semisynchronous)
+-- 표준 비동기 복제의 바리에이션
+-- Master에서 어떤 write를 하면 binary log를 남기고 나서 데이터 변경 event 발생 후 적어도 하나의 slave로부터 event를 받았단 ACK를 받기 전까지 wait를 함. (혹은 timeout)
+-- Wait하면서 master가 block됨으로 성능 저하 발생
+
+#### 쉽게 오해할 수 있는 부분
+- Db replication은 동기화 백업 기법이다.
+-- Master와 slave가 실시간으로 동기화되는 것은 보장되지 않는다
+- Master 서버의 장애발생시 복구수단으로 사용할 수 있다.
+-- 완벽한 데이터 복원은 불가능함. 동기화가 보장되지 않기 때문
+- 트랜잭션 부하도 분산될 것이다.
+-- 선택적인 SELECT만 분산됨.
+-- 완벽한 동기화가 필요한 SELECT 문도 분산시킬 순 없음
+-- WRITE, select, 테이블 별로 기능 구분을 하여 master, slave를 구분해주는 오버헤드도 고려해야함 Proxy로 구현하거나 application 단에서 구현
+
+#### 로그 기반 복제 (binary log) 
+##### 문장(명령) 기반 복제
+- 문장 기반 복제에서는 SQL 쿼리문이 binlog에 저장된다. 즉 동일한 INSERT/UPDATE/DELETE 문이 슬레이브에서 그대로 수행된다.
+- 이 시스템에서는 아래와 같은 장단점이 있다.
+-- 실제의 문장이 바이너리 로그에 저장되므로 데이터베이스를 감사하기 쉽다.
+-- 네트워크상에 전송되는 데이터의 양이 적다.
+-- 비 결정적 쿼리들은 슬레이브 환경에서 혼란을 야기할 수 있다. (timestamp 등)
+-- 쿼리(INSERT based on SELECT 등)에 따라 성능에 영향을 줄 수 있다.
+-- SQL의 최적화 및 실행으로 인해 복제가 느려질 수 있다.
+
+##### 행(데이터) 기반 복제
+행 기반 복제는 MySQL 5.7.7 부터 기본값으로 많은 장점을 가지고 있다. 행의 변화가 바이너리 로그에 저장되며 문맥정보를 필요로 하지 않는다. 이로 인해 비 결정적 쿼리에 영향을 받지 않는다.
+- 추가적인 이점으로는 :
+-- 대용량이 아닌 잔챙이 row update에 대해서는 병렬 처리가 가능함
+- 단점
+-- 많은 수의 행을 변경하는 쿼리를 실행한 경우 네트워크의 트래픽이 현저하게 높아질 수 있다.
+-- 데이터베이스상의 변경을 감사하기에 어렵다.
+-- 몇 몇의 경우에는 문장기반 복제보다 느려질 수 있다.
