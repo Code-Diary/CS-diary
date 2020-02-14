@@ -1216,10 +1216,12 @@ JDBC 프로그래밍의 복잡함이나 번거로움 없이 간단한 작업만�
 ## optimizer
 #### 옵티마이저란?
 * 옵티마이저(Optimizer)는 SQL을 가장 빠르고 효율적으로 수행할 최적(최저비용)의 처리경로를 생성해 주는 DBMS 내부의 핵심엔진이다.
+<image src="./assets/optimizer.jpg">
 #### 옵티마이저의 종류
 ##### 규칙 기반 옵티마이저
 * 미리 정해놓은 규칙대로 실행 경로가 결정됨
 * 휴리스틱 옵티마이저라고도 부름
+<image src="./assets/ruleBasedOptimizer.png">
 * 규칙 요약
 	* Single row > multiple rows
 	* Rowid > hashed index
