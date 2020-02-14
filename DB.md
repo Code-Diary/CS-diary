@@ -23,6 +23,11 @@ DB(데이터베이스) -data base
 ##### [11. replication(복제) - 20.02.14 UKK](#replication)
 
 ##### [12. optimizer - 20.02.14 UKK](#optimizer)
+
+##### [13. Partitioning - 20.02.14 KSW](#Partitioning)
+
+##### [14. Sharding - 20.02.14 KSW](#Sharding)
+
 ---
 
 ## DBMS
@@ -507,6 +512,7 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 
 ### 트랜잭션 격리 수준
 * Isolation Level 이란?
+    
     * 트랜잭션에서 일관성이 없는 데이터를 허용하도록 하는 수준
 * Isolation Level 의 필요성
     * 데이터베이스는 ACID 같이 트랜잭션이 원자적이면서도 독립적인 수행을 하도록 한다.
@@ -566,7 +572,7 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 #### 1. INNER JOIN
 - 기준 테이블과 JOIN한 테이블의 중복된 값을 보여준다. A의 테이블과 B의 테이블을 JOIN했다고 하면 결과는 A의 테이블과 B테이블이 모두 가지고 있는 데이터만 검색 된다.
 - 표현 형태
-    
+  
     1. 명시적 표현(explicit)
     ```sql
 		SELECT *
@@ -580,9 +586,9 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 		WHERE employee.DepartmentID = department.DepartmentID
     ```
 - 종류
-    
+  
     1. 동등 JOIN (EQUI JOIN)
-        
+       
         JOIN의 대표적 형태. 둘 이상의 테이블에 존재하는 공통 컬럼(속성)의 동등 비교만을 사용하며, 부등호 조인은 동등 조인에 포함하지 않는다.
         ```sql
          SELECT * FROM emp INNER JOIN dept ON emp.deptno = dept.deptno
@@ -623,13 +629,13 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
         ON STADIUM.HOMETEAM_ID = TEAM.TEAM_ID
         ORDER BY STADIUM.HOMETEAM_ID;
         ```
-      
+    
     2. RIGHT OUTER JOIN
     
 	<img src="/assets/sql-right-join.png">
 
         LEFT JOIN과는 반대로 우측 테이블이 기준이 되어 결과를 생산. 즉 테이블 A,B가 있을 때 컬럼에 같은 값이 있을 때 해당 데이터를 가져오고 A의 JOIN 컬럼에서 같은 값이 없는 경우에는 A 테이블에서 가져오는 컬럼들은 NULL 값으로 채운다.
-
+    
         ```sql
         SELECT E.ENAME, D.DEPTNO, D.DNAME, D.LOC
         FROM EMP E RIGHT OUTER JOIN DEPT D
@@ -639,10 +645,11 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 
     3. FULL OUTER JOIN 
 
-	
+
+​	
 	<img src="/assets/sql-full-join.png">
 	
-         LEFT OUTER JOIN 과 RIGHT OUTER JOIN을 합친 결과가 나온다.
+	     LEFT OUTER JOIN 과 RIGHT OUTER JOIN을 합친 결과가 나온다.
 
 
 # SQL INJECTION
@@ -655,13 +662,13 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 
 
     가장 대중적인 공격 기법
-
+    
     ex) 
     
-	<img src="/assets/error-based-injection.png">
-
+    <img src="/assets/error-based-injection.png">
+    
     일반적으로 로그인시 많이 사용하는 쿼리문이다. 해당 구문에서 입력값에 대한 검증이 없다는 사실을 확인한다면, 악의적인 사용자가 임의의 SQL 구문을 주입할 수 있다. 주입된 내용은 ‘ OR 1=1 -- 로  WHERE 절에 있는 싱글쿼터를 닫아주기 위한 싱글쿼터와 OR 1=1 라는 구문을 이용해 WHERE 절을 모두 참으로 만들고, -- 를 넣어줌으로 뒤의 구문을 모두 주석 처리 해준다.
-
+    
     매우 간단한 구문이지만, 결론적으로 Users 테이블에 있는 모든 정보를 조회하게 됨으로 써 가장 먼저 만들어진 계정으로 로그인에 성공하게 된다. 보통은 관리자 계정을 맨 처음 만들기 때문에 관리자 계정에 로그인 할 수 있게 된다. 관리자 계정을 탈취한 악의적인 사용자는 관리자의 권한을 이용해 또 다른 2차피해를 발생 시킬 수 있게 된다.
 
 <br>
@@ -673,8 +680,8 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 
      ex)
     
-	<img src="/assets/union-based-injection.png">
-
+    <img src="/assets/union-based-injection.png">
+    
     Board 라는 테이블에서 게시글을 검색하는 쿼리문이다. 입력값을 title 과 contents 컬럼의 데이터랑 비교한 뒤 비슷한 글자가 있는 게시글을 출력한다.  여기서 입력값으로 Union 키워드와 함께 컬럼 수를 맞춰서 SELECT 구문을 넣어주게 되면 두 쿼리문이 합쳐서서 하나의 테이블로 보여지게 되기에 사용자의 id와 passwd를 요청하는 쿼리문을 injection 함으로써 인젝션이 성공하게 되면, 사용자의 개인정보가 게시글과 함께 화면에 보여지게 된다.
 
 
@@ -685,7 +692,7 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
       데이터베이스로부터 특정한 값이나 데이터를 전달받지 않고, 단순히 참과 거짓의 정보만 알 수 있을 때 사용 가능하다. 로그인 폼에 SQL Injection이 가능하다고 가정 했을 때, 서버가 응답하는 로그인 성공과 로그인 실패 메시지를 이용하여, DB의 테이블 정보 등을 추출해 낼 수 있다.
 
       ex)
-    
+        
 	<img src="/assets/blind-sql-injection.png">
 
       injection이 가능한 로그인 폼을 통하여 악의적인 사용자는 임의로 가입한 abc123 이라는 아이디와 함께 abc123’ and ASCII(SUBSTR(SELECT name From information_schema.tables WHERE table_type=’base table’ limit 0,1)1,1)) > 100 -- 이라는 구문을 주입한다.
@@ -702,17 +709,17 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 
       ex)
     
-	<img src="/assets/time-based-injection.png">
-
+    <img src="/assets/time-based-injection.png">
+    
       Time based SQL Injection을 사용하여 현재 사용하고 있는 데이터베이스의 길이를 알아내는 방법이다. 악의적인 사용자가 abc123’ OR (LENGTH(DATABASE())=1 AND SLEEP(2)) – 이라는 구문을 주입한다. 여기서 LENGTH 함수는 문자열의 길이를 반환하고, DATABASE 함수는 데이터베이스의 이름을 반환 한다.
-
+    
       주입된 구문에서, LENGTH(DATABASE()) = 1 가 참이면 SLEEP(2) 가 동작하고, 거짓이면 동작하지 않는다. 이를 통해서 숫자 1 부분을 조작하여 데이터베이스의 길이를 알아 낼 수 있다. 만약에 SLEEP 이라는 단어가 치환처리 되어있다면, 또 다른 방법으로 BENCHMARK 나 WAIT 함수를 사용 할 수 있다. BENCHMARK 는 BENCHMARK(1000000,AES_ENCRYPT('hello','goodbye')); 이런 식으로 사용이 가능하다.
 
 
 <br>
 
 5. Stored Procedure SQL Injection
-    
+   
     저장 프로시저(Stored Procedure) 은 일련의 쿼리들을 모아 하나의 함수처럼 사용하기 위한 것이다. 공격에 사용되는 대표적인 저장 프로시저는 MS-SQL 에 있는 xp_cmdshell로 윈도우 명령어를 사용할 수 있게 된다. 단, 공격자가 시스템 권한을 획득 해야 하므로 공격난이도가 높으나 공격에 성공한다면, 서버에 직접적인 피해를 입힐 수 있는 공격이다.
 
 <br>
@@ -750,7 +757,7 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 
 
 ## INDEX
-  
+
 
 
 ### INDEX 란?
@@ -760,7 +767,7 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
 - DBMS에서 INDEX는 데이터의 저장 성능을 희생하고, 데이터의 읽기 속도를 높이는 기능이다. 왜냐하면 인덱스는 항상 정렬된 상태를 유지하기 때문에 검색은 빠르지만, 추가/삭제/수정의 경우는 속도가 느려질 수 있다.
 
 <br/>
-  
+
 ### INDEX를 사용해야 하는 경우
 
 - 데이터의 양이 방대하고 검색이 변경보다 빈번한 경우  
@@ -776,7 +783,7 @@ James Gosling 이 담당하는 강의가 바뀌게 될 경우 수강생의 수�
    - 데이터베이스의 인덱스 자료구조 중 가장 일반적이고, 범용적인 목적으로 사용되는 자료구조이다.
    
    - 칼럼의 원래 값을 변형시키지 않고, 인덱스 내에서는 항상 정렬된 상태로 유지  
-     
+   
 2. Hash Index
 
    - 칼럼의 값으로 해시 값을 계산해서 인덱싱 하는 자료구조, 매우 빠른 검색을 지원하다.
@@ -819,7 +826,6 @@ Hash Index의 경우 데이터 접근 시간복잡도가 O(1)로 매우 빠르�
 
   - 레코드의 물리적 순서가 그 파일에 대한 인덱스 엔트리 순서와 동일하게(유사하게) 유지되도록 구성된 인덱스
   
-  
 - 비집중 인덱스(Unclustered Index) 
 
   - 집중 형태가 아닌 인덱스
@@ -854,6 +860,7 @@ Hash Index의 경우 데이터 접근 시간복잡도가 O(1)로 매우 빠르�
   <br/>   
     
      
+  
   <img src="./assets/multi.png" width="30%" height="30%">
 
 
@@ -1041,7 +1048,7 @@ NOSQL - Not Only SQL (Not relational Database)
    - 대부분의 컬럼 모델은 쓰기와 읽기중 쓰기에 특화
    - 데이터를 먼저 커밋로그와 메모리에 저장 후 응답하기에 응답속도 빠름.
    
------   
+-----
 ## JDBC and ORM
 #### JDBC(java database connectivity)
 
@@ -1245,3 +1252,244 @@ select  ename
 * 100% 정확한 통계 유지 어려움
 * 통계 지표로 쓰이는 히스토그램 버킷 개수가 254개까지만 허용
 * 상관성이 있는 colmumn인 경우 통계 지표가 불리하게 작용될 수도 있음
+
+<br>
+
+## Partitioning
+
+#### Partitioning이란?
+
+큰 Table이나 인덱스를 관리하기 쉬운 단위로 분리하는 방법을 의미.
+
+<br>
+
+#### 목적
+
+##### 1. 성능(Performance)
+
+- 특정 DML과 Query의 성능을 향상시킴, 주로 `대용량 Data Write` 환경에서 효율적이다.
+- 많은 Insert가 있는 OLTP 시스템에서 Insert 작업들을 분리된 파티션들로 분산시켜 경합을 줄인다.
+
+##### 2. 가용성(Available)
+
+- 물리적인 파티셔닝으로 인해 전체 데이터의 훼손 가능성이 줄어들고 데이터 가용성이 향상된다.
+- 각 분할 영역(partition별로)을 독립적으로 백업하고 복구할 수 있다.
+- table의 partition 단위로 Disk I/O을 분산하여 경합을 줄이기 때문에 UPDATE 성능을 향상시킨다.
+
+##### 3. 관리용이성(Manageability)
+
+- 큰 table들을 제거하여 관리를 쉽게 해준다.
+
+<br>
+
+#### DB파티셔닝의 장단점
+
+##### 장점
+
+- 관리적 측면 : partition 단위 백업, 추가, 삭제, 변경
+  - 전체 데이터를 손실할 가능성이 줄어들어 데이터 가용성이 향상된다.
+  - partition별로 백업 및 복구가 가능하다.
+  - partition 단위로 I/O 분산이 가능하여 UPDATE 성능을 향상시킨다.
+- 성능적 측면 : partition 단위 조회 및 DML수행
+  - 데이터 전체 검색 시 필요한 부분만 탐색해 성능이 증가한다. 즉, Full Scan에서 데이터 Access의 범위를 줄여 성능 향상을 가져온다.
+  - 필요한 데이터만 빠르게 조회할 수 있기 때문에 쿼리 자체가 가볍다.
+
+##### 단점
+
+- table간 JOIN에 대한 비용이 증가한다.
+- table과 index를 별도로 파티셔닝할 수 없다.
+  - table과 index를 같이 파티셔닝해야 한다.
+
+<BR>
+
+#### DB 파티셔닝의 종류
+
+##### 1. 수평 파티셔닝
+
+<img src="./assets/horizontal-partitioning.png">
+
+하나의 테이블의 각 행을 다른 테이블에 분산시키는 것이다.
+
+- 개념
+  - 샤딩(Sharding) 과 동일한 개념
+  - 스키마(schema)를 복제한 후 샤드키를 기준으로 데이터를 나누는 것을 말한다.
+  - 즉, 스키마(schema)가 같은 데이터를 두 개 이상의 테이블에 나누어 저장하는 것을 말한다.
+- 특징
+  - 퍼포먼스, 가용성을 위해 KEY 기반으로 여러 곳에 분산 저장한다.
+  - 일반적으로 분산 저장 기술에서 파티셔닝은 수평 분할을 의미한다.
+  - 보통 수평 분할을 한다고 했을 때는 하나의 데이터베이스 안에서 이루어지는 경우를 지칭한다.
+- 장점
+  - 데이터의 개수를 기준으로 나누어 파티셔닝한다.
+  - 데이터의 개수가 작아지고 따라서 index의 개수도 작아지게 된다. 자연스럽게 성능은 향상된다.
+- 단점
+  - 서버간의 연결과정이 많아진다.
+  - 데이터를 찾는 과정이 기존보다 복잡하기 때문에 latency가 증가하게 된다.
+  - 하나의 서버가 고장나게 되면 데이터의 무결성이 깨질 수 있다.
+
+<br>
+
+##### 2. 수직 파티셔닝
+
+<img src="./assets/vertical-partitioning.png">
+
+테이블의 일부 열을 빼내는 형태로 분할한다.
+
+- 개념
+  - 모든 컬럼들 중 특정 컬럼들을 쪼개서 따로 저장하는 형태를 의미한다.
+  - 스키마(schema)를 나누고 데이터가 따라 옮겨가는 것을 말한다.
+  - 하나의 엔티티를 2개 이상으로 분리하는 작업이다.
+- 특징
+  - 관계형 DB에서 3정규화와 같은 개념으로 접근하면 이해하기 쉽다.
+  - 하지만 수직 파티셔닝은 이미 정규화된 데이터를 분리하는 과정이다.
+- 장점
+  - 자주 사용하는 컬럼 등을 분리시켜 성능을 향상시킬 수 있다.
+  - 한 테이블을 SELECT하면 결국 모든 컬럼을 메모리에 올리게 되므로 필요없는 컬럼까지 올라가서 한 번에 읽을 수 있는 ROW가 줄어든다. 이는 I/O 측면에서 봤을 때 필요한 컬럼만 올리면 훨씬 많은 수의 ROW를 메모리에 올릴 수 있으니 성능상의 이점이 있다.
+  - 같은 타입의 데이터가 저장되기 때문에 저장 시 데이터 압축률을 높일 수 있다.
+
+<BR>
+
+#### DB 파티셔닝의 분할 기준
+
+데이터베이스 관리 시스템은 분할에 대해 각종 기준(분할 기법)을 제공하고 있다. 분할은 ‘분할 키(partitioning key)’를 사용한다.
+
+<img src="./assets/partitioning.png">
+
+##### 1. 범위 분할(Range Partitioning)
+
+- 연속적인 숫자나 날짜 기준으로 Partitioning 한다.
+- 손쉬운 관리 기법 제공 에 따른 관리 시간의 단축할 수 있다.
+
+<img src="./assets/range-partitioning.png">
+
+##### 2. 목록 분할(List Partitioning)
+
+- 특정 Partition에 저장 될 Data에 대한 명시적 제어 가능하다.
+- 분포도가 비슷 하며, 많은 SQL에서 해당 Column의 조건이 많이 들어오는 경우 유용하다.
+
+<img src="./assets/list-partitioning.png">
+
+##### 3. 해시 분할(Hash Partitioning)
+
+- Partition Key의 Hash값에 의한 Partitioning (균등한 데이터 분할 가능)
+- Select시 조건과 무관하게 병렬 Degree 제공 (질의 성능 향상)
+- 특정 Data가 어느 Hash Partition에 있는지 판단 불가
+- Hash Partition은 파티션을 위한 범위가 없는 데이터에 적합
+
+<img src="./assets/hash-partitioning.png">
+
+##### 4. 합성 분할(Composite Partitioing)
+
+- Composite Partition은 Partition의 Sub-Partitioning 을 말한다.
+- 큰 파티션에 대한 I/O 요청을 여러 partition으로 분산할 수 있다.
+- Range Partitioning 할 수 있는 Column이 있지만, Partitioning 결과 생성된 Partition이 너무 커서 효과적으로 관리할 수 없을 때 유용하다.
+
+<br>
+
+## Sharding
+
+#### Sharding이란?
+
+<img src="./assets/horizontal-partitioning.png">
+
+- 같은 테이블 스키마를 가진 데이터를 다수의 데이터베이스에 분산하여 저장하는 방법을 의미.
+
+- 'Horizontal Partitioning'이라고 볼 수 있다.
+
+<BR>
+
+#### 샤딩(Sharding)을 적용하기에 앞서.
+
+샤딩(Sharding)을 적용한다는것은?
+
+- 프로그래밍, 운영적인 복잡도는 더 높아지는 단점이 존재.
+
+**가능하면 Sharding을 피하거나 지연시킬 수 있는 방법을 찾는 것이 우선시 되어야 한다.**
+
+- Scale-in
+  - Hardware Spec이 더 좋은 컴퓨터를 사용
+- Read 부하가 크다면?
+  - `Cache`나 [Database의 Replication](https://nesoy.github.io/articles/2018-02/Database-Replication)을 적용하는 것도 하나의 방법
+- Table의 일부 컬럼만 자주 사용한다면?
+  - `Vertically Partition`도 하나의 방법
+  - Data를 Hot, Warm, Cold Data로 분리 [Link](https://d2.naver.com/helloworld/526125)
+
+<BR>
+
+#### 샤딩(Sharding)에 필요한 원리
+
+1. 분산된 Database에서 Data를 어떻게 Read할 것인가?
+2. 분산된 Database에 Data를 어떻게 잘 분산시켜서 저장할 것인가?
+   - 분산이 잘 되지 않고, **한 쪽으로 Data가 몰리게 되면 자연스럽게 Hotspot**이 되어 성능이 느려지게 된다.
+   - 그렇기 때문에 균일하게 분산하는 것이 중요한 목표
+
+<BR>
+
+#### 샤딩(Sharding)의 방법
+
+Shard Key를 어떻게 정의하느냐에 따라 데이터를 효율적으로 분산시키는 것이 결정
+
+##### Hash Shading
+
+<img src="./assets/hash-sharding.png">
+
+Shard Key : Database id를 Hashing 하여 결정
+
+- Hash크기는 Cluster안에 있는 Node개수로 정하게 된다.
+
+**단점**
+
+- Cluster가 포함하는 Node의 개수를 변경하게 되면, Hash 크기가 변하게 되고, Hask Key 또한 변하게 된다. 그려면 기존의 분배된 Data 분산 Rule이 모두 어긋 나게 되고, 결국엔 Resharing이 필요하게 된다.
+- Hash Key로 분산되기 때문에 공간의 효율에 대해서는 고려하지 않는다.
+
+<br>
+
+##### Dynamic Sharding
+
+<img src="./assets/dynamic-sharding.png">
+
+- Locator Service를 통해 Shard Key를 얻는다.
+- Cluster가 포함하는 Node 개수를 늘려본다면?
+  - Locator Service에 Shard Key를 추가만 하면된다.
+  - 기존의 Data의 Shard Key는 변경이 없다.
+  - 확장에 유연한 구조
+
+**단점**
+
+- Data Relocation을 하게 된다면?
+  - Locator Service의 Shard Key Table도 일치시켜줘야 한다.
+- Locator가 성능을 위해 Cache하거나 Replication을 한다면?
+  - 잘못된 Routing을 통해 Data를 찾지 못하고 Error가 발생한다.
+  - Locator에 의존할 수 밖에 없는 단점이 있다.
+
+##### Entity Group
+
+<img src="./assets/EntityGroup.png">
+
+**Key-Value가 아닌 다양한 객체들로 구성된다면 어떨까?**
+
+- 우리는 RDBMS의 join, index, transaction을 사용함으로써 Application의 복잡도를 줄이는 효과를 얻었다.
+- 이와 유사한 방법으로 Sharding하는 방법이 Entity Group입니다.
+
+**장점**
+
+- 하나의 물리적인 Shard에 쿼리를 진행한다면 효율적.
+- 하나의 Shard에서 강한 응집도를 가질 수 있다.
+- 데이터는 자연스럽게 사용자별로 분리되어 저장된다.
+- 사용자가 늘어남에 따라 확장성이 좋은 Partitioning이다.
+
+**단점**
+
+- cross-partition 쿼리는 single partition 쿼리보다 consistency의 보장과 성능을 잃는다.
+  - 그렇기 때문에 이런 쿼리들이 자주 실행하지 않도록 만들어야 한다.
+
+<br>
+
+<br>
+
+https://medium.com/@jeeyoungk/how-sharding-works-b4dec46b3f6
+
+http://mongodb.citsoft.net/?page_id=225#comment-91922
+
+https://d2.naver.com/helloworld/14822
+
+http://tech.kakao.com/2016/07/01/adt-mysql-shard-rebalancing/
