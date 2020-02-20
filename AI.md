@@ -8,7 +8,7 @@ AI(인공지능) - artificial intelligence
 
 ### Adversarial Search(적대 탐색) 란?
 
-- AI 프로그램(게임 프로그램)들은 탐색 알고리즘으로 **[Minimax algorithm](#Minimax-algorithm),** **[alpha-beta pruning](#Alpha-Beta-Pruning)** 등을 사용하는데, 이러한 알고리즘을 사용한 탐색을 적대 탐색이라고 한다.
+- AI 프로그램(게임 프로그램)들은 탐색 알고리즘으로 **[Minimax algorithm](#1.-Minimax-algorithm(최대최소-방법)),** **[alpha-beta pruning](#2.-Alpha-Beta-Pruning(알파-베타-방법))** 등을 사용하는데, 이러한 알고리즘을 사용한 탐색을 적대 탐색이라고 한다.
 
 - 적대 탐색에서는 두 명의 게임플레이어 중 한 명이 이기거나, 지거나 ,비길 때까지 번갈아 행동하는 것을 가정한다. 또, 사용가치가 서로 상반되기 때문에 한쪽이 점수를 얻으면, 한쪽은 잃게 된다. 이러한 특성이 적대적인 상황을 만든다.
 
@@ -46,7 +46,7 @@ AI(인공지능) - artificial intelligence
 
 <br>
 
-<img src="./assets/tic-tac-toe.png" width="100%" height="100%">
+<img src="./assets/tic1.png" width="65%" height="65%">
 
 ### 적대 탐색 알고리즘 종류
 
@@ -61,42 +61,52 @@ AI(인공지능) - artificial intelligence
   
   if MIN이 이기는 상태 : e(p) = -∞
   
-  if 결정이 나지 않은 상태 : e(p) = (MAX에게 가능한 수) - (MIN에게 가능한 수)
+  if 결정이 나지 않은 상태 : e(p) = (MAX가 이길수 있는 경우의 수) - (MIN이 이길수 있는 경우의 수)
   ```
 
 만약 상태가 다음과 같다면, 
 
-<img src="./assets/minimax1.png" width="100%" height="100%">
+<img src="./assets/minimax1.png" width="20%" height="20%">
 
 e(p) = 6 - 4 = 2 가 될 것이다.
 
-
+<br>
 
 **START**
 
 탐색의 첫번째 단계
 
-<img src="./assets/minimax2.png" width="10%" height="10%">
+<img src="./assets/minimax2.png" width="50%" height="50%">
 
 
 위부터 e(p)의 값이 각 1, -2, -1이기 때문에 MAX는 e(p) = 1 을 선택하여 행동할 것이다.
 
-<img src="./assets/minimax3.png" width="10%" height="10%">
+<br>
+
+<img src="./assets/minimax3.png" width="20%" height="20%">
+
 
 MIN은 여기에 대해 위 그림과 같이 X의 왼편에 O를 표시했다고 하자.(MIN은 좋은 탐색 전략을 갖고 있지 않다고 볼 수 있다.)
 
 그리고 다시 MAX가 탐색을 수행하고 아래와 같은 탐색트리가 만들어진다.
 
-<img src="./assets/minimax4.png" width="30%" height="30%">
+<br>
+
+<img src="./assets/minimax4.png" width="70%" height="70%">
+
 
 여기서 두 가지 최상의 선택이 가능하지만, 빨간표시의 행동을 선택했다고 하자. 그렇다면 MIN은 패배를 피하기 위해 아래와 같은 행동을 취할 것이다.
 
-<img src="./assets/minimax5.png" width="30%" height="30%">
+<br>
+
+<img src="./assets/minimax5.png" width="20%" height="20%">
+
 
 MAX는 탐색을 다시 수행하여 아래와 같은 트리를 생성한다. MAX는 이번에도 최상의 선택을 할 것이고, 이 선택이 MAX의 패배를 피할 수 있는 행동이라는 것을 알 수있다. 그리고 다음 차례에서 MIN은 패배했다는 것을 알 수있고 게임은 종료된다.
 
-<img src="./assets/minimax6.png" width="30%" height="30%">
+<br>
 
+<img src="./assets/minimax6.png" width="70%" height="70%">
 
 
 #### 2. Alpha-Beta Pruning(알파 베타 방법)
@@ -105,13 +115,13 @@ MAX는 탐색을 다시 수행하여 아래와 같은 트리를 생성한다. MA
 
 - 이를 보완하기 위해 나온 방법이 Alpha-Beta Pruning으로 최종 결정에 영향이 없는 노드들은 가지치기를 해 시간을 줄이는 것이다.
 
-
+<br>
 
 **Example**
 
-<img src="./assets/Alpha1.png" width="30%" height="30%">
+<img src="./assets/Alpha1.png" width="60%" height="60%">
 
-
+<br>
 
 위 그림을 예로 들어 설명해보자.
 
