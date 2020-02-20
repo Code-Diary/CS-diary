@@ -8,7 +8,7 @@ AI(인공지능) - artificial intelligence
 
 ### Adversarial Search(적대 탐색) 란?
 
-- AI 프로그램(게임 프로그램)들은 탐색 알고리즘으로 **[Minimax algorithm](Minimax-algorithm),** **[alpha-beta pruning](Alpha-Beta-Pruning)** 등을 사용하는데, 이러한 알고리즘을 사용한 탐색을 적대 탐색이라고 한다.
+- AI 프로그램(게임 프로그램)들은 탐색 알고리즘으로 **[Minimax algorithm](#Minimax-algorithm),** **[alpha-beta pruning](#Alpha-Beta-Pruning)** 등을 사용하는데, 이러한 알고리즘을 사용한 탐색을 적대 탐색이라고 한다.
 
 - 적대 탐색에서는 두 명의 게임플레이어 중 한 명이 이기거나, 지거나 ,비길 때까지 번갈아 행동하는 것을 가정한다. 또, 사용가치가 서로 상반되기 때문에 한쪽이 점수를 얻으면, 한쪽은 잃게 된다. 이러한 특성이 적대적인 상황을 만든다.
 
@@ -28,7 +28,7 @@ AI(인공지능) - artificial intelligence
 
 - 해당 장에서는 두 명의 플레이어를 MAX와 MIN으로 표현한다.
 
-- [Tic-Tac-Toe(삼목게임)에 대한 게임 트리](Game-Tree-for-Tic-Tac-Toe)를 예시로 사용한다.
+- [Tic-Tac-Toe(삼목게임)에 대한 게임 트리](#Game-Tree-for-Tic-Tac-Toe)를 예시로 사용한다.
 
 - 게임트리의 대략적인 사이즈
 
@@ -42,7 +42,7 @@ AI(인공지능) - artificial intelligence
   
 <br>  
 
-**Game Tree for Tic Tac Toe**
+#### Game Tree for Tic Tac Toe
 
 <br>
 
@@ -66,7 +66,7 @@ AI(인공지능) - artificial intelligence
 
 만약 상태가 다음과 같다면, 
 
-<img src="./assets/minimax1.png" width="30%" height="30%">
+<img src="./assets/minimax1.png" width="100%" height="100%">
 
 e(p) = 6 - 4 = 2 가 될 것이다.
 
