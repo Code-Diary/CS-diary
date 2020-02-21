@@ -2,7 +2,7 @@ AI(인공지능) - artificial intelligence
 
 ##### [1. Uninformed Search - 20.02.20 CYS](#Uninformed-Search)
 ##### [3. Adversarial Search(적대적 탐색) - 20.02.20 LHJ](#adversarial-search)
-##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision_Tree)
+##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision-Tree)
 
 
 
