@@ -2,6 +2,7 @@ AI(인공지능) - artificial intelligence
 
 ##### [1. Uninformed Search - 20.02.20 CYS](#Uninformed-Search)
 ##### [3. Adversarial Search(적대적 탐색) - 20.02.20 LHJ](#adversarial-search)
+##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision_Tree)
 
 
 
@@ -225,4 +226,113 @@ MAX는 탐색을 다시 수행하여 아래와 같은 트리를 생성한다. MA
 
 그리고 이러한 과정을 수행해 가는 모든 과정을 일반적으로 **Alpha-Beta Pruning(알파 베타 방법)** 이라고 한다.
 
+
+---
+### Decision Tree
+
+의사결정트리
+
+**데이터를 분석하여 이들 사이에 존재하는 패턴을 예측 간으한 규칙의 조합으로 나타냄**
+
+- 강력하고 유명한 classification, prediction 방법
+
+
+
+
+
+**종류**
+
+* binary decision tree
+  <img src="./assets/decision_tree2.png" width="70%" height="70%">
+
+* N-way decision tree
+
+  <img src="./assets/decision_tree.png" width="70%" height="70%">
+
+
+
+**Good & Poor 기준**
+
+<img src="./assets/decision_good.png" width="70%" height="70%">
+
+분류가 잘 된것을 측정하는 기준으로 **순도(purity)**를 측정
+
+만약 group에 하나의 class만 존재하면 순도가 높고 복수의 class가 존재하면 순도가 낮다.
+
+
+
+**impurity(diversity) 측정**
+
+* **information Gain** - Entropy
+* **Gini**
+* information gain ratio (information gain / entropy)
+* chi-square test based
+
+
+
+**information gain**
+
+- Entropy 
+  <img src="./assets/entropy.png" width="70%" height="70%">
+- information gain  : original data set S , split subset S1 사이의 impurity관계를 비교
+
+<img src="./assets/information_gain.png" width="70%" height="70%">
+
+예시
+
+<img src="./assets/entropy_example.png" width="100%" height="100%">
+
+
+
+이렇게 비교를 하여 **information gain이 가장 큰 값이 순도가 가장 높은 것**(impurity가 낮음)
+
+<img src="./assets/entropy_result.png">
+
+
+
+이를 반복적으로 작업하면 decision tree를 만들 수 있음
+
+<img src="./assets/information_gain_result.png">
+
+
+
+
+
+**gini**
+
+확률의 제곱의 합으로  순도 계산
+
+<img src="./assets/gini.png">
+
+예시
+
+<img src="./assets/gini_example.png">
+
+gini도 gain값을 얻는다. 이때에 subset의 gini값에서 original set의 gini값을 빼준다.
+
+여기서는 **gain의 값이 작을 수록 순도가 높음**
+
+<img src="./assets/gini_gain.png">
+
+
+
+#### decision tree의 장단점
+
+**장점**
+
+* 트리구조이므로 쉽게 이해 가능
+* 데이터에 대해서 사전에 인지할 필요(prior assumption)가 없음
+* 의사결정시에 사용되는 일반상식에 맞추기 쉽다
+* 다양한 카테고리로 분류할 수 있다.
+* 분류와 관련이 없는 속성도 분류가능
+* 계산 비용이 작음
+* outlier에 민감하지 않음.
+
+**단점**
+
+* 특정 변수에 의해 수직/수평적으로 구분되지 못할 때 분류율이 떨어짐. 이 경우 분류를 위해서 트리를 복잡하게 만들어야하는 문제 발생 - **한개의 변수만으로 구분하기에 발생**
+* greedy방식이므로 최적해를 보장하지 못함.
+* 경계점 부근에서 예측 오류가 클 가능성이 있음.
+* 기존의 training set에 의해서만 결정이 되므로 새로운 set에 대해서 불안정할 가능성이 있음.
+* 복수의 속성의 set을 분류하는 것을 생성하기가 복잡함.
 
