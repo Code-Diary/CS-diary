@@ -3,6 +3,19 @@ AI(인공지능) - artificial intelligence
 ##### [1. Uninformed Search - 20.02.20 CYS](#Uninformed-Search)
 ##### [3. Adversarial Search(적대적 탐색) - 20.02.20 LHJ](#adversarial-search)
 
+
+
+## Search Strategy
+탐색 전략이란 어떤 노드부터 탐색할 것인지 그 순서를 정하는 것.
+
+대표적으로 네가지 기준으로 탐색 전략을 평가한다.
+
+1. completeness : 만약 답이 존재한다고 한다면 매번 그 답을 찾아내는가.
+2. time complexity : 동작 수행 시간
+3. space complexity : 메모리 사용량
+4. optimality : 찾은 답은 최적해(lost-cost solution)인가.
+
+
 ## Uniformed Search
 탐색. 문제에서 정의한 것 이외의 추가적인 정보가 없을 때 사용하는 Search Strategy 이다.
 
