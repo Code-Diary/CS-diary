@@ -45,6 +45,9 @@ Uniform-cost Search는 lowest path cost g(n)까지의 노드 n까지 Expand한�
     
     깊이가 깊어질수록 메모리 공간이 많이 필요하다.
 
+    
+    <img src="./assets/UCS.png" width="70%" height="70%">
+    
 3. Depth-First Search
 
     Complete X, Optimal X
@@ -59,12 +62,23 @@ Uniform-cost Search는 lowest path cost g(n)까지의 노드 n까지 Expand한�
     무한한 State space에서의 Depth-first Search는 실패를 일으킬 수 있는데, 미리 설정해놓은 깊이 값인 l을 이용함으로써 이 실패를 줄일 수 있다. 즉, 깊이 l까지 도달하면 더 이상의 자식노드는 존재하지 않는다고 간주하는 알고리즘이다.
 이 알고리즘의 Time-complexity는 O(bl)이 되며, Space-complexity는 O(bl)이 된다.
 
+    
+    <img src="./assets/DLS.png" width="70%" height="70%">
+
 5. Iterative Deepening Depth-First Search
 
     Depth Limit Search에서 Limit을 점차적으로 늘려나가는 방식.
 전체 상태공간의 지름을 알지 못할때 사용하면 좋다.
 Time-complexity로는 O(bd)이다. 
-
+    
+    <img src="./assets/IDS.png" width="70%" height="70%">
+    
+    
+ 
+#### Overall
+   
+    
+   <img src="./assets/overall.png" width="70%" height="70%">
 
 ---
 
