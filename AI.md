@@ -1,6 +1,57 @@
 AI(인공지능) - artificial intelligence
 
+##### [1. Uninformed Search - 20.02.20 CYS](#Uninformed-Search)
 ##### [3. Adversarial Search(적대적 탐색) - 20.02.20 LHJ](#adversarial-search)
+
+## Uniformed Search
+탐색. 문제에서 정의한 것 이외의 추가적인 정보가 없을 때 사용하는 Search Strategy 이다.
+
+이 전략이 할 수 있는 행위는 자식 노드(Successor)를 생성하거나 목표 도달 여부를 구별하는 것 밖에 없다.
+
+1. Breadth-First Search
+
+    Complete 만족, Optimal 만족
+
+    시간복잡도 :
+      depth를 d라고 하고, tree의 가지(branch)를 b 라고 한다.
+
+      b + b^2 + b^3 + b^4 + ... + b^d = O(b^d)
+
+2. Uniformed-Cost Search
+
+    만일 모든 과정의 Cost가 동일하다면 BFS가 이상적이나, 일반적으로 그렇지 않다.
+Uniform-cost Search는 lowest path cost g(n)까지의 노드 n까지 Expand한다. 
+즉 현재 Frontier에서 확장되지 않은 노드 중에서 가장 비용이 적은 노드부터 선택해서 확장하는 것을 의미한다.
+이를 위해서는 Frontier가 Path Cost에 따라 정렬된 Priority Queue로 구현이 되어야 한다.
+가장 낮은 비용의 노드가 먼저 위치하게 한다.
+
+    Complete 만족, Optimal 만족
+
+
+    시간복잡도는 O(b^1+⌊C∗/ϵ⌋)=b^d+1
+    
+    깊이가 깊어질수록 메모리 공간이 많이 필요하다.
+
+3. Depth-First Search
+
+    Complete X, Optimal X
+    현 트리구조의 최대깊이를 m이라고 노드의 개수는 오직 O(m)의 메모리만을 사용하면 된다.
+    순환 고리가 없는 트리구조에서는 Complete를 만족한다.
+
+    시간복잡도 : O(b^D)
+    공간복잡도 : O(bD)
+
+4. Depth-Limited Search
+
+    무한한 State space에서의 Depth-first Search는 실패를 일으킬 수 있는데, 미리 설정해놓은 깊이 값인 l을 이용함으로써 이 실패를 줄일 수 있다. 즉, 깊이 l까지 도달하면 더 이상의 자식노드는 존재하지 않는다고 간주하는 알고리즘이다.
+이 알고리즘의 Time-complexity는 O(bl)이 되며, Space-complexity는 O(bl)이 된다.
+
+5. Iterative Deepening Depth-First Search
+
+    Depth Limit Search에서 Limit을 점차적으로 늘려나가는 방식.
+전체 상태공간의 지름을 알지 못할때 사용하면 좋다.
+Time-complexity로는 O(bd)이다. 
+
 
 ---
 
