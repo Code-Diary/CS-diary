@@ -16,7 +16,7 @@ AI(인공지능) - artificial intelligence
 4. optimality : 찾은 답은 최적해(lost-cost solution)인가.
 
 
-## Uniformed Search
+## Uninformed Search
 탐색. 문제에서 정의한 것 이외의 추가적인 정보가 없을 때 사용하는 Search Strategy 이다.
 
 이 전략이 할 수 있는 행위는 자식 노드(Successor)를 생성하거나 목표 도달 여부를 구별하는 것 밖에 없다.
