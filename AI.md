@@ -151,7 +151,7 @@ state from n.</small>
     
     <br>
 
-<img src="./assets/localSearch.png" width="70%" height="70%">
+<img src="./assets/hillClimbing.png" width="70%" height="70%">
 
 
 2. Simulated Annealing
@@ -163,8 +163,7 @@ state from n.</small>
 
 이 때, 이 언덕 전체를 살짝 흔들어주면 어떻게 될까? 공이 Local Minima를 겨우 빠져 나갈 정도로 흔들어 준다면, 공은 Global Minima에 도달할 수 있을 것이다. 이렇게 흔들어 주는 것이 Simulated Annealing에 적용된 Heuristics이다.
 
-    
-    <br>
+
 
 <img src="./assets/simulatedAnnealing.gif" width="70%" height="70%">
 
