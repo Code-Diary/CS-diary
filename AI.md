@@ -1,6 +1,7 @@
 AI(인공지능) - artificial intelligence
 
 ##### [1. Uninformed Search - 20.02.20 CYS](#Uninformed-Search)
+##### [2. Informed(Heuristic) Search - 20.20.26 CYS](#Informed(Heuristic)-Search)
 ##### [3. Adversarial Search(적대적 탐색) - 20.02.20 LHJ](#adversarial-search)
 ##### [5-0. K-nearest-neighbor Classification (KNN) - 20.02.26 UKK](#K-nearest-neighbor)
 ##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision-Tree)
@@ -84,6 +85,79 @@ Time-complexity로는 O(bd)이다.
    <img src="./assets/overall.png" width="70%" height="70%">
 
 ---
+
+## Informed(Heuristic) Search
+
+Heuristic
+  - 논리적으로 증명할 수 없으나(주먹구구식) 문제를 푸는데 도움이 될 수 있는 것.
+  - 해결책을 보장하지는 않음
+  - 하지만 확률적으로 성능이 높아짐.
+
+
+Evaluate function(평가함수) f : 확장시킬 노드들을 각각의 근거를 통해 평가하여 순위를 매김
+
+
+#### Best-first Search
+
+- Depth-first Seatch를 최적화하는 탐색 알고리즘.
+- 노드를 확장시킬 때, 평가함수 f의 값이 가장 작은 값을 선택한다.
+- 대표적인 예로는 Dijkstra's algorithm, A* algorithm이 있다.
+
+1. Greedy Best-First Search
+
+    평가함수를 오직 Heuristic 함수로만 구성.<br>
+    언제나 최적의 정답만을 주는 것은 아님.
+
+- Complete: 유한한 공간의 graph에서 repeated-state checking이 있을때만 만족
+- Time: O(b^D), 하지만 평균 속도는 월등히 높아질 수 있음.
+- Space: 평균 공간은 월등히 낮아질 수 있음.
+- Optimal: X
+
+
+2. A* Search
+
+    시작점과 목표점 사이의 최단거리를 찾아주는 알고리즘.<br>
+    g(n) = 시작점으로부터의 비용<br>
+    h(n) = 목적지까지의 예상(Heuristic) 비용<br>
+    평가함수 f(n) = g(n) + h(n)
+
+
+
+  1) 현재 노드를 closed list에 올려둔다.
+  2) 현재 노드에서 가능한 노드를 opened List에 올려둔다.
+  3) 값이 가장 낮은 노드로 확장한다.
+  4) 노드로 항햔다.
+
+- Complete을 만족한다.
+- 휴리스틱 함수 h(n)이 admissible하다면, Optimal을 만족한다.
+
+    <small>※  A heuristic h(n) is admissible if for every node n,
+h(n) ≤ h*(n), where h*(n) is the true cost to reach the goal
+state from n.</small>
+
+
+
+#### Local Search
+
+1. Hill Climbing
+- 현재 노드를 기준으로 이웃 노드들을 확인하여 조금이라도 더 좋은 노드로 이동하는 방식을 이용.
+- 아주 적은 메모리를 이용한다. 현재노드만을 기록하기에 O(1)
+- 아주 큰 상태 공간에서 그나마 합리적인 해를 찾아내는 이점.
+
+    문제점 : Local Maximum에 빠질 수 있다.
+
+
+2. Simulated Annealing
+
+    커다란 탐색공간에서 주어진 함수의 전역 최적점에 대한 훌륭한 근사치를 찾으려고 하는 전역최적화 문제에 대한 일반적인 확률적 휴리스틱 접근방식
+
+시작 위치에서 공을 굴리면, 공은 Local Minima에 빠질 것이다. (가속도는 생각하지 말도록 하자) 하지만 우리가 원하는 것은 Global Minima에 공이 도달하는 것이다. 하지만 Hill Climbing Method에 의해서는, 공은 현재 위치보다 높은 곳으로는 이동하지 않기 때문에, 위 그림과 같은 상황이 발생한다.
+
+
+이 때, 이 언덕 전체를 살짝 흔들어주면 어떻게 될까? 공이 Local Minima를 겨우 빠져 나갈 정도로 흔들어 준다면, 공은 Global Minima에 도달할 수 있을 것이다. 이렇게 흔들어 주는 것이 Simulated Annealing에 적용된 Heuristics이다.
+
+참고 : https://sens.tistory.com/404
+
 
 ## Adversarial Search
 
