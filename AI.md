@@ -3,6 +3,7 @@ AI(인공지능) - artificial intelligence
 ##### [1. Uninformed Search - 20.02.20 CYS](#Uninformed-Search)
 ##### [3. Adversarial Search(적대적 탐색) - 20.02.20 LHJ](#adversarial-search)
 ##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision-Tree)
+##### [6. Clustering(군집화) - 20.02.26 KDH](#Clustering)
 
 
 
@@ -232,7 +233,7 @@ MAX는 탐색을 다시 수행하여 아래와 같은 트리를 생성한다. MA
 
 의사결정트리
 
-**데이터를 분석하여 이들 사이에 존재하는 패턴을 예측 간으한 규칙의 조합으로 나타냄**
+**데이터를 분석하여 이들 사이에 존재하는 패턴을 예측 한 규칙의 조합으로 나타냄**
 
 - 강력하고 유명한 classification, prediction 방법
 
@@ -336,3 +337,141 @@ gini도 gain값을 얻는다. 이때에 subset의 gini값에서 original set의 
 * 기존의 training set에 의해서만 결정이 되므로 새로운 set에 대해서 불안정할 가능성이 있음.
 * 복수의 속성의 set을 분류하는 것을 생성하기가 복잡함.
 
+---
+### Clustering
+
+
+
+clustering(군집화) - 비슷한 개체끼리 하나의 그룹으로 묶는 것
+
+* 군집 간 분산 최대화
+* 군집 내 분산 최소화
+
+
+
+**clustering**은 **비지도학습(unsupervised learning)**이다. - label이 없음
+
+**classification**은 **지도학습(supervised learning)**이다. - label이 있음.
+
+
+
+#### Flat algorithm - 유사한 것 끼리 묶는 것
+
+##### k-means
+
+* 군집은 하나의 중심(centroid)를 가진다.
+* 각 개체는 가장 가까운 중심에 할당이 되며 같은 중심에 할당된 것끼리 하나의 군집을 이룸.
+* 사용자가 k개의 군집 수를 사전에 정의해야함.
+* EM알고리즘에 기반한다.
+
+
+
+**알고리즘**
+
+1. 특정 갯수의 군집의 중심을 랜덤으로 선정한다.
+2. 각각의 중심에 개체들을 할당한다. (Expectation)
+3. 할당 후 중심을 다시 재조정한다. (Maximization)
+4. 2-3번 과정을 반복한다.
+5. 중심이 수렴이되면 종료한다.
+
+
+
+**장점**
+
+* 복잡도가 O(n)
+* 수행속도가 빠르다
+
+
+
+**단점**
+
+* 초기값의 위치에 따라서 원하는 결과가 나오지 않을 수도 있습니다.
+
+  <img src="./assets/k_means1.png" width="70%" height="70%">
+
+* 군집의 크기가 다른 경우 정상 작동이 안될 수 있음.
+  <img src="./assets/k-means2.png" width="70%" height="70%">
+
+* 군집의 밀도가 다른 경우 정상 작동이 안될 수 있음.
+  <img src="./assets/k-means3.png" width="70%" height="70%">
+
+* 특이한 케이스의 경우 군집화가 잘 안됨.
+  <img src="./assets/k-means4.png" width="70%" height="70%">
+
+
+
+
+
+#### Hierarchical algorithm - 군집화한 것을 다시 군집화 함
+
+##### top-down
+
+* clustering을 recursive하게 한다.
+* 효율이 떨어진다.
+
+
+
+##### bottom-up
+
+* 하나씩 비슷하게 묶어가며 최후에 하나로 묶일 때까지 함.
+
+
+
+**Hierarchical Agglomerative Clustering**
+
+1. N개의 벡터가 있으면 서로의 similarity를 비교하여 가장 높은 similarity를 합친다.
+2. 두개짜리 cluster가 생기고 이를 하나로 보고 또 similarity 비교
+3. 위의 과정 반복하면서 하나로 합쳐질 때 까지 진행
+
+
+
+**similarity 비교 옵션**
+
+1. Single-link clustering
+   * 가장 가까운 개체와 결합
+   * 큰 것이 계속해서 커지는 현상이 생김
+   * 편향적인 트리 생성 가능
+2. Complete-link clustering
+   * 가장 먼쪽에 있는 개체와 결합
+   * 일정 수준이상으로 커진 클러스터를 막아줌.
+3. average-link clustering
+   * 평균 거리에 있는 것에 결합
+
+<img src="./assets/link.png">
+
+**예시**
+
+거리표
+
+<img src="./assets/distance.png">
+
+single-link
+
+<img src="./assets/single_link.png">
+
+complete-link
+
+<img src="./assets/complete_link.png">
+
+
+
+
+
+**single - complete 비교**
+
+* 정보검색 측면에서는 complete가 더 적절하다.
+* 성능대비 비용적인 측명은 single이 더 좋다.
+
+
+
+
+
+reference
+
+
+
+ [https://ratsgo.github.io/machine%20learning/2017/04/19/KC/](https://ratsgo.github.io/machine learning/2017/04/19/KC/) 
+
+ https://bcho.tistory.com/1204 
+
+ https://en.wikipedia.org/wiki/Single-linkage_clustering 
