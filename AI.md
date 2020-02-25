@@ -2,7 +2,7 @@ AI(인공지능) - artificial intelligence
 
 ##### [1. Uninformed Search - 20.02.20 CYS](#Uninformed-Search)
 ##### [3. Adversarial Search(적대적 탐색) - 20.02.20 LHJ](#adversarial-search)
-##### [5-0. K-nearest-neighbor Classification (KNN) - 20.02.20 UKK](#K-nearest-neighbor Classification)
+##### [5-0. K-nearest-neighbor Classification (KNN) - 20.02.26 UKK](#K-nearest-neighbor)
 ##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision-Tree)
 ##### [6. Clustering(군집화) - 20.02.26 KDH](#Clustering)
 
@@ -230,7 +230,7 @@ MAX는 탐색을 다시 수행하여 아래와 같은 트리를 생성한다. MA
 
 
 ---
-# K-nearest-neighbor Classification
+# K-nearest-neighbor
 
 ### instance-based learning의 한 종류
 -   어떤 instance의 class가 뭔지 묻는 query가 주어지면, 메모리상에 있는 instance들 그 자체들을 이용하여 classification 하게 됨
