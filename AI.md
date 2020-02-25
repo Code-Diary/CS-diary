@@ -2,6 +2,7 @@ AI(인공지능) - artificial intelligence
 
 ##### [1. Uninformed Search - 20.02.20 CYS](#Uninformed-Search)
 ##### [3. Adversarial Search(적대적 탐색) - 20.02.20 LHJ](#adversarial-search)
+##### [5-0. K-nearest-neighbor Classification (KNN) - 20.02.20 LHJ](#K-nearest-neighbor Classification)
 ##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision-Tree)
 ##### [6. Clustering(군집화) - 20.02.26 KDH](#Clustering)
 
@@ -229,6 +230,28 @@ MAX는 탐색을 다시 수행하여 아래와 같은 트리를 생성한다. MA
 
 
 ---
+### K-nearest-neighbor Classification
+
+# instance-based learning의 한 종류
+-   어떤 instance의 class가 뭔지 묻는 query가 주어지면, 메모리상에 있는 instance들 그 자체들을 이용하여 classification 하게 됨
+-   미리 learning 을 통한 hypotheses를 결정해놓는 것이 아닌, training data set 자체가 hypotheses임
+-   training data set 모두를 메모리 상에 올려야함 (그래서 instance-based)
+-   알고리즘 마다 다르겠지만, 최악의 경우 모든 instance들을 탐색해야함
+# lazy learning의 한 종류
+-   미리 학습해놓는 것이 아닌, query가 주어질 때마다 학습을 해야함
+
+# KNN 알고리즘 (뒤지게 간단)
+-   어떤 instance 가 어디 class인지 물어보는 query가 주어지면, 해당 instance의 최근접 k개의 instance들을 찾음
+-   찾은 instance 들의 label을 확인함
+-   가장 많이 나오는 쪽으로 classification
+-   적절한 k를 찾는 것이 쉽지 않은 일
+
+<img src="./assets/knn_1.png">
+<img src="./assets/knn_2.png">
+
+
+---
+
 ### Decision Tree
 
 의사결정트리
