@@ -145,6 +145,11 @@ state from n.</small>
 - 아주 큰 상태 공간에서 그나마 합리적인 해를 찾아내는 이점.
 
     문제점 : Local Maximum에 빠질 수 있다.
+    
+    
+    <br>
+
+    <img src="./assets/localSearch.jpg" width="70%" height="70%">
 
 
 2. Simulated Annealing
@@ -155,6 +160,11 @@ state from n.</small>
 
 
 이 때, 이 언덕 전체를 살짝 흔들어주면 어떻게 될까? 공이 Local Minima를 겨우 빠져 나갈 정도로 흔들어 준다면, 공은 Global Minima에 도달할 수 있을 것이다. 이렇게 흔들어 주는 것이 Simulated Annealing에 적용된 Heuristics이다.
+
+    
+    <br>
+
+    <img src="./assets/simulatedAnnealing.gif" width="70%" height="70%">
 
 참고 : https://sens.tistory.com/404
 
