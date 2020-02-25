@@ -122,11 +122,13 @@ Evaluate function(평가함수) f : 확장시킬 노드들을 각각의 근거�
     평가함수 f(n) = g(n) + h(n)
 
 
-
   1) 현재 노드를 closed list에 올려둔다.
   2) 현재 노드에서 가능한 노드를 opened List에 올려둔다.
   3) 값이 가장 낮은 노드로 확장한다.
   4) 노드로 항햔다.
+  
+<img src="./assets/aStar.png" width="70%" height="70%">
+  
 
 - Complete을 만족한다.
 - 휴리스틱 함수 h(n)이 admissible하다면, Optimal을 만족한다.
@@ -149,7 +151,7 @@ state from n.</small>
     
     <br>
 
-    <img src="./assets/localSearch.jpg" width="70%" height="70%">
+<img src="./assets/localSearch.png" width="70%" height="70%">
 
 
 2. Simulated Annealing
@@ -164,7 +166,7 @@ state from n.</small>
     
     <br>
 
-    <img src="./assets/simulatedAnnealing.gif" width="70%" height="70%">
+<img src="./assets/simulatedAnnealing.gif" width="70%" height="70%">
 
 참고 : https://sens.tistory.com/404
 
