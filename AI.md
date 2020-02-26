@@ -506,8 +506,65 @@ clustering(군집화) - 비슷한 개체끼리 하나의 그룹으로 묶는 것
 * 특이한 케이스의 경우 군집화가 잘 안됨.
   <img src="./assets/k-means4.png" width="70%" height="70%">
 
+* outlier에 민감하다.
 
 
+**사용하는 경우**
+* pixel segmentation에 드물게 사용된다.
+
+
+#### Mean Shift
+
+* 탐색 반경을 정한다. (scale, bandwidth)
+* 군집의 갯수를 정의할 필요가 없다.
+
+
+
+**알고리즘**
+
+1. search window를 선택한다.
+2. window 내의 데이터의 mean을 계산한다
+3. mean의 위치로 window의 중앙을 옮긴다.
+4. 수렴될 때까지 2-3과정을 반복한다.
+
+
+
+<img src="./assets/mean_shift.png">
+
+
+
+**cluster에 이용되는 방법**
+
+1. kernel(원, 사각형, gaussian 등등)과 bandwidth(variance of Gaussian 등)을 선택한다.
+2. 각각의 point에 대하여
+   * window의 중앙을 각각의 점에 위치함.
+   * window 내의 데이터의 mean을 계산한다.
+   * mean의 위치로 window의 중앙을 위치시킨다.
+   * 수렴될 때까지 2-3의 과정을 반복한다.
+3. 가까운 위치로 모인 점들에 대해서 같은 cluster라고 할당한다.
+
+<img src="./assets/mean_shift_cluster.png">
+
+
+
+**장점**
+
+* segmentation에 적합하다.
+* cluster의 갯수가 유동적이다
+* outlier에 민감하지 않다
+
+**단점**
+
+* kernel shape/size를 잘 선택해야한다.
+* 고차원 특징에는 적합하지 않다.
+
+
+
+**사용하는 경우**
+
+* over-segmentation
+* multiple segementation
+* tracking, clustering, filtering application
 
 
 #### Hierarchical algorithm - 군집화한 것을 다시 군집화 함
