@@ -1,7 +1,7 @@
 AI(인공지능) - artificial intelligence
 
 ##### [1. Uninformed Search - 20.02.20 CYS](#Uninformed-Search)
-##### [2. Informed(Heuristic) Search - 20.20.26 CYS](#Informed[Heuristic]-Search)
+##### [2. Informed(Heuristic) Search - 20.20.26 CYS](#Informed-Search)
 ##### [3. Adversarial Search(적대적 탐색) - 20.02.20 LHJ](#adversarial-search)
 ##### [5-0. K-nearest-neighbor Classification (KNN) - 20.02.26 UKK](#K-nearest-neighbor)
 ##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision-Tree)
@@ -86,7 +86,7 @@ Time-complexity로는 O(bd)이다.
 
 ---
 
-## Informed(Heuristic) Search
+## Informed Search
 
 Heuristic
   - 논리적으로 증명할 수 없으나(주먹구구식) 문제를 푸는데 도움이 될 수 있는 것.
