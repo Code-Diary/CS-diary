@@ -463,9 +463,9 @@ clustering(군집화) - 비슷한 개체끼리 하나의 그룹으로 묶는 것
 
 
 
-#### Flat algorithm - 유사한 것 끼리 묶는 것
+### Flat algorithm - 유사한 것 끼리 묶는 것
 
-##### k-means
+### k-means
 
 * 군집은 하나의 중심(centroid)를 가진다.
 * 각 개체는 가장 가까운 중심에 할당이 되며 같은 중심에 할당된 것끼리 하나의 군집을 이룸.
@@ -508,12 +508,13 @@ clustering(군집화) - 비슷한 개체끼리 하나의 그룹으로 묶는 것
 
 * outlier에 민감하다.
 
+<br>
 
 **사용하는 경우**
 * pixel segmentation에 드물게 사용된다.
 
 
-#### Mean Shift
+### Mean Shift
 
 * 탐색 반경을 정한다. (scale, bandwidth)
 * 군집의 갯수를 정의할 필요가 없다.
@@ -567,7 +568,7 @@ clustering(군집화) - 비슷한 개체끼리 하나의 그룹으로 묶는 것
 * tracking, clustering, filtering application
 
 
-#### Hierarchical algorithm - 군집화한 것을 다시 군집화 함
+### Hierarchical algorithm - 군집화한 것을 다시 군집화 함
 
 ##### top-down
 
