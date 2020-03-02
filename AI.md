@@ -6,7 +6,8 @@ AI(인공지능) - artificial intelligence
 ##### [5-0. K-nearest-neighbor Classification (KNN) - 20.02.26 UKK](#K-nearest-neighbor)
 ##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision-Tree)
 ##### [6. Clustering(군집화) - 20.02.26 KDH](#Clustering)
-##### [9. Reinforcement Learning - 20.03.06 KDH](#Reinforcement-Learning)
+##### [9. Reinforcement Learning(강화학습) - 20.03.06 KDH](#Reinforcement-Learning)
+##### [10. Artificial Neural Networks(인공신경망네트워크) - 20.03.06 KDH](#Artificial-Neural-Networks)
 
 
 ## Search Strategy
@@ -730,6 +731,138 @@ reference
 **학습완료**
 
 <img src="./assets/q-final.png">
+
+---
+### Artificial Neural Networks
+
+ANN : 인공신경망 네트워크
+
+
+
+**인공지능 분야를 대표하는 두가지 고전적 접근방법**
+
+1. Connectionism : 지식을 network상에 분산된 형태로 표현 
+   (ex - ANN)
+2. Symbolism : 지식을 symbol과 그들간의 relation 또는 Logic으로 표현 
+   (ex - Logical inference in Ontology)
+
+<img src="./assets/ann1.png">
+
+**Perceptron(퍼셉트론)**
+
+* ANN을 구성하는 단위
+* 복수개의 input을 입력 받은 뒤 처리를 거친 후 하나의 Output을 반환
+* 입력신호 : pi와 가중치 : wi의 곱을 모두 합친 값이 임계치(세타)를 넘으면 흥분
+
+<img src="./assets/ann2.png">
+
+* Activation function : 뉴런에서 출력값을 결정하는 함수
+  <img src="./assets/ann3.png">
+
+**Perceptron 학습**
+
+* 지도학습(실수입력)
+* 전체 출력뉴런들에 대하여 계산된 출력값과 목표값과의 차이를 최소화 
+  (차이를 줄이는 방향으로 가중치를 변경)
+  -> Widrow-Hoff rule(delta rule)
+
+
+
+**Widrow-Hoff rule(delta rule)**
+
+1. 가중치(Wi(0))와 임계치(세타)를 임의의 작은 값으로 초기화
+   <img src="./assets/whr1.png" heigth=50% width=50%>
+2. 새로운 입력패턴(X0,X1,...)과 목표출력 패턴(d(t))을 제시
+   <img src = "./assets/whr2.png" width=70% height=80%>
+3. Activation function(hard limiter) fn을 사용하여 실제 출력값(y(t))를 계산
+   <img src="./assets/whr3.png" width = 70%>
+4. 목표값 d(t)와 출력값 y(t)를 이용한 가중치 갱신
+   <img src="./assets/whr4.png">
+
+
+
+**퍼셉트론의 한계**
+
+* 선형적으로 데이터를 구분하기 때문에 복잡한 구분의 경우 구분 불가
+  (ex - AND,OR 구분 가능 / XOR 구분불가)
+  <img src="./assets/ann4.png">
+
+
+
+* 이러한 문제를 해결하기 위해서 단층 퍼셉트론이 아닌 다층 퍼셉트론을 구성
+  (Backpropagation Neural Network)
+
+  **비선형적인 문제들 해결 가능**
+
+  <img src ="./assets/ann5.png">q
+
+
+
+**Backpropagation Neural Network**
+
+* input later와 output layer 사이에 하나 이상의 hidden layer을 가지는 단방향 신경회로망
+  <img src="./assets/bnn1.png">
+* 단층 퍼셉트론의 선형분리 문제점을 해결
+* 일반적인 continuous function approximation 문제 해결을 위해 널리 사용
+  (미분가능한 함수들을 추측할 수 있음)
+* 학습 - 원하는 목표값과 실제 출력값 사이의 오차제곱합으로 정의된 error function의 값을 최소화하는 방식으로 학습(Error backpropagation Algorithm)
+* 지도학습
+
+
+
+**Error backpropagation Algorithm**
+
+* hidden layer의 학습을 위해 output layer에서 발생한 오류를 이용하여 hidden layer 가중치 재계산
+* 이 값을 다시 input layer으로 역전파(backpropagation)시켜 가중치를 재계산
+* output layer의 오류를 **Gradient Descent Method** 기법으로 최소화함
+  **경사하강법** : 함수의 기울기를 구하여 기울기가 낮은 쪽으로 계속 이동시켜서 극값에 이를 때까지 반복시키는 것
+* 생물학적 현상과는 일치하지 않음
+* **보편적으로 많이 사용되는 인공신경망 학습 방법**
+
+<img src="./assets/bnn2.png">
+
+
+
+**Hopfield Memory**
+
+* 자신을 제외한 모든 뉴런과 양방향으로 상호 연결된 형태의 ANN
+* 지도학습(이진입력)
+* activation함수로 hard limiter 사용
+* 기본 모델은 bipolar 값 (+1,-1)을 사용
+* 연상기억 또는 최적화 문제를 푸는데 주로 사용
+* 다른 종류의 ANN model과 달리 점진적으로 학습을 하지 않고, 초기 학습패턴의 외적합을 사용하여 연결가중치를 만듦
+* 하나의 뉴런층을 사용하므로 입력벡터와 출력벡터의 차원이 동일
+* 주로 연상기억문제, 최적화 문제에 사용된다.
+* 가장 큰 문제는 수렴결과가 최적인지 보장이 안된다.(잘못된 기억을 연상할 수 있음.)
+
+<img src="./assets/hm.png">
+
+
+
+**Self Organizing Map(SOM)**
+
+* 인접한 출력뉴런들은 비슷한 기능을 수행할 것이라는 예측
+
+* 입력벡터와 가까운 출력뉴런 뿐만 아니라 위상적으로 이웃한 뉴런들도 함께 학습
+
+* 주로 clustering, classification,최적화 문제에 사용된다.
+
+  <img src="./assets/som.png">
+
+* 이웃 반경을 점차 감소시키면서 학습과정을 반복 (가까울 수록 가중치를 준다는 것)
+  <img src="./assets/som2.png">
+
+
+
+
+
+
+
+**reference**
+
+http://ecee.colorado.edu/~ecen4831/lectures/NNet3.html
+
+https://commons.wikimedia.org/wiki/File:Perceptron_XOR.jpg
 
 
 
