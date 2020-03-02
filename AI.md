@@ -6,7 +6,7 @@ AI(인공지능) - artificial intelligence
 ##### [5-0. K-nearest-neighbor Classification (KNN) - 20.02.26 UKK](#K-nearest-neighbor)
 ##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision-Tree)
 ##### [6. Clustering(군집화) - 20.02.26 KDH](#Clustering)
-
+##### [9. Reinforcement Learning - 20.03.06 KDH](#Reinforcement-Learning)
 
 
 ## Search Strategy
@@ -641,3 +641,104 @@ reference
  https://bcho.tistory.com/1204 
 
  https://en.wikipedia.org/wiki/Single-linkage_clustering 
+
+---
+### Reinforcement Learning
+
+
+
+**기계학습** : 인공지능의 한 방법론으로서 다량의 데이터를 컴퓨터가 학습하는 알고리즘과 기술을 개발하는 분야
+
+* 표현(representation) : 학습을 위해 주어진 데이터에 대한 표현
+* 일반화(generalization) : 아직 주어지지 않은 데이터에 대한 처리
+
+
+
+**기계학습 분류**
+
+* **지도 학습(Supervised Learning)**
+  목표값(label)이 제시된 데이터로 학습을 진행
+* **비지도 학습(Unsupervised Learning)**
+  목표값(label)이 제시되지 않은 데이터로 학습을 진행 (특성 추출)
+* **강화 학습(Reinforcement Learning)**
+  어떤 환경 안에서 정의된 에이전트가 현재의 상태(state)를 인식하여, 선택 가능한 행동들 중 보상(reward)을 최대화하는 행동 혹은 행동 순서를 선택하는 방법
+
+<img src="./assets/MR.png">
+
+
+
+**강화학습**
+
+* 에이전트(agent) : 상태를 관찰, 행동을 석택, 목표지향
+* 환경(environment) : 에이전트를 제외한 나머지
+* 상태(state) : 현재 상황을 나타내는 정보
+* 행동(action) : 현재 상황에서 에이전트가 하는 것
+* 보상(reward) : 행동의 좋고 나쁨을 알려주는 정보
+
+
+
+**특징**
+
+* 반복적인 시도를 통해 **시행착오**를 겪으며 environment로부터 최대의 reward를 찾고 목표에 도달한다.
+* **Delayed reward** - 시행착오 중 선택한 action이 가장 적합한 선택인지 알 수 없다.(최대의 reward인지 알 수 없다는 것)
+* 강화학습에서는 당장의 보상값이 조금은 적더라도, 나중에 얻을 값을 포함한 보상값의 총 합이 최대화되도록 Action을 선택해야 한다.
+
+
+
+**Exploration(탐험)-Exploitation(이용) dilemma**
+
+* 더 높은 보상을 받기 위해서 주어진 state에서 최적의 선택을 이용(exploit)해야함.
+* 각 action들의 미래지향적 가치를 알기 위해서는 사전 탐험(explore)이 필요
+* 탐험(explore)을 위해서는 지금 당장 최적은 선택(exploit)을 포기할 수 있어야함
+
+
+
+#### Q-Learning
+
+* 강화 학습 가운데 가장 널리 사용되는 알고리즘
+
+* 선택가능한 action중 임의로 선택하고 environment로 부터 reward를 받음(시행착오)
+
+* 학습 시점에는 action에 대한 평가가 완료되지 않았으므로, 해당 시점에서 최적으로 평가된 action이 실제로는 최적의 action이 아닐 수 있음.
+
+* **Q(s,a)는 estimated utility function**으로 state s 에서 action a를 선택하는 것이 유리한 정도를 나타냄. 이는 a를 선택하여 나타나는 **즉각 reward**와 선택 후 상태변화 s'에서 얻을 수 있는 **잠재적 reward** 중 최대값의 합으로 정의
+
+  <img src="./assets/Q-Learning.png">
+
+  
+
+**알고리즘**
+
+1. 각 state-action pair(s,a)에 대해서 Q(s,a)값을 0으로 초기화
+2. 현재 state s에서 선택 가능한 임의의 action a 선택 후 실행
+3. 외부환경으로 부터 immediate reward를 받음
+4. 새로운 state s'을 감지
+5. Q(s,a)값을 수식(위에 제시)으로 갱신
+6. s=s'
+7. 2-6과정을 Q(s,a)가 수렴할 때까지 반복
+
+
+
+예시)
+
+**초기상태**
+
+<img src="./assets/q-initial.png">
+
+
+
+**학습완료**
+
+<img src="./assets/q-final.png">
+
+
+
+
+
+
+
+
+
+
+
+
