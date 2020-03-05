@@ -3,6 +3,7 @@ AI(인공지능) - artificial intelligence
 ##### [1. Uninformed Search - 20.02.20 CYS](#Uninformed-Search)
 ##### [2. Informed(Heuristic) Search - 20.20.26 CYS](#Informed-Search)
 ##### [3. Adversarial Search(적대적 탐색) - 20.02.20 LHJ](#adversarial-search)
+##### [4. Constraint Satisfaction Problem(제약 충족 문제) - 20.03.06 UKK](#Constraint-Satisfaction-Problem)
 ##### [5-0. K-nearest-neighbor Classification (KNN) - 20.02.26 UKK](#K-nearest-neighbor)
 ##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision-Tree)
 ##### [6. Clustering(군집화) - 20.02.26 KDH](#Clustering)
@@ -314,6 +315,110 @@ MAX는 탐색을 다시 수행하여 아래와 같은 트리를 생성한다. MA
 
 그리고 이러한 과정을 수행해 가는 모든 과정을 일반적으로 **Alpha-Beta Pruning(알파 베타 방법)** 이라고 한다.
 
+---
+
+#Constraint-Satisfaction-Problem
+
+### 정의
+-   제약 조건을 만족하는 경우를 찾는 탐색 문제의 일종
+-   엄밀한 정의
+    - Variable : X = {x1, x2, … , xn}
+	    - 제약조건이라 함은 각 객체의 상태가 특정 조건을 만족해야함을 의미
+		- 각 객체를 variable로 놓고, 해당 variable에 value를 담아 state를 표현한다.
+	- Domain : D = {d1, d2, … , dn}
+	    - State(=value)의 정의역. 3색문제의 경우 {빨간색, 초록색, 파란색}이 domain이 됨
+	- Constraint : C = {c1, c2, … , cn}
+	    - 제약 조건을 나타냄.
+		- C 집합 원소 Cj에 대해서는 <tj, rj>로 표현되며, tj는 Variable 집합에서의 k개 원소로 이뤄진 부분집합이고, rj는 tj내의 variable 원소들이 각각 가지는 k개의 state를 담고있는 tuple을 나타냄.
+    - Evaluation : tj 내의 모든 variable 원소에 어떤 state를 assign 했을 때 그 state 상태가 rj내의 원소로 표현 되면 제약조건 만족, 그런 원소가 없다면 만족하지 않음
+
+### 제약 충족 문제 예시
+-   3색 문제
+<image src="./assets/ukk/map.png">
+-   V = {WA, NT, SA, Q, NSW, V, T}
+-	D = {R,G,B}
+-	C = {<(WA, NT), {(R,G), (R,B), (G,R), (G, B), (B, R), (B, G)}>, …………..} - 명시적(explict) 제약충족 표현, k = 2
+-   C = 인접한 두 나라의 색이 다름  - 암시적(implict) 제약 충족 표현
+-   생활속의 CSP
+    -   시간표 짜기
+    -   버스 배차 스케줄링
+    -   버스 노선 설계
+
+### CSP 구현
+- 백트래킹이 기본(dfs)
+- 탐색 공간을 줄이지 않으면 |V| = n, |D| = m O(m^n) 시간 복잡도
+- 최적화 관건
+	- 다음 어떤 변수를 assign 할 것인가?
+	- 어떤 순서로 value를 선택할 것인가?
+	- 필연적 제약 조건 위배를 미리 알 수 없는가?
+    - 문제 구조상의 이점을 채택할 수 없는가?
+- local search도 가능
+
+### CSP 백트래킹 최적화
+#### 다음 어떤 변수를 assign 할 것인가?
+
+###### Ordering: Minimum Remaining Values(MRV)
+
+<image src="./assets/ukk/mrv.png">
+
+Variable Ordering: Minimum remaining values (MRV): 다음 할당해야할 변수로 Minimum remaining values를 할당한다. MRV를 most constrained variable라고도 부르며 이 오더링을 "Fail-fast" ordering이라 한다.
+
+#### 어떤 순서로 value를 선택할 것인가?
+
+###### Ordering: Least Constraining Value(LCV)
+
+<image src="./assets/ukk/lcv.png">
+
+Value Ordering: Least Constraining Value: 변수를 택할때 제약 조건이 가장 적은 값을 선택한다. 예를 들어 나머지 변수 중에서 가장 작은 값을 규정하는 변수를 택하는 것. 이때 필터링을 다시 실행하는 등의 계산이 필요할 수 있다. LCV Ordering을 적용하지 않을 경우 도메인이 조금만 많아져도 계산에 무리가 있으나 적용할 경우 계산 가능 도메인 수의 한계가 급격히 올라간다.
+
+#### 필연적 제약 위배 조건을 미리 알 수 없는가?
+
+###### Forward Checking
+
+<image src="./assets/ukk/forward checking.png">
+
+Filtering을 사용하여 Backtracking Search보다 수고를 줄인다. 예를 들어 WA에 Red를 칠했다면 WA와 연결 된 NT, SA에서 Red 색을 지운다. Q에 Green을 칠했다면 NT, SA, NSW에서 Green을 지웠다. 이렇게 한다면 Backtracking Search보다는 수고가 훨씬 줄어들게 된다. 하지만 이것도 만족스럽지는 않다.
+
+###### Arc Consistency
+
+<image src="./assets/ukk/arc checking.png">
+
+색칠된 모든 노드와 인접한 노드간의 일관성을 체크한다. 모순이 발생하는지 체크를 해보는 것이다. 포워드 체킹과 차이점이 뭔지 헷갈릴 수 있다. 포워드 체킹은 WA 노드에 Red를 칠하면 A와 인접한 노드에서 Red를 지운다. 이 지워진 노드를 Arc라고 하자. 그리고 Q에서 Green을 칠하면 NT, SA, NSW에서 Green이 지워지는데 지워진 노드 3개를 또 아크로 본다. 그럼 Arc는 4개가 되고 이 Arc간의 Consistency를 보는 것이다. 위 이미지에서는 NT와 SA Arc에서 모순이 일어났기에 WA, Q 중 하나는 다른 색으로 칠해져야 하고 이 다른색으로 칠하러 돌아 가는 것이 Backtracking이다.
+
+#### 문제 구조상의 이점을 채택할 수 없는가?
+###### Tree-Structure CSPs
+
+
+<image src="./assets/ukk/tree_structure_csps2.png">
+
+Theorem: 제약 그래프에 루프만 없다면 CSP는 
+
+에 풀 수 있다.
+
+###### Nearly Tree-Structured CSPs
+
+<image src="./assets/ukk/nts2.jpg">
+    
+- Conditioning: 변수를 인스턴스화 하고 이웃 도메인을 prune 해버린다.
+- Cut set conditioning: 나머지 제약 그래프가 트리가 되도록 변수 세트를 인스턴스와 한다.
+- Cut set size c는 small c에 대해 매우 빠른 런타임
+
+### CSP local search
+
+#### Iterative Algorithms for CSPs
+
+- Local search methods는 일반적으로 "complete" states에서 작동합니다. i.e., 모든 variable이 어떤 상태로 모두 결정되어 있는 상태
+- To apply to CSPs:
+    -   불만족스러운 constraints로 과제를 수행한다.
+    -   Operators가 variable values를 재할당 한다.
+
+<image src="./assets/ukk/local_search_csp.png">
+
+- Algorithm: While not solved
+    -   Variable selection: conflicted variable를 랜덤하게 선택한다.
+    -   Value selection: min-conflicts heuristic:
+    -   가장 적은 constraints를 위반하는 value를 선택한다.
+    -   i.e., h(x) = 위반 된 제약 조건의 총개수	
 
 ---
 # K-nearest-neighbor
@@ -334,7 +439,6 @@ MAX는 탐색을 다시 수행하여 아래와 같은 트리를 생성한다. MA
 
 <img src="./assets/knn_1.png">
 <img src="./assets/knn_2.png">
-
 
 ---
 
