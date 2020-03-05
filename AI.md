@@ -7,6 +7,9 @@ AI(인공지능) - artificial intelligence
 ##### [5-0. K-nearest-neighbor Classification (KNN) - 20.02.26 UKK](#K-nearest-neighbor)
 ##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision-Tree)
 ##### [6. Clustering(군집화) - 20.02.26 KDH](#Clustering)
+
+##### [8. Expectation Maximization - 20.03.06 KSW](#Expectation-Maximization)
+
 ##### [9. Reinforcement Learning(강화학습) - 20.03.06 KDH](#Reinforcement-Learning)
 ##### [10. Artificial Neural Networks(인공신경망네트워크) - 20.03.06 KDH](#Artificial-Neural-Networks)
 
@@ -51,9 +54,10 @@ Uniform-cost Search는 lowest path cost g(n)까지의 노드 n까지 Expand한�
     
     깊이가 깊어질수록 메모리 공간이 많이 필요하다.
 
-    
-    <img src="./assets/UCS.png" width="70%" height="70%">
-    
+
+​    
+​    <img src="./assets/UCS.png" width="70%" height="70%">
+
 3. Depth-First Search
 
     Complete X, Optimal X
@@ -80,10 +84,10 @@ Time-complexity로는 O(bd)이다.
     <img src="./assets/IDS.png" width="70%" height="70%">
     
     
- 
+
 #### Overall
-   
-    
+
+
    <img src="./assets/overall.png" width="70%" height="70%">
 
 ---
@@ -128,9 +132,9 @@ Evaluate function(평가함수) f : 확장시킬 노드들을 각각의 근거�
   2) 현재 노드에서 가능한 노드를 opened List에 올려둔다.
   3) 값이 가장 낮은 노드로 확장한다.
   4) 노드로 항햔다.
-  
+
 <img src="./assets/aStar.png" width="70%" height="70%">
-  
+
 
 - Complete을 만족한다.
 - 휴리스틱 함수 h(n)이 admissible하다면, Optimal을 만족한다.
@@ -208,6 +212,7 @@ state from n.</small>
   
   -  주요 쟁점은 " 커다란 게임트리에서 어떻게 optimal move를 탐색할 것인가? " 이다. 이를 위해 적대 탐색 알고리즘이 사용된다.
   
+
 <br>  
 
 #### Game Tree for Tic Tac Toe
@@ -747,6 +752,66 @@ reference
  https://bcho.tistory.com/1204 
 
  https://en.wikipedia.org/wiki/Single-linkage_clustering 
+
+-----------
+
+### Expectation Maximization
+
+<br>
+
+**기본 개념 : Hidden variable(결측값)을 무시 하지 않고 Training data로 사용하기 위한 알고리즘**
+
+<br>
+
+**Introduction to EM**
+
+\- 통계학의 거장 Rubin의 역작 중 하나이다. 
+
+\- 보통의 데이터에는 결측값( *, 혹은 NA로 표시되는 것들)이 많이 존재한다.
+
+\- 결측값이 있을시 무시하기도 하지만, imputation을 통해 채워넣기도 한다. 대표적인 imputation방법으로, 평균이나 중앙값으로 결측값을 대체하는 경우가 많다.
+
+\- **EM algorithm은 결측값을 무시하지 않고, 단순히 평균이나 중앙값으로 결측치를 대체하지 않으면서, 통계적 추론을 하는 기법으로 가능도에 기반을 둔다.** 
+
+\- EM algorithm은 결측값이 있을 때의 최대가능도추정량(MLE)을 추정하기 위해 제안된 방법이다. 결측값 그 자체를 채울수도 있다.
+
+\- 결측값을 채우는 것뿐만 아니라 다양한 목적으로 활발하게 사용되는 도구이기도 하다. ex) 가우시안 혼합 모형, latent variable기반 모델 등
+
+-**항상 Optimal한 결과를 가져오는 것은 아니다. (Local search)**
+
+**\- E : Expectation과 M : Maximization, 두 단계로 구성이 된다.** 
+
+\- EM알고리즘을 이해하기 위해서는 가능도(likelihood, 수리통계학2)에 대한 지식이 필요하다. 
+
+<br>
+
+Hidden Variable을 어떻게 training data로 사용할 것인가?
+
+<img src="./assets/MissingData.png">
+
+1. 사용하지 않는다.
+
+   <img src="./assets/DataIgnore.png">
+
+2. Fill in with Best Value
+
+   <img src="./assets/FillwithBestValue.png">
+
+3. **확률 분포를 적용시켜서 사용 (EM 알고리즘)**
+
+   초기에는 확률값을 랜덤하게 설정(Random initialize를 여러번 해봐서 최상의 optimal을 찾아야한다.)
+
+<img src="./assets/distributionValue.png">
+
+아래와 같이 E-step(Expectation)과 M-step(Maximum likelihood)을 반복해가면서 일정한 값에 수렴하도록 계산
+
+<img src="./assets/distributionValue2.png">
+
+<img src="./assets/distributionValue3.png">
+
+**M-step을 통해 증가하는 likelihood**
+
+<img src="./assets/likelihood.png">
 
 ---
 ### Reinforcement Learning
