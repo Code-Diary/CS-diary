@@ -7,9 +7,8 @@ AI(인공지능) - artificial intelligence
 ##### [5-0. K-nearest-neighbor Classification (KNN) - 20.02.26 UKK](#K-nearest-neighbor)
 ##### [5-1. Decision Tree(의사결정트리) - 20.02.26 KDH](#Decision-Tree)
 ##### [6. Clustering(군집화) - 20.02.26 KDH](#Clustering)
-
+##### [7. Naive Bayes(나이브 베이즈) - 20.03.06 LHJ](#Naive-Bayes)
 ##### [8. Expectation Maximization - 20.03.06 KSW](#Expectation-Maximization)
-
 ##### [9. Reinforcement Learning(강화학습) - 20.03.06 KDH](#Reinforcement-Learning)
 ##### [10. Artificial Neural Networks(인공신경망네트워크) - 20.03.06 KDH](#Artificial-Neural-Networks)
 
@@ -754,6 +753,110 @@ reference
  https://en.wikipedia.org/wiki/Single-linkage_clustering 
 
 -----------
+
+## Naive Bayes
+
+<br>
+
+### 1. Bayes' theorem, Bayes' rule (베이즈 정리) 
+
+:  두 확률 변수의 **사전 확률**과 **사후 확률** 사이의 관계를 나타내는 정리
+
+즉, 이전의 경험과 현재의 증거(**사전 확률**)를 토대로 어떤 사건의 확률(**사후 확률**)을 추론하는 과정을 보여준다.
+<br>
+**Bayes' Rule**
+
+<img src="./assets/bayes1.png" width="30%" height="30%">
+
+<br>
+**증명**
+
+<img src="./assets/bayes2.png" width="100%" height="100%">
+
+
+P(A), P(B) : 사전 확률
+
+P(A | B) : 사건 B가 주어졌을 때, A의 조건부 확률(likelihood)
+
+P(B | A) : 사건 A라는 증거에 대한 사후 확률(posterior probability)
+
+
+
+예시) 
+
+어떤 병을 검사하는 검사기의 정확도가 90%이고, 전세계 1%의 사람이 병에 걸렸다고 할 때,
+
+이 때, 검사 결과가 양성인 사람이 병 앓고 있을 확률은??
+
+(검사의 정확도란 병을 앓고 있을 때의 양성 확률이다. P(D) : 병에 걸릴 확률, P(T) : 검사 양성일 확률)
+
+<img src="./assets/bayes3.png" width="100%" height="100%">
+<br>
+<img src="./assets/bayes4.png" width="100%" height="100%">
+<br>
+
+### 2. Naive Bayes Model
+
+* Bayes Rule에 기반한 분류기(classifier) 혹은 학습 방법을 말한다. 
+
+* Naive라는 형용사가 붙은 이유는 분류를 쉽고 빠르게 하기 위해 특징들이 "확률적으로 독립"이라는 가정이 들어갔기 때문이고, 그래서 "Simple Bayes" or "Idiot Bayes"라고도 불린다.
+* 확률적으로 독립이라는 가정에 위반될 경우 에러가 발생할 수 있기에 주의가 필요하다.
+* 주로 문서 분류, 질병 진단, 스패 메일 분류 등에서 많이 사용된다.
+
+
+
+**독립**
+
+<img src="./assets/independence1.png" width="100%" height="100%">
+
+**조건부 독립**
+<img src="./assets/independence3.png" width="100%" height="100%">
+<img src="./assets/independence2.png" width="100%" height="100%">
+
+**Naive Bayes General Case**
+
+<img src="./assets/independence5.png" width="100%" height="100%">
+<img src="./assets/independence6.png" width="100%" height="100%">
+<img src="./assets/independence7.png" width="100%" height="100%">
+
+
+예시)
+
+<img src="./assets/independence8.png" width="100%" height="100%">
+
+
+
+**여기에서 날씨가 좋고 / 바람이 많이 불지 않고 / 기압은 높고 / 온도가 낮다면 오늘 비가 올까? 안올까??**
+
+
+
+sol)
+
+<img src="./assets/independence9.png" width="100%" height="100%">
+
+<img src="./assets/independence10.png" width="100%" height="100%">
+
+<img src="./assets/independence11.png" width="100%" height="100%">
+
+**Naive Bayes의 장점**
+
+* 그룹이 여러개 있는 분류에서 특히 쉽고 빠르게 예측이 가능하다.
+
+* 독립이라는 가정이 유효할 때, 다른 방식에 비해 훨씬 결과가 좋고, 학습 데이터도 적게 필요하다.
+
+* 수치형 데이터보다 범주형 데이터에 특히 효과적이다.
+
+  수치형 : 관측값이 수치로 측정되는 자료 (키, 몸무게)
+
+  범주형 : 관측결과가 범주 또는 항목의 형태로 나타나는 자료 (성별[남,여], 혈액형[A, B, O,  AB])
+
+**Navie Bayes의 단점**
+
+* 독립이라는 가정이 성립하지 않거나, 약한 경우 에러가 발생할 수 있다.
+* 실 적용에서는 완전 독립인 상황이 많지 않아, 사용에 어려움이 있다.
+
+
+-------------------------------------
 
 ### Expectation Maximization
 
