@@ -756,31 +756,32 @@ reference
 
 ## Naive Bayes
 
-<br>
-
 ### 1. Bayes' theorem, Bayes' rule (베이즈 정리) 
 
 :  두 확률 변수의 **사전 확률**과 **사후 확률** 사이의 관계를 나타내는 정리
 
 즉, 이전의 경험과 현재의 증거(**사전 확률**)를 토대로 어떤 사건의 확률(**사후 확률**)을 추론하는 과정을 보여준다.
+
 <br>
+
 **Bayes' Rule**
 
-<img src="./assets/bayes1.png" width="30%" height="30%">
+<img src="./assets/bayes1.png" width="60%" height="60%">
 
 <br>
+
 **증명**
 
-<img src="./assets/bayes2.png" width="100%" height="100%">
+<img src="./assets/bayes2.png" width="60%" height="60%">
 
 
-P(A), P(B) : 사전 확률
+**P(A), P(B)** : 사전 확률
 
-P(A | B) : 사건 B가 주어졌을 때, A의 조건부 확률(likelihood)
+**P(A | B)** : 사건 B가 주어졌을 때, A의 조건부 확률(likelihood)
 
-P(B | A) : 사건 A라는 증거에 대한 사후 확률(posterior probability)
+**P(B | A)** : 사건 A라는 증거에 대한 사후 확률(posterior probability)
 
-
+<br>
 
 예시) 
 
@@ -803,40 +804,50 @@ P(B | A) : 사건 A라는 증거에 대한 사후 확률(posterior probability)
 * 확률적으로 독립이라는 가정에 위반될 경우 에러가 발생할 수 있기에 주의가 필요하다.
 * 주로 문서 분류, 질병 진단, 스패 메일 분류 등에서 많이 사용된다.
 
-
+<br>
 
 **독립**
 
-<img src="./assets/independence1.png" width="100%" height="100%">
+<br>
+
+<img src="./assets/independence1.png" width="50%" height="50%">
 
 **조건부 독립**
-<img src="./assets/independence3.png" width="100%" height="100%">
-<img src="./assets/independence2.png" width="100%" height="100%">
+
+<br>
+
+<img src="./assets/independence3.png" width="50%" height="50%">
+<img src="./assets/independence2.png" width="50%" height="50%">
+
+<br>
 
 **Naive Bayes General Case**
 
-<img src="./assets/independence5.png" width="100%" height="100%">
-<img src="./assets/independence6.png" width="100%" height="100%">
-<img src="./assets/independence7.png" width="100%" height="100%">
+<br>
 
+<img src="./assets/independence5.png" width="60%" height="60%">
+<img src="./assets/independence6.png" width="80%" height="80%">
+<img src="./assets/independence7.png" width="80%" height="80%">
+
+<br>
 
 예시)
 
-<img src="./assets/independence8.png" width="100%" height="100%">
+<img src="./assets/independence8.png" width="80%" height="80%">
 
 
 
 **여기에서 날씨가 좋고 / 바람이 많이 불지 않고 / 기압은 높고 / 온도가 낮다면 오늘 비가 올까? 안올까??**
 
-
+<br>
 
 sol)
 
-<img src="./assets/independence9.png" width="100%" height="100%">
+<img src="./assets/independence9.png" width="70%" height="70%">
 
-<img src="./assets/independence10.png" width="100%" height="100%">
+<img src="./assets/independence10.png" width="70%" height="70%">
 
-<img src="./assets/independence11.png" width="100%" height="100%">
+<img src="./assets/independence11.png" width="70%" height="70%">
 
 **Naive Bayes의 장점**
 
@@ -849,6 +860,8 @@ sol)
   수치형 : 관측값이 수치로 측정되는 자료 (키, 몸무게)
 
   범주형 : 관측결과가 범주 또는 항목의 형태로 나타나는 자료 (성별[남,여], 혈액형[A, B, O,  AB])
+  
+<br>
 
 **Navie Bayes의 단점**
 
