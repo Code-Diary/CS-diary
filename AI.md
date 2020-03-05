@@ -317,7 +317,7 @@ MAX는 탐색을 다시 수행하여 아래와 같은 트리를 생성한다. MA
 
 ---
 
-#Constraint-Satisfaction-Problem
+# Constraint-Satisfaction-Problem
 
 ### 정의
 -   제약 조건을 만족하는 경우를 찾는 탐색 문제의 일종
