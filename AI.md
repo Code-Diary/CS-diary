@@ -335,10 +335,11 @@ MAX는 탐색을 다시 수행하여 아래와 같은 트리를 생성한다. MA
 ### 제약 충족 문제 예시
 -   3색 문제
 <image src="./assets/ukk/map.png">
--   V = {WA, NT, SA, Q, NSW, V, T}
+
+-	V = {WA, NT, SA, Q, NSW, V, T}
 -	D = {R,G,B}
--	C = {<(WA, NT), {(R,G), (R,B), (G,R), (G, B), (B, R), (B, G)}>, …………..} - 명시적(explict) 제약충족 표현, k = 2
--   C = 인접한 두 나라의 색이 다름  - 암시적(implict) 제약 충족 표현
+-	C = {<(WA, NT), {(R,G), (R,B), (G,R), (G, B), (B, R), (B, G)}>, …………..} => 명시적(explict) 제약충족 표현, k = 2
+- 	C = 인접한 두 나라의 색이 다름 => 암시적(implict) 제약 충족 표현
 -   생활속의 CSP
     -   시간표 짜기
     -   버스 배차 스케줄링
