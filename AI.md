@@ -77,12 +77,11 @@ Uniform-cost Search는 lowest path cost g(n)까지의 노드 n까지 Expand한�
 5. Iterative Deepening Depth-First Search
 
     Depth Limit Search에서 Limit을 점차적으로 늘려나가는 방식.
-전체 상태공간의 지름을 알지 못할때 사용하면 좋다.
-Time-complexity로는 O(bd)이다. 
-    
+    전체 상태공간의 지름을 알지 못할때 사용하면 좋다.
+    Time-complexity로는 O(bd)이다. 
+
     <img src="./assets/IDS.png" width="70%" height="70%">
-    
-    
+
 
 #### Overall
 
@@ -403,7 +402,7 @@ Theorem: 제약 그래프에 루프만 없다면 CSP는 
 ###### Nearly Tree-Structured CSPs
 
 <image src="./assets/ukk/nts2.jpg">
-    
+​    
 - Conditioning: 변수를 인스턴스화 하고 이웃 도메인을 prune 해버린다.
 - Cut set conditioning: 나머지 제약 그래프가 트리가 되도록 변수 세트를 인스턴스와 한다.
 - Cut set size c는 small c에 대해 매우 빠른 런타임
@@ -861,13 +860,13 @@ sol)
 
   범주형 : 관측결과가 범주 또는 항목의 형태로 나타나는 자료 (성별[남,여], 혈액형[A, B, O,  AB])
   
+
 <br>
 
 **Navie Bayes의 단점**
 
 * 독립이라는 가정이 성립하지 않거나, 약한 경우 에러가 발생할 수 있다.
 * 실 적용에서는 완전 독립인 상황이 많지 않아, 사용에 어려움이 있다.
-
 
 -------------------------------------
 
@@ -903,7 +902,7 @@ sol)
 
 Hidden Variable을 어떻게 training data로 사용할 것인가?
 
-<img src="./assets/MissingData.png">
+<img src="./assets/MissingData.PNG">
 
 1. 사용하지 않는다.
 
@@ -911,23 +910,23 @@ Hidden Variable을 어떻게 training data로 사용할 것인가?
 
 2. Fill in with Best Value
 
-   <img src="./assets/FillwithBestValue.png">
+   <img src="./assets/FillwithBestValue.PNG">
 
 3. **확률 분포를 적용시켜서 사용 (EM 알고리즘)**
 
    초기에는 확률값을 랜덤하게 설정(Random initialize를 여러번 해봐서 최상의 optimal을 찾아야한다.)
 
-<img src="./assets/distributionValue.png">
+<img src="./assets/distributionValue.PNG">
 
 아래와 같이 E-step(Expectation)과 M-step(Maximum likelihood)을 반복해가면서 일정한 값에 수렴하도록 계산
 
-<img src="./assets/distributionValue2.png">
+<img src="./assets/distributionValue2.PNG">
 
-<img src="./assets/distributionValue3.png">
+<img src="./assets/distributionValue3.PNG">
 
 **M-step을 통해 증가하는 likelihood**
 
-<img src="./assets/likelihood.png">
+<img src="./assets/likelihood.PNG">
 
 ---
 ### Reinforcement Learning
@@ -992,7 +991,6 @@ Hidden Variable을 어떻게 training data로 사용할 것인가?
 
   <img src="./assets/Q-Learning.png">
 
-  
 
 **알고리즘**
 
