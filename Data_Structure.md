@@ -1,12 +1,12 @@
 Data Structure(자료구조)
 
-##### [2. List - 20.03.13 LHJ](#List(리스트))
+##### [2. List - 20.03.13 LHJ](#List)
 ##### [3. Stack & Queue - 20.03.13 LHJ](#Stack-&-Queue)
 ##### [4. Skip List - 20.03.13 LHJ](#Skip-List)
 
 <br>
 
-## List(리스트)
+## List
 
 순열(Sequence)이라고도 불리며, **순서**를 가지고 일렬로 나열한 원소들의 모임
 
@@ -108,3 +108,7 @@ Data Structure(자료구조)
 <img src="./assets/List6.png" width="70%" height="70%">
 
 <br>
+
+## Stack & Queue
+
+## Skip List
