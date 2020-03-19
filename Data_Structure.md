@@ -6,6 +6,12 @@ Data Structure(자료구조)
 
 <br>
 
+### 자료구조 연산 Big-O
+
+<img src="./assets/DataStructure.PNG" width="80%" height="80%">
+
+<br>
+
 ## List
 
 순열(Sequence)이라고도 불리며, **순서**를 가지고 일렬로 나열한 원소들의 모임
