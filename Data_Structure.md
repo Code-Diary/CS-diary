@@ -200,7 +200,32 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 
 <br>
 
-Skip List 예시)
+**Skip List 예시)**
 
-<img src="./assets/Queue3.png" width="30%" height="30%">
+<img src="./assets/Skip1.png" width="75%" height="75%">
 
+<br>
+
+**Node**
+
+<img src="./assets/Skip2.png" width="50%" height="50%">
+
+<br>
+
+**Find**
+
+<img src="./assets/Skip3.png" width="50%" height="50%">
+
+<br>
+
+노드의 i번째 포인터는 노드 뒤에 있는 레벨이 i 이상인 노드들 중 가장 왼쪽에 있는 것를 가리킨다. 어떤 원소를 찾는 연산은 포인터를 계속 따라감으로써 할 수 있다. 레벨이 높은 포인터가 낮은 포인터보다 더 멀리 이동할 수 있을 것이므로, 레벨이 높은 포인터를 이용할 수 있다면 그것을 이용하고, 아니면 레벨을 낮추는 과정을 반복하자.
+
+<br>
+
+**Add & Erase**
+
+<img src="./assets/Skip4.png" width="45%" height="45%">
+
+<br>
+
+추가 및 삭제할 위치를 find 함수로 찾고, 그 위치에 원소가 들어가도록 조절해주면 된다.
