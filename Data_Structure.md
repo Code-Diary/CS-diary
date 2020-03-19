@@ -113,7 +113,7 @@ Data Structure(자료구조)
 
 ## Stack
 
-**스택(Stack)**은 한 쪽 끝에서만 자료를 넣거나 뺄 수 있는 **선형 구조(LIFO- Last In First Out)**으로 되어있습니다. **자료를 넣는 것을 PUSH**라고 하고 넣어둔 **자료를 꺼내는 것을 POP**이라고 합니다.
+**스택(Stack)** 은 한 쪽 끝에서만 자료를 넣거나 뺄 수 있는 **선형 구조(LIFO- Last In First Out)** 으로 되어있습니다. **자료를 넣는 것을 PUSH**라고 하고 넣어둔 **자료를 꺼내는 것을 POP**이라고 합니다.
 
 
 
@@ -121,25 +121,41 @@ Data Structure(자료구조)
 
 * **Node**
 
-<img src="./assets/Stack1.PNG" width="50%" height="50%">
+<img src="./assets/Stack1.PNG" width="30%" height="30%">
 
 <br>
 
 * **Create Stack  and MakeEmpty**
 
+<img src="./assets/Stack2.PNG" width="30%" height="30%">
 
+<br>
 
 * **Push**
 
+<img src="./assets/Stack3.PNG" width="35%" height="35%">
 
+<br>
 
 * **POP**
 
+<img src="./assets/Stack4.PNG" width="30%" height="30%">
 
+<br>
 
 ### Array List로 구현한 Stack
 
+<img src="./assets/Stack5.PNG" width="30%" height="30%">
 
+<br>
+
+<img src="./assets/Stack6.PNG" width="30%" height="30%">
+
+<br>
+
+<img src="./assets/Stack7.PNG" width="30%" height="30%">
+
+<br>
 
 ## Queue
 
@@ -149,7 +165,9 @@ Data Structure(자료구조)
 
 ### Linear Queue (선형 큐)
 
+<img src="./assets/Queue1.png" width="30%" height="30%">
 
+<br>
 
 **선형 큐의 문제점**
 
@@ -157,11 +175,17 @@ Data Structure(자료구조)
 
 rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있어도 활용이 불가능하다.
 
-
+<br>
 
 ### Circular Queue(원형 큐)
 
+<img src="./assets/Queue2.png" width="30%" height="30%">
 
+<br>
+
+<img src="./assets/Queue3.png" width="30%" height="30%">
+
+<br>
 
 
 ## Skip List
