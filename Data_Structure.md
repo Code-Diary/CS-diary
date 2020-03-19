@@ -111,4 +111,57 @@ Data Structure(자료구조)
 
 ## Stack and Queue
 
+## Stack
+
+**스택(Stack)**은 한 쪽 끝에서만 자료를 넣거나 뺄 수 있는 **선형 구조(LIFO- Last In First Out)**으로 되어있습니다. **자료를 넣는 것을 PUSH**라고 하고 넣어둔 **자료를 꺼내는 것을 POP**이라고 합니다.
+
+
+
+### Linked List로 구현한 Stack
+
+* **Node**
+
+<img src="./assets/Stack1.PNG" width="50%" height="50%">
+
+<br>
+
+* **Create Stack  and MakeEmpty**
+
+
+
+* **Push**
+
+
+
+* **POP**
+
+
+
+### Array List로 구현한 Stack
+
+
+
+## Queue
+
+: Queue는 가장 먼저 들어온 데이터가 가장 먼저 내보내지는 **(FIFO : First In First Out)** 구조를 가집니다.
+
+
+
+### Linear Queue (선형 큐)
+
+
+
+**선형 큐의 문제점**
+
+일반적인 선형큐는 rear이 마지막 index를 가르키면서 데이터의 삽입이 이루어진다.
+
+rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있어도 활용이 불가능하다.
+
+
+
+### Circular Queue(원형 큐)
+
+
+
+
 ## Skip List
