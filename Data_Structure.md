@@ -195,3 +195,12 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 
 
 ## Skip List
+
+: Log(n) 시간에 검색/추가/제거를 수행할 수 있는 정렬된 자료구조
+
+<br>
+
+Skip List 예시)
+
+<img src="./assets/Queue3.png" width="30%" height="30%">
+
