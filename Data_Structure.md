@@ -7,6 +7,12 @@ Data Structure(자료구조)
 ##### [6. Heap - 20.03.13 UKK](#Heap)
 <br>
 
+### 자료구조 연산 Big-O
+
+<img src="./assets/DataStructure.PNG" width="80%" height="80%">
+
+<br>
+
 ## Performance_Analysis
 ### 공간 복잡도
 - 데이터 크기에 비례하여 얼마나 많은 메모리 공간을 사용해야 하는지 나타낸 것
@@ -22,13 +28,6 @@ Data Structure(자료구조)
 
 <image src="./assets/ukk/complexity.png">
 
-
-
-
-
-### 자료구조 연산 Big-O
-
-<img src="./assets/DataStructure.PNG" width="80%" height="80%">
 
 <br>
 
