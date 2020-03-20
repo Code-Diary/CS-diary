@@ -7,7 +7,7 @@ Data Structure(자료구조)
 ##### [6. Heap - 20.03.13 UKK](#Heap)
 ##### [7. BST - 20.03.20 CYS](#binary-search-tree)
 ##### [8. AVL Tree - 20.03.20 CYS](#avl-tree)
-##### [9. Red Black Tree - 20.03.20 CYS](#red-black-tree)
+##### [9. Red Black Tree - 20.03.20 CYS](#red-black-trees)
 
 <br>
 
