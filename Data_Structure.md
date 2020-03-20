@@ -423,6 +423,7 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 
     search연산이 O(logn)인 균형 이진 트리. 지금까지 알려진 이진트리 알고리즘 중 가장 성능이 좋다고 평가받음.
 
+<img src="./assets/rbtree.png" width="70%" height="70%">
 
 2. operations
 
@@ -444,6 +445,8 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 
     - 부모의 형제가 red일 경우 : Recoloring
     - 부모의 형제가 black 혹은 없을 경우 : Restructing
+
+	<img src="./assets/rbtree_insert.png" width="40%" height="40%">
 
     **Restruction**
 
@@ -468,6 +471,8 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
     삭제하려는 노드의 색이 black인 경우에는, 그 자리를 대체하는 노드를 black으로 칠해준다.
     하지만 만약 그 노드가 이미 black이었을 경우, double black node라는 문제가 발생한다.
     이를 해결하기 위한 방법은 케이스 별로 분류한다.
+    
+    <img src="./assets/rbtree_delete.png" width="70%" height="70%">
 
     1. double black node의 형제가 red인 경우
 
