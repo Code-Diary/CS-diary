@@ -383,7 +383,7 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 
     AVL 트리의 핵심 개념 가운데 하나가 Balance Factor(BF)입니다. 왼쪽 서브트리의 높이에서 오른쪽 서브트리의 높이를 뺀 것입니다. 두 서브트리의 높이가 같거나 잎새노드라면 BF는 0입니다(empty tree의 BF는 -1로 정의).
     
-	<img src="./assets/avl_ex.png" width="60%" height="60%">
+	<img src="./assets/avl_ex.png" width="20%" height="20%">
 
     AVL 트리는 요소를 삽입(insert)하거나 삭제(delete)하는 과정에서 서브트리를 재구성해 트리 전체의 균형을 맞춥니다. 삽입/삭제 연산시 BF가 일정 값 이상(보통 2) 혹은 이하(-2)로 바뀐 노드를 기준으로 그 서브트리들의 위치를 rotation하는 방식을 취합니다. rotation에는 두 가지 방식이 있는데 삽입 연산을 중심으로 살펴 보겠습니다.
 
@@ -394,9 +394,9 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
     - V가 U의 왼쪽 자식노드, V의 왼쪽 서브트리에 새 노드 삽입 : V를 기준으로 right rotation
     - V 가 U의 오른쪽 자식노드, V의 오른쪽 서브트리에 새 노드 삽입 : V를 기준으로 left rotation 
     
-	<img src="./assets/avl_singlerot.png" width="70%" height="70%">
+	<img src="./assets/avl_singlerot.png" width="60%" height="60%">
     
-	<img src="./assets/avl_rot.gif" width="60%" height="60%">
+	<img src="./assets/avl_rot.gif" width="25%" height="25%">
 
     **Double Rotation**
 
@@ -409,7 +409,7 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 
     **정리**
     
-	<img src="./assets/avl_scen.png" width="70%" height="70%">	
+	<img src="./assets/avl_scen.png" width="40%" height="40%">	
 
     - 시나리오1 : U의 왼쪽 자식노드의 왼쪽 서브트리 A에 새 노드 삽입 : single right rotation
     - 시나리오2 : U의 왼쪽 자식노드의 오른쪽 서브트리 B에 새 노드 삽입 : double rotation(left-right)
