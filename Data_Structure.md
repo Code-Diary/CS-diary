@@ -336,8 +336,6 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 
     노드의 왼쪽 서브트리에는 그 노드의 값보다 작은 값들을 지닌 노드들로 이루어져 있고, 노드의 오른쪽 서브트리에는 그 노드의 값보다 크거나 같은 값들을 지닌 노드들로 이루어지게 한다.
 
-    트리의 높이가 h라 할때 계산복잡성은 O(h)이다.
-
 
 2. operations
 
@@ -347,7 +345,7 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 	
 	<img src="./assets/bst_ex.png" width="70%" height="70%">
 
-	<img src="./assets/bst_insert.png" width="70%" height="70%">
+	<img src="./assets/bst_insert.png" width="40%" height="40%">
 
     2. 삭제(delete)
 
@@ -359,13 +357,13 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 	
 	<img src="./assets/bst_delete_ex.png" width="70%" height="70%">
 
-	<img src="./assets/bst_delete.png" width="70%" height="70%">
+	<img src="./assets/bst_delete.png" width="40%" height="40%">
 
     3. 탐색(find)
 
         현재 노드가 찾고자 하는 값보다 크면 왼쪽, 그렇지 않으면 오른쪽을 탐색한다.
 	
-	<img src="./assets/bst_code.png" width="70%" height="70%">
+	<img src="./assets/bst_code.png" width="25%" height="25%">
 
 3. limitation
 
@@ -378,10 +376,14 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 
     서브트리의 높이를 적절하게 제어해 전체 트리가 어느 한쪽으로 늘어지지 않도록 한 이진탐색트리(Binary Search Tree)의 일종입니다. 
 
+    트리의 높이가 h라 할때 계산복잡성은 O(h)이다.
+
 2. operation
 
 
     AVL 트리의 핵심 개념 가운데 하나가 Balance Factor(BF)입니다. 왼쪽 서브트리의 높이에서 오른쪽 서브트리의 높이를 뺀 것입니다. 두 서브트리의 높이가 같거나 잎새노드라면 BF는 0입니다(empty tree의 BF는 -1로 정의).
+    
+	<img src="./assets/avl_ex.png" width="60%" height="60%">
 
     AVL 트리는 요소를 삽입(insert)하거나 삭제(delete)하는 과정에서 서브트리를 재구성해 트리 전체의 균형을 맞춥니다. 삽입/삭제 연산시 BF가 일정 값 이상(보통 2) 혹은 이하(-2)로 바뀐 노드를 기준으로 그 서브트리들의 위치를 rotation하는 방식을 취합니다. rotation에는 두 가지 방식이 있는데 삽입 연산을 중심으로 살펴 보겠습니다.
 
@@ -391,6 +393,10 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 
     - V가 U의 왼쪽 자식노드, V의 왼쪽 서브트리에 새 노드 삽입 : V를 기준으로 right rotation
     - V 가 U의 오른쪽 자식노드, V의 오른쪽 서브트리에 새 노드 삽입 : V를 기준으로 left rotation 
+    
+	<img src="./assets/avl_singlerot.png" width="70%" height="70%">
+    
+	<img src="./assets/avl_rot.gif" width="60%" height="60%">
 
     **Double Rotation**
 
@@ -398,9 +404,12 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
     
     - V가 U의 왼쪽 자식노드, V의 오른쪽 서브트리에 새 노드 삽입
     - V가 U의 오른쪽 자식노드, V의 왼쪽 서브트리에 새 노드 삽입
-
+    
+	<img src="./assets/avl_doublerot.png" width="70%" height="70%">
 
     **정리**
+    
+	<img src="./assets/avl_scen.png" width="70%" height="70%">	
 
     - 시나리오1 : U의 왼쪽 자식노드의 왼쪽 서브트리 A에 새 노드 삽입 : single right rotation
     - 시나리오2 : U의 왼쪽 자식노드의 오른쪽 서브트리 B에 새 노드 삽입 : double rotation(left-right)
