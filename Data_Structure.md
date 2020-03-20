@@ -5,6 +5,10 @@ Data Structure(자료구조)
 ##### [4. Skip List - 20.03.13 LHJ](#Skip-List)
 ##### [5. Tree - 20.03.13 UKK](#Tree)
 ##### [6. Heap - 20.03.13 UKK](#Heap)
+##### [7. BST - 20.03.20 CYS](#binary-search-tree)
+##### [8. AVL Tree - 20.03.20 CYS](#avl-tree)
+##### [9. Red Black Tree - 20.03.20 CYS](#red-black-tree)
+
 <br>
 
 ### 자료구조 연산 Big-O
