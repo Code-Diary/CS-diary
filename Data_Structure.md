@@ -328,3 +328,151 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 
 
 
+## Binary Search Tree
+
+1. concepts
+  
+    이진탐색(binary search)과 연결리스트(linked list)를 결합한 자료구조의 일종입니다. 이진탐색의 효율적인 탐색 능력을 유지하면서도, 빈번한 자료 입력과 삭제를 가능하게끔 고안됐습니다.
+
+    노드의 왼쪽 서브트리에는 그 노드의 값보다 작은 값들을 지닌 노드들로 이루어져 있고, 노드의 오른쪽 서브트리에는 그 노드의 값보다 크거나 같은 값들을 지닌 노드들로 이루어지게 한다.
+
+    트리의 높이가 h라 할때 계산복잡성은 O(h)이다.
+
+
+2. operations
+
+    1. 삽입(insert)
+        
+        현재노드보다 작으면 오른쪽에 위치시킨다.
+	
+	<img src="./assets/bst_ex.png" width="70%" height="70%">
+
+	<img src="./assets/bst_insert.png" width="70%" height="70%">
+
+    2. 삭제(delete)
+
+        Case 1. 삭제하고자 하는 노드가 리프노드 일 경우 그냥 삭제한다.
+
+        Case 2. 삭제하고자 하는 노드의 자식노드가 하나인 경우 삭제하고자 하는 노드의 부모가 삭제하고자 하는 노드의 자식을 가리키게 한다.
+
+        Case 3. 삭제하고자 하는 노드의 자식노드가 두개인 경우 삭제하고자 하는 노드의 오른쪽 자식노드의 영역 중 가장 작은 노드를 삭제하고자 하는 노드의 위치로 이동한다.
+	
+	<img src="./assets/bst_delete_ex.png" width="70%" height="70%">
+
+	<img src="./assets/bst_delete.png" width="70%" height="70%">
+
+    3. 탐색(find)
+
+        현재 노드가 찾고자 하는 값보다 크면 왼쪽, 그렇지 않으면 오른쪽을 탐색한다.
+	
+	<img src="./assets/bst_code.png" width="70%" height="70%">
+
+3. limitation
+
+    최악의 경우 탐색의 속도는 O(n)이 된다.
+
+
+## AVL Tree
+
+1. concepts
+
+    서브트리의 높이를 적절하게 제어해 전체 트리가 어느 한쪽으로 늘어지지 않도록 한 이진탐색트리(Binary Search Tree)의 일종입니다. 
+
+2. operation
+
+
+    AVL 트리의 핵심 개념 가운데 하나가 Balance Factor(BF)입니다. 왼쪽 서브트리의 높이에서 오른쪽 서브트리의 높이를 뺀 것입니다. 두 서브트리의 높이가 같거나 잎새노드라면 BF는 0입니다(empty tree의 BF는 -1로 정의).
+
+    AVL 트리는 요소를 삽입(insert)하거나 삭제(delete)하는 과정에서 서브트리를 재구성해 트리 전체의 균형을 맞춥니다. 삽입/삭제 연산시 BF가 일정 값 이상(보통 2) 혹은 이하(-2)로 바뀐 노드를 기준으로 그 서브트리들의 위치를 rotation하는 방식을 취합니다. rotation에는 두 가지 방식이 있는데 삽입 연산을 중심으로 살펴 보겠습니다.
+
+    **Single Rotation**
+
+    삽입 연산의 single rotation은 다음 두 가지 경우에 V(U의 자식노드, BF 절대값이 1이하)를 중심으로 실시합니다. (U는 BF의 절대값이 2 이상이면서 새 노드와 가장 가까운 조상 노드)
+
+    - V가 U의 왼쪽 자식노드, V의 왼쪽 서브트리에 새 노드 삽입 : V를 기준으로 right rotation
+    - V 가 U의 오른쪽 자식노드, V의 오른쪽 서브트리에 새 노드 삽입 : V를 기준으로 left rotation 
+
+    **Double Rotation**
+
+    다음 두 가지 경우 double rotation을 수행해 줍니다. (U는 BF의 절대값이 2 이상이면서 새 노드와 가장 가까운 조상 노드, V는 U의 자식노드이면서 BF 절대값이 1이하)
+    
+    - V가 U의 왼쪽 자식노드, V의 오른쪽 서브트리에 새 노드 삽입
+    - V가 U의 오른쪽 자식노드, V의 왼쪽 서브트리에 새 노드 삽입
+
+
+    **정리**
+
+    - 시나리오1 : U의 왼쪽 자식노드의 왼쪽 서브트리 A에 새 노드 삽입 : single right rotation
+    - 시나리오2 : U의 왼쪽 자식노드의 오른쪽 서브트리 B에 새 노드 삽입 : double rotation(left-right)
+    - 시나리오3 : U의 오른쪽 자식노드의 왼쪽 서브트리 C에 새 노드 삽입 : double rotation(right-left)
+    - 시나리오4 : U의 오른쪽 자식노드의 오른쪽 서브트리 D에 새 노드 삽입 : single left rotation
+
+
+## Red Black Trees
+
+1. concepts
+
+    search연산이 O(logn)인 균형 이진 트리. 지금까지 알려진 이진트리 알고리즘 중 가장 성능이 좋다고 평가받음.
+
+
+2. operations
+
+    트리가 아래 네개의 조건을 항상 만족시켜야 한다.
+    1. Root Property : 루트노드의 색깔은 검정(Black)이다.
+
+    2. External Property : 모든 external node들은 검정(Black)이다.
+
+    3. Internal Property : 빨강(Red)노드의 자식은 검정(Black)이다. (빨간색 노드가 연속으로 나올 수 없다.) 
+
+    4. Depth Property : 모든 리프노드에서 Black Depth는 같다. 
+
+
+    ### 삽입(insert)
+
+    1. 삽입 하고자 하는 노드의 색은 red이다.
+    2. 자신의 부모의 색이 red일 경우 3번 조건을 위배한다.
+    3. 이 경우 삼촌(부모의 형제)에 따라 동작을 달리한다.
+
+    - 부모의 형제가 red일 경우 : Recoloring
+    - 부모의 형제가 black 혹은 없을 경우 : Restructing
+
+    **Restruction**
+
+    1. 나(z)와 내 부모(v), 내 부모의 부모(Grand Parent)를 오름차순으로 정렬
+
+    2. 무조건 가운데 있는 값을 부모로 만들고 나머지 둘을 자식으로 만든다.
+
+    3. 올라간 가운데 있는 값을 검정(Black)으로 만들고 그 두자식들을 빨강(Red)로 만든다. 
+
+
+    **Recoloring**
+
+    1. 나의 부모의 부모의 형제를 모두 black으로 변경시키고 부모의 부모를 red로 한다.
+    2. 부모의 부모의 부모가 red일 경우 다시 Recoloring을 진행한다.
+    3. root까지 반복한다.
+
+    
+    ### 삭제(delete)
+
+    삭제하려는 노드의 색이 red인 경우에는 규칙을 꺠는 일이 없으므로, 일반적인 이진트리의 방법을 사용하면 된다.
+
+    삭제하려는 노드의 색이 black인 경우에는, 그 자리를 대체하는 노드를 black으로 칠해준다.
+    하지만 만약 그 노드가 이미 black이었을 경우, double black node라는 문제가 발생한다.
+    이를 해결하기 위한 방법은 케이스 별로 분류한다.
+
+    1. double black node의 형제가 red인 경우
+
+        형제를 검은색으로, 부모를 빨간색으로 칠하고 부모노드를 기준으로 좌회전한다.
+
+    2. double black node의 형제가 black이고 형제의 자식이 모두 black인 경우
+
+        형제 노드만 red로 만들고 부모노드를 double black node로 바꾸어 준다.(이 방법을 계속 진행한다.) 이 후 double black node가 root가 되면 종료한다.
+
+    3. double black node의 형제가 black이고, 형제의 왼쪽 자식이 red 오른쪽 자식이 black인 경우
+
+        형제 노드를 red, 형제노드의 왼쪽 자식을 black 으로 칠한후 형제노드를 기준으로 우회전한다.
+
+    4. double black node의 형제가 black이고 형제의 오른쪽 자식이 red인 경우
+
+        부모노드의 색을 형제에게 넘긴다. 이 후, 부모노드와 형제노드의 오른쪽 자식을 black으로 칠한다. 부모노드 기준으로 우회전 한다.
+
