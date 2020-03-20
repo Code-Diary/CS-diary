@@ -477,23 +477,23 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
         형제를 검은색으로, 부모를 빨간색으로 칠하고 부모노드를 기준으로 좌회전한다.
 	
 
-	<img src="./assets/rbtree_case1.png" width="40%" height="40%">
+	<img src="./assets/rbtree_case1.png" width="70%" height="70%">
 
     2. double black node의 형제가 black이고 형제의 자식이 모두 black인 경우
 
         형제 노드만 red로 만들고 부모노드를 double black node로 바꾸어 준다.(이 방법을 계속 진행한다.) 이 후 double black node가 root가 되면 종료한다.
 	
 
-	<img src="./assets/rbtree_case2.png" width="40%" height="40%">
+	<img src="./assets/rbtree_case2.png" width="70%" height="70%">
 
     3. double black node의 형제가 black이고, 형제의 왼쪽 자식이 red 오른쪽 자식이 black인 경우
 
         형제 노드를 red, 형제노드의 왼쪽 자식을 black 으로 칠한후 형제노드를 기준으로 우회전한다.
 
-	<img src="./assets/rbtree_case3.png" width="40%" height="40%">
+	<img src="./assets/rbtree_case3.png" width="70%" height="70%">
 
     4. double black node의 형제가 black이고 형제의 오른쪽 자식이 red인 경우
 
         부모노드의 색을 형제에게 넘긴다. 이 후, 부모노드와 형제노드의 오른쪽 자식을 black으로 칠한다. 부모노드 기준으로 우회전 한다.
 
-	<img src="./assets/rbtree_case4.png" width="40%" height="40%">
+	<img src="./assets/rbtree_case4.png" width="70%" height="70%">
