@@ -9,6 +9,12 @@ Data Structure(자료구조)
 ##### [8. AVL Tree - 20.03.20 CYS](#avl-tree)
 ##### [9. Red Black Tree - 20.03.20 CYS](#red-black-trees)
 
+##### [10. Btrees - 20.03.27 KSW](#Btrees)
+
+##### [11. Hashing - 20.03.27 KSW](#Hashing)
+
+###### [12. BloomFilter - 20.03.27 KSW](#BloomFilter)
+
 <br>
 
 ### 자료구조 연산 Big-O
@@ -344,7 +350,7 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 2. operations
 
     1. 삽입(insert)
-        
+       
         현재노드보다 작으면 오른쪽에 위치시킨다.
 	
 	<img src="./assets/bst_ex.png" width="70%" height="70%">
@@ -387,34 +393,34 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 
     AVL 트리의 핵심 개념 가운데 하나가 Balance Factor(BF)입니다. 왼쪽 서브트리의 높이에서 오른쪽 서브트리의 높이를 뺀 것입니다. 두 서브트리의 높이가 같거나 잎새노드라면 BF는 0입니다(empty tree의 BF는 -1로 정의).
     
-	<img src="./assets/avl_ex.png" width="20%" height="20%">
-
+    <img src="./assets/avl_ex.png" width="20%" height="20%">
+    
     AVL 트리는 요소를 삽입(insert)하거나 삭제(delete)하는 과정에서 서브트리를 재구성해 트리 전체의 균형을 맞춥니다. 삽입/삭제 연산시 BF가 일정 값 이상(보통 2) 혹은 이하(-2)로 바뀐 노드를 기준으로 그 서브트리들의 위치를 rotation하는 방식을 취합니다. rotation에는 두 가지 방식이 있는데 삽입 연산을 중심으로 살펴 보겠습니다.
-
+    
     **Single Rotation**
-
+    
     삽입 연산의 single rotation은 다음 두 가지 경우에 V(U의 자식노드, BF 절대값이 1이하)를 중심으로 실시합니다. (U는 BF의 절대값이 2 이상이면서 새 노드와 가장 가까운 조상 노드)
-
+    
     - V가 U의 왼쪽 자식노드, V의 왼쪽 서브트리에 새 노드 삽입 : V를 기준으로 right rotation
     - V 가 U의 오른쪽 자식노드, V의 오른쪽 서브트리에 새 노드 삽입 : V를 기준으로 left rotation 
     
-	<img src="./assets/avl_singlerot.png" width="60%" height="60%">
+    <img src="./assets/avl_singlerot.png" width="60%" height="60%">
     
-	<img src="./assets/avl_rot.gif" width="25%" height="25%">
-
+    <img src="./assets/avl_rot.gif" width="25%" height="25%">
+    
     **Double Rotation**
-
+    
     다음 두 가지 경우 double rotation을 수행해 줍니다. (U는 BF의 절대값이 2 이상이면서 새 노드와 가장 가까운 조상 노드, V는 U의 자식노드이면서 BF 절대값이 1이하)
     
     - V가 U의 왼쪽 자식노드, V의 오른쪽 서브트리에 새 노드 삽입
     - V가 U의 오른쪽 자식노드, V의 왼쪽 서브트리에 새 노드 삽입
     
-	<img src="./assets/avl_doublerot.png" width="70%" height="70%">
-
+    <img src="./assets/avl_doublerot.png" width="70%" height="70%">
+    
     **정리**
     
-	<img src="./assets/avl_scen.png" width="40%" height="40%">	
-
+    <img src="./assets/avl_scen.png" width="40%" height="40%">	
+    
     - 시나리오1 : U의 왼쪽 자식노드의 왼쪽 서브트리 A에 새 노드 삽입 : single right rotation
     - 시나리오2 : U의 왼쪽 자식노드의 오른쪽 서브트리 B에 새 노드 삽입 : double rotation(left-right)
     - 시나리오3 : U의 오른쪽 자식노드의 왼쪽 서브트리 C에 새 노드 삽입 : double rotation(right-left)
@@ -442,62 +448,165 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 
 
     ### 삽입(insert)
-
+    
     1. 삽입 하고자 하는 노드의 색은 red이다.
     2. 자신의 부모의 색이 red일 경우 3번 조건을 위배한다.
     3. 이 경우 삼촌(부모의 형제)에 따라 동작을 달리한다.
-
+    
     - 부모의 형제가 red일 경우 : Recoloring
     - 부모의 형제가 black 혹은 없을 경우 : Restructing
-
-	<img src="./assets/rbtree_insert.png" width="40%" height="40%">
-
+    
+    <img src="./assets/rbtree_insert.png" width="40%" height="40%">
+    
     **Restruction**
-
+    
     1. 나(z)와 내 부모(v), 내 부모의 부모(Grand Parent)를 오름차순으로 정렬
-
+    
     2. 무조건 가운데 있는 값을 부모로 만들고 나머지 둘을 자식으로 만든다.
-
+    
     3. 올라간 가운데 있는 값을 검정(Black)으로 만들고 그 두자식들을 빨강(Red)로 만든다. 
 
 
     **Recoloring**
-
+    
     1. 나의 부모의 부모의 형제를 모두 black으로 변경시키고 부모의 부모를 red로 한다.
     2. 부모의 부모의 부모가 red일 경우 다시 Recoloring을 진행한다.
     3. root까지 반복한다.
 
-    
+
+​    
     ### 삭제(delete)
-
+    
     삭제하려는 노드의 색이 red인 경우에는 규칙을 꺠는 일이 없으므로, 일반적인 이진트리의 방법을 사용하면 된다.
-
+    
     삭제하려는 노드의 색이 black인 경우에는, 그 자리를 대체하는 노드를 black으로 칠해준다.
     하지만 만약 그 노드가 이미 black이었을 경우, double black node라는 문제가 발생한다.
     이를 해결하기 위한 방법은 케이스 별로 분류한다.
-
+    
     1. double black node의 형제가 red인 경우
-
+    
         형제를 검은색으로, 부모를 빨간색으로 칠하고 부모노드를 기준으로 좌회전한다.
-	
+
 
 	<img src="./assets/rbtree_case1.png" width="70%" height="70%">
-
-    2. double black node의 형제가 black이고 형제의 자식이 모두 black인 경우
-
-        형제 노드만 red로 만들고 부모노드를 double black node로 바꾸어 준다.(이 방법을 계속 진행한다.) 이 후 double black node가 root가 되면 종료한다.
 	
+	2. double black node의 형제가 black이고 형제의 자식이 모두 black인 경우
+	
+	    형제 노드만 red로 만들고 부모노드를 double black node로 바꾸어 준다.(이 방법을 계속 진행한다.) 이 후 double black node가 root가 되면 종료한다.
+
 
 	<img src="./assets/rbtree_case2.png" width="70%" height="70%">
-
-    3. double black node의 형제가 black이고, 형제의 왼쪽 자식이 red 오른쪽 자식이 black인 경우
-
-        형제 노드를 red, 형제노드의 왼쪽 자식을 black 으로 칠한후 형제노드를 기준으로 우회전한다.
-
+	
+	3. double black node의 형제가 black이고, 형제의 왼쪽 자식이 red 오른쪽 자식이 black인 경우
+	
+	    형제 노드를 red, 형제노드의 왼쪽 자식을 black 으로 칠한후 형제노드를 기준으로 우회전한다.
+	
 	<img src="./assets/rbtree_case3.png" width="70%" height="70%">
-
-    4. double black node의 형제가 black이고 형제의 오른쪽 자식이 red인 경우
-
-        부모노드의 색을 형제에게 넘긴다. 이 후, 부모노드와 형제노드의 오른쪽 자식을 black으로 칠한다. 부모노드 기준으로 우회전 한다.
-
+	
+	4. double black node의 형제가 black이고 형제의 오른쪽 자식이 red인 경우
+	
+	    부모노드의 색을 형제에게 넘긴다. 이 후, 부모노드와 형제노드의 오른쪽 자식을 black으로 칠한다. 부모노드 기준으로 우회전 한다.
+	
 	<img src="./assets/rbtree_case4.png" width="70%" height="70%">
+
+## Btrees
+
+##### 특성
+
+1. Root node가 Leaf node인 경우를 제외하고는 항상 최소 2개의 Children을 가진다.
+2. Root node와 Leaf node를 제외한 모든 node들은 최소 [M/2], 최대 M개의 Subtree를 가진다.
+3. 모든 Leaf node들은 같은 Level에 존재하여야 한다.
+4. 새로운 Key 값은 Leaf node에 삽입된다.
+5. node 내 Key 값들은 오름차순이다.
+6. Leaf node는 최소 [M/2] - 1개의 Key를 가지고 있어야 한다.
+7. 입력된 자료는 중복될 수 없다.
+
+**M: tree의 degree**
+
+<br>
+
+##### Btree Example
+
+<img src="./assets/Btree.png" width="50%" height="50%">
+
+- `root`노드의 데이터는 8, 13
+- 8보다 작은 데이터는 8의 왼쪽 서브트리에, 8과 13 사이의 값은 8의 오른쪽 13의 왼쪽 서브트리 (중간)에 , 13보다 큰값은 13 오른쪽 서브 트리에 값을 이루고 있다.
+
+<br>
+
+##### Node Insertion
+
+Overflow가 발생할 경우
+
+1. **Key Rotation** : Check for Siblings for rotation
+
+<img src="./assets/KeyRotation.png" width="100%" height="50%">
+
+**Example) Insert value 18**
+
+2. **Node Split**
+
+<img src="./assets/NodeSplit.png" width="70%" height="50%">
+
+Overflow가 발생하는 node의 가운데 Key 값을 상위 레벨로 올린다.
+
+<br>
+
+(1)과 (2)를 반복하며 진행
+
+##### Node Deletion
+
+삭제를 위해서는 Leaf node로 해당 원소를 이동시켜야 한다.
+
+1. **Leaf node**를 삭제하는 경우
+
+   **CASE 1**
+
+   <img src="./assets/LeafnodeDeletion_1.png" width="60%">
+
+    노드에서 데이터를 삭제하여도 `B-Tree`를 유지
+
+   **CASE 2**
+
+   <img src="./assets/LeafnodeDeletion_2.png" width="100%">
+
+   Leaf 노드에서 5를 삭제하면 B-tree 구조가 깨짐
+
+   삭제한 노드의 부모 노드로 올라가며 데이터를 가져온다.
+
+   5의 부모노드와, 형제 노드를 merge하고, Key Rotation.
+
+   root 까지 반복해가면서 B-tree 구조를 만들도록 한다.
+
+2. **Internal node**를 삭제하는 경우
+
+   **CASE 1**
+
+   <img src="./assets/InternalnodeDeletion_1.PNG" width="60%">
+
+   노드에서 데이터를 삭제하고 왼쪽 서브트리에서 최대값을 노드에 위치. 
+
+   같은 방식으로 부모노드에서 자식노드로 값을 가져오고 형제노드와 merge 하며 `B-Tree`조건이 맞을때까지 반복	
+
+   **CASE 2**
+
+   <img src="./assets/InternalnodeDeletion_2.png" width="100%">
+
+<br>
+
+###### B+Tree
+
+<img src="./assets/BplusTree.png" width="100%">
+
+- 모든 데이터 값은 Leaf Node에 저장
+- Leaf node는 Linked list로 구성되어 있어 sibling node끼리 연결
+- Non-leaf node들은 value의 저장 위치를 표시하는 index로만 사용(data는 leaf node에 따로 저장)
+- Data node(Leaf node)와 Index node(Non leaf node)의 크기는 동일하지 않아도 된다.
+
+## Hashing
+
+
+
+
+
+## BloomFilter
