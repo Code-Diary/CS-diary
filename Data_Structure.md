@@ -14,6 +14,9 @@ Data Structure(자료구조)
 ##### [11. Hashing - 20.03.27 KSW](#Hashing)
 
 ###### [12. BloomFilter - 20.03.27 KSW](#BloomFilter)
+###### [13. Graph1 - 20.03.27 KDH](#graph1)
+###### [14. Graph2 - 20.03.27 KDH](#graph2)
+###### [15. Sorting - 20.03.27 KDH](#sorting)
 
 <br>
 
@@ -710,3 +713,269 @@ Overflow가 발생하는 node의 가운데 Key 값을 상위 레벨로 올린다
    해시 테이블의 크기를 늘리고, 늘어난 해시 테이블의 크기에 맞추어 테이블 내의 모든 데이터를 다시 해싱하는 것
 
 ## BloomFilter
+
+
+---
+### Graph1
+
+그래프란?
+
+- Vertex(정점)와 Edge(선)로 표현을 하는 것
+- 방향 그래프(directed graph) : edge들이 방향성을 가지고 있다.
+- 비방향 그래프(undirected graph) : edge들이 방향성을 가지고 있지 않다.
+
+
+
+**용어**
+
+1. adjacent(인접) : edge로 이어져있는 vertex들의 관계
+2. degree : 해당 vertex에 연결된 edge수
+3. in-degree : 들어오는 edge 수
+4. out-degree : 나가는 edge 수
+5. loop : 자신에서 자신으로 가는 edge
+6. simple path : 경로 중 edge가 중복으로 지나지 않는 경우
+7. elementary path : 경로 중 vertex가 겹치지 않는 경우
+8. cycle : 경로 중 시작과 끝이 같은 경우
+9. simple cycle : cycle중 vertex가 중복으로 지나지 않는 경우
+10. sparse graph : vertex의 수보다 edge의 수가 적은 것
+11. dense graph : vertex의 수보다 edge의 수가 큰 것
+12. isolated : vertex에 연결된 edge가 없는 경우 (degree == 0)
+13. isomorphic(동형) : 직관적인 생김새는 다르지만 본질적으로 구조가 같다는 것
+14. complete graph : 모든 vertex가 edge로 연결되어 있는 것
+15. multi graph : vertex사이에 edge가 하나 이상인 것
+16. spanning tree (신장 트리) : 그래프네 모든 vertex를 포함하는 트리
+
+<img src = "./assets/spanning tree.png">
+
+
+
+**구현방법**
+
+1. 인접 행렬
+   - 간단함
+   - O(V^2)의 공간 복잡도
+2. 인접 리스트
+   - O(|E|+|V|)의 공간 복잡도
+   - sparse graph에 적합함.
+
+
+
+**대표적인 문제해결방법**
+
+1. Topological sort : 어떠한 일을 하는 순서를 찾는 알고리즘
+2. shortest path selection
+3. network flow problem : 시작에서 목표까지 갈 수 있는 flow의 최대 수를 찾는 것
+4. minimum spanning tree(MST) 
+5. DFS
+6. BFS
+
+---
+
+### Graph2
+
+**Shortest Path Algorithm** 
+
+- weight가 있는 그래프에서 weight의 합이 가장
+- 만약 음수값의 가중치가 있으면 정의가 안될 수 있다.
+
+
+
+**unweighted shortest paths** : BFS를 이용해서 가장 가까운 길을 찾는다.
+
+
+
+**Greedy Algorithm** : 매 stage에서 최선의 선택을 하는 것
+
+
+
+**Dijkstra**
+
+시간 복잡도 : O(|E|log|V|)
+
+우선순위 큐 이용
+
+```
+Dijkstra(G=(V, E, w), s)
+{
+    S = {};
+    for each v in V do
+   	{ 
+   		d[v] = +infinity;
+    	pred[v] = nil;
+    }
+    d[s] =0;
+    for each v in Adj[s] do
+    {
+    	d[v] = w[s, v];
+	    pred[v] = s;
+    }
+    Add each vertex to priority queue Q;
+    While (Q is not empty) do
+    { 
+    	u = Delete_Min(Q); S = S + {u};
+	    for each v in Adj[u] do
+    	{
+    		if (d[u] + w(u, v) < d[v]) then
+		    {
+		    	d[v] = d[u] + w(u, v);
+			    pred[v] = u;
+			    Decrease_Priority(Q, v);
+			 }
+    	} /* End for */
+    } /* End while */
+} /* End Dijkstra */
+```
+
+
+
+**벨만포드 알고리즘**
+
+- 음수의 weight를 가진 graph에서도 shortest path를 찾을 수 있다.
+- 시간복잡도 : O(|V||E|)
+- 다익스트라에 비해서 느리기 때문에 신중하게 사용해야한다.
+
+<img src="./assets/bell.png">
+
+
+
+- 벨만포드그림 참고사이트 : https://www.crocus.co.kr/534
+
+---
+
+### Sorting
+
+**Merge Sort**
+
+- 분해 - 합병 과정을 반복하여 sort를 수행하는 것.
+
+- 안정정렬
+
+- 시간 복잡도 - O(nlongn)
+- 레코드를 연결리스트로 구성하면, 링크 인덱스만 변경되므로 데이터의 이동은 무시할 수 있을 정도로 작아진다. 
+  => 데이터의 크기가 큰 레코드를 정렬할 때 효율적
+- 반면 배열로 구성할 경우 임시 배열이 필요하다.
+  => 데이터의 크기가 큰 경우 이동횟수가 많아져 비효율적
+
+<img src = "./assets/merge.png">
+
+```c++
+void merge(int list[], int left, int mid, int right){
+  int i, j, k, l;
+  i = left;
+  j = mid+1;
+  k = left;
+
+  /* 분할 정렬된 list의 합병 */
+  while(i<=mid && j<=right){
+    if(list[i]<=list[j])
+      sorted[k++] = list[i++];
+    else
+      sorted[k++] = list[j++];
+  }
+
+  // 남아 있는 값들을 일괄 복사
+  if(i>mid){
+    for(l=j; l<=right; l++)
+      sorted[k++] = list[l];
+  }
+  // 남아 있는 값들을 일괄 복사
+  else{
+    for(l=i; l<=mid; l++)
+      sorted[k++] = list[l];
+  }
+
+  // 배열 sorted[](임시 배열)의 리스트를 배열 list[]로 재복사
+  for(l=left; l<=right; l++){
+    list[l] = sorted[l];
+  }
+}
+
+// 합병 정렬
+void merge_sort(int list[], int left, int right){
+  int mid;
+
+  if(left<right){
+    mid = (left+right)/2 // 중간 위치를 계산하여 리스트를 균등 분할 -분할(Divide)
+    merge_sort(list, left, mid); // 앞쪽 부분 리스트 정렬 -정복(Conquer)
+    merge_sort(list, mid+1, right); // 뒤쪽 부분 리스트 정렬 -정복(Conquer)
+    merge(list, left, mid, right); // 정렬된 2개의 부분 배열을 합병하는 과정 -결합(Combine)
+  }
+}
+```
+
+
+
+**Quick Sort**
+
+- 불안정 정렬
+- 매우 빠른 수행 속도를 자랑
+- 추가적인 메모리가 필요 없음
+- 리스트를 비균등하게 분할
+  => 리스트의 한 요소를 선택해서 분할(피벗 - pivot)
+- 만약 이미 정렬된 리스트에 대해서는 최악
+
+<img src ="./assets/quick_sort.png">
+
+
+
+```c++
+int partition(int list[], int left, int right){
+  int pivot, temp;
+  int low, high;
+
+  low = left;
+  high = right + 1;
+  pivot = list[left]; // 정렬할 리스트의 가장 왼쪽 데이터를 피벗으로 선택(임의의 값을 피벗으로 선택)
+
+  /* low와 high가 교차할 때까지 반복(low<high) */
+  do{
+    /* list[low]가 피벗보다 작으면 계속 low를 증가 */
+    do {
+      low++; // low는 left+1 에서 시작
+    } while (low<=right && list[low]<pivot);
+
+    /* list[high]가 피벗보다 크면 계속 high를 감소 */
+    do {
+      high--; //high는 right 에서 시작
+    } while (high>=left && list[high]>pivot);
+
+    // 만약 low와 high가 교차하지 않았으면 list[low]를 list[high] 교환
+    if(low<high){
+      SWAP(list[low], list[high], temp);
+    }
+  } while (low<high);
+
+  // low와 high가 교차했으면 반복문을 빠져나와 list[left]와 list[high]를 교환
+  SWAP(list[left], list[high], temp);
+
+  // 피벗의 위치인 high를 반환
+  return high;
+}
+
+// 퀵 정렬
+void quick_sort(int list[], int left, int right){
+
+  /* 정렬할 범위가 2개 이상의 데이터이면(리스트의 크기가 0이나 1이 아니면) */
+  if(left<right){
+    // partition 함수를 호출하여 피벗을 기준으로 리스트를 비균등 분할 -분할(Divide)
+    int q = partition(list, left, right); // q: 피벗의 위치
+
+    // 피벗은 제외한 2개의 부분 리스트를 대상으로 순환 호출
+    quick_sort(list, left, q-1); // (left ~ 피벗 바로 앞) 앞쪽 부분 리스트 정렬 -정복(Conquer)
+    quick_sort(list, q+1, right); // (피벗 바로 뒤 ~ right) 뒤쪽 부분 리스트 정렬 -정복(Conquer)
+  }
+
+}
+```
+
+
+
+**sort의 시간복잡도**
+
+<img src="./assets/sort.png">
+
+
+
+참고 사이트(다양한 내용 잘 정리 되어 있음. 추천 추천 추천)
+
+https://gmlwjd9405.github.io/2018/05/08/algorithm-merge-sort.html
