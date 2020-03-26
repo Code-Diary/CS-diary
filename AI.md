@@ -906,7 +906,7 @@ Hidden Variable을 어떻게 training data로 사용할 것인가?
 
 1. 사용하지 않는다.
 
-   <img src="./assets/DataIgnore.png">
+   <img src="./assets/DataIgnore.PNG">
 
 2. Fill in with Best Value
 
