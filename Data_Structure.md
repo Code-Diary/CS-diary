@@ -482,10 +482,10 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 ​    
 ​    삭제하려는 노드의 색이 red인 경우에는 규칙을 꺠는 일이 없으므로, 일반적인 이진트리의 방법을 사용하면 된다.
 ​    
-    삭제하려는 노드의 색이 black인 경우에는, 그 자리를 대체하는 노드를 black으로 칠해준다.
-    하지만 만약 그 노드가 이미 black이었을 경우, double black node라는 문제가 발생한다.
-    이를 해결하기 위한 방법은 케이스 별로 분류한다.
-    
+​    삭제하려는 노드의 색이 black인 경우에는, 그 자리를 대체하는 노드를 black으로 칠해준다.
+​    하지만 만약 그 노드가 이미 black이었을 경우, double black node라는 문제가 발생한다.
+​    이를 해결하기 위한 방법은 케이스 별로 분류한다.
+​    
     1. double black node의 형제가 red인 경우
     
         형제를 검은색으로, 부모를 빨간색으로 칠하고 부모노드를 기준으로 좌회전한다.
@@ -543,13 +543,13 @@ Overflow가 발생할 경우
 
 1. **Key Rotation** : Check for Siblings for rotation
 
-<img src="./assets/KeyRotation.png" width="100%" height="50%">
+<img src="./assets/KeyRotation.PNG" width="100%" height="50%">
 
 **Example) Insert value 18**
 
 2. **Node Split**
 
-<img src="./assets/NodeSplit.png" width="70%" height="50%">
+<img src="./assets/NodeSplit.PNG" width="70%" height="50%">
 
 Overflow가 발생하는 node의 가운데 Key 값을 상위 레벨로 올린다.
 
@@ -593,13 +593,13 @@ Overflow가 발생하는 node의 가운데 Key 값을 상위 레벨로 올린다
 
    **CASE 2**
 
-   <img src="./assets/InternalnodeDeletion_2.png" width="100%">
+   <img src="./assets/InternalnodeDeletion_2.PNG" width="100%">
 
 <br>
 
 ###### B+Tree
 
-<img src="./assets/BplusTree.png" width="100%">
+<img src="./assets/BplusTree.PNG" width="100%">
 
 - 모든 데이터 값은 Leaf Node에 저장
 - Leaf node는 Linked list로 구성되어 있어 sibling node끼리 연결
@@ -683,7 +683,7 @@ Overflow가 발생하는 node의 가운데 Key 값을 상위 레벨로 올린다
 
    3. 해시 테이블 + 이진 탐색 트리의 결합은 최고!
 
-   <img src="./assets/chaining.png" width="50%">
+   <img src="./assets/chaining.PNG" width="50%">
 
 2. Linear Probing
 
@@ -693,7 +693,7 @@ Overflow가 발생하는 node의 가운데 Key 값을 상위 레벨로 올린다
 
    1. Cluster(클러스터) 현상이 매우 잘 발생한다.
 
-<img src="./assets/linearprobing.png" width="50%">
+<img src="./assets/linearprobing.PNG" width="50%">
 
 3. Quadratic Probing
 
@@ -732,7 +732,7 @@ K(Hash functions의 수) = 2라 하자.
 
 2개의 Hash function을 h1, h2라 하고 Bloom filter의 배열은 아래와 같다.
 
-<img src="./assets/bloomfilter_1.png" width="50%">
+<img src="./assets/bloomfilter_1.PNG" width="50%">
 
 데이터 A를 삽입 한다고 가정하면, 데이터 A를 두 해시 함수 h1, h2를 거쳐 해시 값을 계산한다.
 
@@ -740,7 +740,7 @@ K(Hash functions의 수) = 2라 하자.
 
 이제 배열은 아래와 같아진다.
 
-<img src="./assets/bloomfilter_2.png" width="50%">
+<img src="./assets/bloomfilter_2.PNG" width="50%">
 
 그 다음 데이터 A를 검색한다면, 해시 함수를 거쳐 3, 7에 대응하는 배열을 확인할 것이다.
 
