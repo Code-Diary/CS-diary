@@ -480,8 +480,8 @@ rear가 배열 마지막 index를 가르키게 되면 앞에 공간이 남아있
 ​    
 ​    ### 삭제(delete)
 ​    
-    삭제하려는 노드의 색이 red인 경우에는 규칙을 꺠는 일이 없으므로, 일반적인 이진트리의 방법을 사용하면 된다.
-    
+​    삭제하려는 노드의 색이 red인 경우에는 규칙을 꺠는 일이 없으므로, 일반적인 이진트리의 방법을 사용하면 된다.
+​    
     삭제하려는 노드의 색이 black인 경우에는, 그 자리를 대체하는 노드를 black으로 칠해준다.
     하지만 만약 그 노드가 이미 black이었을 경우, double black node라는 문제가 발생한다.
     이를 해결하기 위한 방법은 케이스 별로 분류한다.
@@ -700,6 +700,7 @@ Overflow가 발생하는 node의 가운데 Key 값을 상위 레벨로 올린다
    선형 탐사가 다음 주소를 찾기 위해 고정폭만큼 이동하는 것에 비해 제곱 탐사는 이동폭이 제곱수로 늘어나는 것이 다르다.
 
    특징
+
    1. 서로 다른 해시 값을 갖는 데이터에 대해서는 클러스터가 형성 되지 않도록 하는 효과가 어느 정도 있지만, 같은 해시 값을 갖는 데이터에 대해서는 2차 클러스터 발생
 
 <img src="./assets/quadraticprobing.jpg" width="50%">
@@ -714,6 +715,48 @@ Overflow가 발생하는 node의 가운데 Key 값을 상위 레벨로 올린다
 
 ## BloomFilter
 
+##### 구성요소
+
+- Hash Function : 해시 알고리즘 구현체
+- Bloom Filter Key : 해시 알고리즘에 의해 반환된 Key
+- Bloom Filter Index
+- add(), isExist(): 삽입과 탐색 기능
+
+<br>
+
+##### 작동 방식
+
+예를 들어, M(bloom Filter의 bit size) = 10
+
+K(Hash functions의 수) = 2라 하자.
+
+2개의 Hash function을 h1, h2라 하고 Bloom filter의 배열은 아래와 같다.
+
+<img src="./assets/bloomfilter_1.png" width="50%">
+
+데이터 A를 삽입 한다고 가정하면, 데이터 A를 두 해시 함수 h1, h2를 거쳐 해시 값을 계산한다.
+
+만일 h1(A) = 3, h2(A) = 7 였다면, 이 해시 값 3, 7에 해당하는 index에 1을 셋팅한다.
+
+이제 배열은 아래와 같아진다.
+
+<img src="./assets/bloomfilter_2.png" width="50%">
+
+그 다음 데이터 A를 검색한다면, 해시 함수를 거쳐 3, 7에 대응하는 배열을 확인할 것이다.
+
+배열을 보면 양쪽 모두 1로 되어 있어서 return 값은 true로 던져질 것이다.
+
+그 다음 데이터 C를 검사한다면(h1(C) = 3, h2(C) = 6), 3은 1이나 6 index가 0이므로 false를 리턴하게 된다.
+
+<br>
+
+많은 비트를 할당할수록 성능은 좋을 수 있으나 많은 메모리가 필요, 해싱 함수를 늘리게 되면 연산이 많아지게 되나 메모리를 덜 차지하게 되는 trade-off가 존재.
+
+<br>
+
+##### 특징
+
+- false positive probability(h(x) is already set to  by other sertions^&^)
 
 ---
 ### Graph1
